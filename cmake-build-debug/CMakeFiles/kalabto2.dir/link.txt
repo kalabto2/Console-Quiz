@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/kalabto2.dir/src/main.cpp.o CMakeFiles/kalabto2.dir/src/Quiz.cpp.o CMakeFiles/kalabto2.dir/src/MainMenu.cpp.o  -o kalabto2 

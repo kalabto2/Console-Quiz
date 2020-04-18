@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/quiz.dir/src/main.cpp.o CMakeFiles/quiz.dir/src/Quiz.cpp.o CMakeFiles/quiz.dir/src/MainMenu.cpp.o  -o quiz 
