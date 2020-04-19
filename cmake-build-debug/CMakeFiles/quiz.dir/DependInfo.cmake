@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/tom/FIT/PA2/semestralka/quiz/src/App.cpp" "/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles/quiz.dir/src/App.cpp.o"
   "/home/tom/FIT/PA2/semestralka/quiz/src/MainMenu.cpp" "/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles/quiz.dir/src/MainMenu.cpp.o"
-  "/home/tom/FIT/PA2/semestralka/quiz/src/Quiz.cpp" "/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles/quiz.dir/src/Quiz.cpp.o"
   "/home/tom/FIT/PA2/semestralka/quiz/src/main.cpp" "/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles/quiz.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

@@ -28,15 +28,15 @@ void MainMenu::extendedWindow(int type) {
             break;
         }
         case 2:{
-            winHeight = MAIN_MENU_CHOOSE_LEVEL_HEIGHT;
-            file = "files/choose_level";
+            winHeight = MAIN_MENU_EVALUATE_QUIZ_HEIGHT;
+            file = "files/evaluate";
             fileType = 2;
             windowType = INTERACTIVE;
             break;
         }
         case 3:{
-            winHeight = MAIN_MENU_HELP_HEIGHT;
-            file = "files/help";
+            winHeight = MAIN_MENU_IMPORT_EXPORT_HEIGHT;
+            file = "files/import_export";
             fileType = 1;
             windowType = INTERACTIVE;
             break;
@@ -49,8 +49,8 @@ void MainMenu::extendedWindow(int type) {
             break;
         }
         case 5:{
-            winHeight = MAIN_MENU_SOMETHING_HEIGHT;
-            file = "files/something";
+            winHeight = MAIN_MENU_HELP_HEIGHT;
+            file = "files/help";
             fileType = 1;
             windowType = QUESTION;
             break;
@@ -183,6 +183,11 @@ MainMenu::MainMenu() {
     mvwprintw(mainWin, 12, 4, "HELP"); // vypise do okna
     mvwprintw(mainWin, 14, 4, "EXIT"); // vypise do okna
     wrefresh(mainWin); // refreshne okno
+}
+
+void MainMenu::refresh() {
+    wrefresh(mainWin);
+    wrefresh(extendedWin);
 }
 
 int MainMenu::run() {

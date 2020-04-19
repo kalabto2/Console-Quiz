@@ -82,16 +82,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/App.cpp">
+			<Option target="quiz"/>
+		</Unit>
+		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/App.h">
+			<Option target="quiz"/>
+		</Unit>
 		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/MainMenu.cpp">
 			<Option target="quiz"/>
 		</Unit>
 		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/MainMenu.h">
-			<Option target="quiz"/>
-		</Unit>
-		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/Quiz.cpp">
-			<Option target="quiz"/>
-		</Unit>
-		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/Quiz.h">
 			<Option target="quiz"/>
 		</Unit>
 		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/main.cpp">

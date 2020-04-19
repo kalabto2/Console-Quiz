@@ -1,11 +1,11 @@
-# Quiz
+# App
 
 Semestral work on PA2
 
 ## Task description
- After starting Quiz, main menu shows. Menu contains following:
- * create Quiz
- * fill Quiz
+ After starting App, main menu shows. Menu contains following:
+ * create App
+ * fill App
  * End
  * Import Export
  * Settings

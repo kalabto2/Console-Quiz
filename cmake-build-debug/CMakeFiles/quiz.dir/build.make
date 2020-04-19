@@ -70,18 +70,18 @@ CMakeFiles/quiz.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/quiz.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tom/FIT/PA2/semestralka/quiz/src/main.cpp -o CMakeFiles/quiz.dir/src/main.cpp.s
 
-CMakeFiles/quiz.dir/src/Quiz.cpp.o: CMakeFiles/quiz.dir/flags.make
-CMakeFiles/quiz.dir/src/Quiz.cpp.o: ../src/Quiz.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/quiz.dir/src/Quiz.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/quiz.dir/src/Quiz.cpp.o -c /home/tom/FIT/PA2/semestralka/quiz/src/Quiz.cpp
+CMakeFiles/quiz.dir/src/App.cpp.o: CMakeFiles/quiz.dir/flags.make
+CMakeFiles/quiz.dir/src/App.cpp.o: ../src/App.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/quiz.dir/src/App.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/quiz.dir/src/App.cpp.o -c /home/tom/FIT/PA2/semestralka/quiz/src/App.cpp
 
-CMakeFiles/quiz.dir/src/Quiz.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/quiz.dir/src/Quiz.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tom/FIT/PA2/semestralka/quiz/src/Quiz.cpp > CMakeFiles/quiz.dir/src/Quiz.cpp.i
+CMakeFiles/quiz.dir/src/App.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/quiz.dir/src/App.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/tom/FIT/PA2/semestralka/quiz/src/App.cpp > CMakeFiles/quiz.dir/src/App.cpp.i
 
-CMakeFiles/quiz.dir/src/Quiz.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/quiz.dir/src/Quiz.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tom/FIT/PA2/semestralka/quiz/src/Quiz.cpp -o CMakeFiles/quiz.dir/src/Quiz.cpp.s
+CMakeFiles/quiz.dir/src/App.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/quiz.dir/src/App.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/tom/FIT/PA2/semestralka/quiz/src/App.cpp -o CMakeFiles/quiz.dir/src/App.cpp.s
 
 CMakeFiles/quiz.dir/src/MainMenu.cpp.o: CMakeFiles/quiz.dir/flags.make
 CMakeFiles/quiz.dir/src/MainMenu.cpp.o: ../src/MainMenu.cpp
@@ -99,14 +99,14 @@ CMakeFiles/quiz.dir/src/MainMenu.cpp.s: cmake_force
 # Object files for target quiz
 quiz_OBJECTS = \
 "CMakeFiles/quiz.dir/src/main.cpp.o" \
-"CMakeFiles/quiz.dir/src/Quiz.cpp.o" \
+"CMakeFiles/quiz.dir/src/App.cpp.o" \
 "CMakeFiles/quiz.dir/src/MainMenu.cpp.o"
 
 # External object files for target quiz
 quiz_EXTERNAL_OBJECTS =
 
 quiz: CMakeFiles/quiz.dir/src/main.cpp.o
-quiz: CMakeFiles/quiz.dir/src/Quiz.cpp.o
+quiz: CMakeFiles/quiz.dir/src/App.cpp.o
 quiz: CMakeFiles/quiz.dir/src/MainMenu.cpp.o
 quiz: CMakeFiles/quiz.dir/build.make
 quiz: CMakeFiles/quiz.dir/link.txt

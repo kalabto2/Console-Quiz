@@ -123,6 +123,33 @@ quiz/fast:
 	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/build
 .PHONY : quiz/fast
 
+src/App.o: src/App.cpp.o
+
+.PHONY : src/App.o
+
+# target to build an object file
+src/App.cpp.o:
+	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/App.cpp.o
+.PHONY : src/App.cpp.o
+
+src/App.i: src/App.cpp.i
+
+.PHONY : src/App.i
+
+# target to preprocess a source file
+src/App.cpp.i:
+	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/App.cpp.i
+.PHONY : src/App.cpp.i
+
+src/App.s: src/App.cpp.s
+
+.PHONY : src/App.s
+
+# target to generate assembly for a file
+src/App.cpp.s:
+	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/App.cpp.s
+.PHONY : src/App.cpp.s
+
 src/MainMenu.o: src/MainMenu.cpp.o
 
 .PHONY : src/MainMenu.o
@@ -149,33 +176,6 @@ src/MainMenu.s: src/MainMenu.cpp.s
 src/MainMenu.cpp.s:
 	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/MainMenu.cpp.s
 .PHONY : src/MainMenu.cpp.s
-
-src/Quiz.o: src/Quiz.cpp.o
-
-.PHONY : src/Quiz.o
-
-# target to build an object file
-src/Quiz.cpp.o:
-	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/Quiz.cpp.o
-.PHONY : src/Quiz.cpp.o
-
-src/Quiz.i: src/Quiz.cpp.i
-
-.PHONY : src/Quiz.i
-
-# target to preprocess a source file
-src/Quiz.cpp.i:
-	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/Quiz.cpp.i
-.PHONY : src/Quiz.cpp.i
-
-src/Quiz.s: src/Quiz.cpp.s
-
-.PHONY : src/Quiz.s
-
-# target to generate assembly for a file
-src/Quiz.cpp.s:
-	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/Quiz.cpp.s
-.PHONY : src/Quiz.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -213,12 +213,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... quiz"
 	@echo "... edit_cache"
+	@echo "... src/App.o"
+	@echo "... src/App.i"
+	@echo "... src/App.s"
 	@echo "... src/MainMenu.o"
 	@echo "... src/MainMenu.i"
 	@echo "... src/MainMenu.s"
-	@echo "... src/Quiz.o"
-	@echo "... src/Quiz.i"
-	@echo "... src/Quiz.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

@@ -1,9 +1,9 @@
-#include "Quiz.h"
+#include "App.h"
 
 using namespace std;
 
 int main() {
-    Quiz theGame;
+    App theGame;
     theGame.run();
 
     return 0;

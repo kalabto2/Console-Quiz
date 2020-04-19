@@ -3,4 +3,4 @@ project(quiz)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(quiz src/main.cpp src/Quiz.cpp src/MainMenu.cpp)
+add_executable(quiz src/main.cpp src/App.cpp src/MainMenu.cpp)

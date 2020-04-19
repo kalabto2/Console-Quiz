@@ -18,10 +18,16 @@ public:
     Sheet ();
     void addQuestion (shared_ptr<Question> question);
     void addAnswer (shared_ptr<Answer> answer);
+    void createSheet ();
 protected:
     int id;
     vector<shared_ptr<Question> > questions;
     vector<shared_ptr<Answer> >     answers;
+    int screenWidth, screenHeight;
+
+    void choosePanel ();
+
+    const string SHEET_FILE_PATH = "src/sheets/";
 };
 
 #endif //QUIZ_SHEET_H
