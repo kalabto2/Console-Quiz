@@ -37,6 +37,8 @@ void Sheet::choosePanel() {
     mvwprintw(sideWin, 0, 60/2-5, "SIDE PANEL");
     mvwprintw(sideWin, 2, 4, "QUESTION");
     mvwprintw(sideWin, 4, 6, "* Text Question");
+    mvwprintw(sideWin, 6, 6, "* Choice Question");
+    mvwprintw(sideWin, 4, 3, "=>");
 
     mvwprintw(sideWin, (screenHeight - 5) / 2, 4, "ANSWER");
     mvwprintw(sideWin, (screenHeight - 5) / 2 + 2, 6 , "* Text Answer");
@@ -44,4 +46,29 @@ void Sheet::choosePanel() {
     mvwprintw(sideWin, (screenHeight - 5) - 5, 4, "SAVE & ADD QUESTION");
     mvwprintw(sideWin, (screenHeight - 5) - 3, 4, "SAVE & FINISH SHEET");
     wrefresh(sideWin);
+
+    int pointerPos = 4;
+
+    while (true) {
+        int a = getch();
+
+        if (a == '\n' || a == 'd' || a == KEY_RIGHT || a == KEY_ENTER)
+            break;
+
+        if (a == KEY_DOWN || a == 's') {
+            mvwprintw(sideWin, pointerPos, 3, "  ");
+            pointerPos += (pointerPos < 6 ? 2 : 0);
+        } else if (a == KEY_UP || a == 'w') {
+            mvwprintw(sideWin, pointerPos, 3, "  ");
+            pointerPos -= (pointerPos > 4 ? 2 : 0);
+        }
+        mvwprintw(sideWin, pointerPos, 3, "=>");
+        wrefresh(sideWin);
+    }
+
+    if (pointerPos == 4) {
+        shared_ptr<Question> qs (new TextQuestion());
+        qs->construct();
+        qs->save();
+    }
 }

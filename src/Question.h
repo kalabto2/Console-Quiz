@@ -12,10 +12,14 @@ using namespace std;
 
 class Question {
 public:
-    Question(int id);
-
+    //Question(int id);
+    Question();
+    virtual void save();
+    virtual void construct();
 protected:
-    int id;
+    int id, screenHeight, screenWidth;
+
+    const string QUESTION_FILE_PATH = "files/questions/";
 };
 
 
@@ -24,10 +28,15 @@ protected:
 
 class TextQuestion : public Question {
 public:
-    TextQuestion(int id, string question);
-
+    //TextQuestion(int id, string question);
+    TextQuestion(string question);
+    TextQuestion();
+    void setQuestion(string question);
+    void construct() override;
+    void save();
 protected:
     string question;
+
 };
 
 
@@ -36,7 +45,7 @@ protected:
 
 class SingleChoiceQuestion : public Question {
 public:
-    SingleChoiceQuestion(int id, string question);
+    //SingleChoiceQuestion(int id, string question);
 
 protected:
     string question;

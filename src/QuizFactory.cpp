@@ -76,8 +76,8 @@ void QuizFactory::createQuiz() {
 }
 
 void QuizFactory::addSheetDialog() {
-    int ADD_SHEET_DIALOG_HEIGHT = 10;
-    int ADD_SHEET_DIALOG_WIDTH = 60;
+    const int ADD_SHEET_DIALOG_HEIGHT = 10;
+    const int ADD_SHEET_DIALOG_WIDTH = 60;
     WINDOW * addSheetWin = newwin(ADD_SHEET_DIALOG_HEIGHT, ADD_SHEET_DIALOG_WIDTH, screenHeight / 2 - ADD_SHEET_DIALOG_HEIGHT / 2, screenWidth / 2 - ADD_SHEET_DIALOG_WIDTH / 2); // fce newwin vytvori okno
     box(addSheetWin, 0, 0); // vytvori hranice okolo okna
     mvwprintw(addSheetWin, 2, 6, "NEW SHEET");
@@ -86,11 +86,11 @@ void QuizFactory::addSheetDialog() {
     wrefresh(addSheetWin);
 
     int pointerPos = 2;
-    while (true) {
+    while (true)  {
         while (true) {
-            int a = wgetch(addSheetWin);
+            int a = getch();
 
-            if (a == '\n')
+            if (a == '\n' || a == KEY_ENTER || a == KEY_RIGHT)
                 break;
 
             if (a == KEY_DOWN || a == 's') {
@@ -108,7 +108,7 @@ void QuizFactory::addSheetDialog() {
         if (pointerPos == 2) {
             Sheet sheet;
             sheet.createSheet();
-            //quiz.addSheet(sheet);
+            quiz.addSheet(sheet);
         } else if (pointerPos == 4) {
             break;
         }
