@@ -9,7 +9,8 @@
 #include <fstream>
 #include <ctime>
 
-
+#include "helpers.cpp"
+/*
 string getInput (WINDOW * window){
     string text;
 
@@ -38,7 +39,7 @@ string getInput (WINDOW * window){
         text += (char)a;
     }
     return text;
-}
+}*/
 
 
 Question::Question() {
@@ -66,6 +67,18 @@ void Question::save() {
 
 void Question::renderAnswers(WINDOW *window) {
 
+}
+
+shared_ptr<Answer> Question::getTypeAnswer(int i) {
+    return nullptr;
+}
+
+string Question::getId() {
+    return id;
+}
+
+int Question::getNumOfAnsw() {
+    return 0;
 }
 
 
@@ -136,6 +149,19 @@ void TextQuestion::renderAnswers(WINDOW * window) {
     wrefresh(window);
 }
 
+shared_ptr<Answer> TextQuestion::getTypeAnswer(int i) {
+    if (i == 1)
+        return shared_ptr<Answer> (new TextAnswer ());
+    else if (i == 2)
+        return shared_ptr<Answer> (new ValueAnswer());
+
+    return nullptr;
+}
+
+int TextQuestion::getNumOfAnsw() {
+    return 2;
+}
+
 /* ------------------------------------------------------------------------------------------------------------------ */
 
 ChoiceQuestion::ChoiceQuestion() : Question() {}
@@ -177,6 +203,7 @@ void ChoiceQuestion::construct() {
         curs_set(1);
         wrefresh(inputWin);
     }
+    wclear(inputWin);
 }
 
 void ChoiceQuestion::save() {
@@ -198,5 +225,20 @@ void ChoiceQuestion::renderAnswers(WINDOW *window) {
     mvwprintw(window, (screenHeight - 5) / 2 + 4, 6 , "* Multiple Choice Answer");
     mvwprintw(window, (screenHeight - 5) / 2 + 6, 6 , "* Pair Choice Answer    ");
     wrefresh(window);
+}
+
+shared_ptr<Answer> ChoiceQuestion::getTypeAnswer(int i) {
+    if (i == 1)
+        return shared_ptr<Answer> (new SingleChoiceAnswer());
+    else if (i == 2)
+        return shared_ptr<Answer> (new MultipleChoiceAnswer());
+    else if (i == 3)
+        return shared_ptr<Answer> (new PairChoiceAnswer());
+
+    return nullptr;
+}
+
+int ChoiceQuestion::getNumOfAnsw() {
+    return 3;
 }
 

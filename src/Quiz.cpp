@@ -11,5 +11,5 @@ void Quiz::setName(string name) {
 Quiz::Quiz() : id(5) {}
 
 void Quiz::addSheet(Sheet sheet) {
-    sheets.emplace_back(sheet);
+    sheets.push_back(sheet);
 }

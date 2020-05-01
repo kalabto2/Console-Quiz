@@ -2,6 +2,9 @@
 // Created by tom on 30.04.20.
 //
 
+#ifndef HELPERS
+#define HELPERS
+
 #include <string>
 #include <ncurses.h>
 
@@ -36,3 +39,15 @@ string getInput (WINDOW * window){
     }
     return text;
 }
+
+void statusWindow (string textInside){
+    int screenWidth, screenHeight;
+    getmaxyx(stdscr, screenHeight,screenWidth);
+
+    WINDOW * upperWin = newwin(5, screenWidth, 0, 0); // fce newwin vytvori okno
+    box(upperWin, 0,0); // vytvori hranice okolo okna
+    mvwprintw(upperWin, 2, screenWidth/2 - textInside.length() / 2, textInside.c_str());
+    wrefresh(upperWin);
+}
+
+#endif //HELPERS

@@ -19,15 +19,17 @@ public:
     void addQuestion (const shared_ptr<Question>& question);
     void addAnswer (shared_ptr<Answer> answer);
     void createSheet ();
+    void save();
 protected:
+    enum SHEET_OPTION {FINISH_SHEET, ADD_QUESTION};
+    const string SHEET_FILE_PATH = "files/sheets/";
+
     string id;
+    int screenWidth, screenHeight;
     vector<shared_ptr<Question> > questions;
     vector<shared_ptr<Answer> >     answers;
-    int screenWidth, screenHeight;
 
-    void choosePanel ();
-
-    const string SHEET_FILE_PATH = "src/sheets/";
+    SHEET_OPTION choosePanel ();
 };
 
 #endif //QUIZ_SHEET_H

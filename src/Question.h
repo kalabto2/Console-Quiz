@@ -5,10 +5,14 @@
 #ifndef QUIZ_QUESTION_H
 #define QUIZ_QUESTION_H
 
+#include "Answer.h"
+
 #include <string>
 #include <utility>
 #include <vector>
 #include <ncurses.h>
+#include <memory>
+
 
 using namespace std;
 
@@ -18,6 +22,9 @@ public:
     virtual void save();
     virtual void construct();
     virtual void renderAnswers(WINDOW * window);
+    virtual shared_ptr<Answer> getTypeAnswer(int i);
+    string getId ();
+    virtual int getNumOfAnsw ();
 protected:
     int screenHeight, screenWidth;
     string id;
@@ -26,7 +33,7 @@ protected:
 };
 
 
-/* ----------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------ */
 
 
 class TextQuestion : public Question {
@@ -37,13 +44,15 @@ public:
     void construct() override;
     void save() override;
     void renderAnswers(WINDOW * window) override ;
+    shared_ptr<Answer> getTypeAnswer(int i) override ;
+    int getNumOfAnsw () override ;
 protected:
     string question;
 
 };
 
 
-/* ----------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------ */
 
 
 class ChoiceQuestion : public Question {
@@ -52,6 +61,8 @@ public:
     void construct () override;
     void save() override;
     void renderAnswers(WINDOW * window) override;
+    shared_ptr<Answer> getTypeAnswer(int i) override;
+    int getNumOfAnsw () override ;
 protected:
     string question;
     vector<string> choices;

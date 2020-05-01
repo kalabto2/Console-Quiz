@@ -86,7 +86,7 @@ void App::run() {
                 quizFactory.setName();
                 quizFactory.createQuiz();
                 //mainMenu.refresh();
-                continue;
+                break;
             }
             case 4: {
                 // TODO

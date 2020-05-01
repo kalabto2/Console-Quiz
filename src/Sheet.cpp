@@ -4,6 +4,7 @@
 
 #include "Sheet.h"
 #include <ncurses.h>
+#include <fstream>
 
 Sheet::Sheet() {
     getmaxyx(stdscr,screenHeight,screenWidth);
@@ -21,11 +22,11 @@ Sheet::Sheet() {
 }
 
 void Sheet::addQuestion(const shared_ptr<Question>& question) {
-    questions.emplace_back(question);
+    questions.push_back(question);
 }
 
 void Sheet::addAnswer(shared_ptr<Answer> answer) {
-
+    answers.push_back(answer);
 }
 
 void Sheet::createSheet() {
@@ -36,12 +37,17 @@ void Sheet::createSheet() {
     mvwprintw(upperWin, 2, screenWidth/2 - 6, "SHEET FACTORY");
     wrefresh(upperWin);
 
-    choosePanel();
+    while (true){
+        if (choosePanel() == FINISH_SHEET)
+            break;
+    }
+    save();
 
-    getch();
 }
 
-void Sheet::choosePanel() {
+Sheet::SHEET_OPTION Sheet::choosePanel() {
+    clear();
+    refresh();
     WINDOW * sideWin = newwin(screenHeight - 5, 60, 5, 0); // fce newwin vytvori okno
     box(sideWin, 0, 0); // vytvori hranice okolo okna
 
@@ -91,7 +97,7 @@ void Sheet::choosePanel() {
     if (pointerPos == 4) {
         qs = shared_ptr<Question> (new TextQuestion());
     }
-    if (pointerPos == 6) {
+    else if (pointerPos == 6) {
         qs = shared_ptr<Question> (new ChoiceQuestion());
     }
     qs->construct();
@@ -99,7 +105,8 @@ void Sheet::choosePanel() {
     addQuestion(qs);
 
 
-    pointerPos = 27;
+    const int ANSWER_ITEM_HEIGHT = (screenHeight - 5) / 2 + 2;
+    pointerPos = ANSWER_ITEM_HEIGHT;
     mvwprintw(sideWin, pointerPos, 3, "=>");
     wrefresh(sideWin);
     while (true) {
@@ -110,14 +117,54 @@ void Sheet::choosePanel() {
 
         if (a == KEY_DOWN || a == 's') {
             mvwprintw(sideWin, pointerPos, 3, "  ");
-            pointerPos += (pointerPos < 30 ? 2 : 0);
+            pointerPos += (pointerPos < ANSWER_ITEM_HEIGHT + 2 * (qs->getNumOfAnsw() - 1) ? 2 : 0);
         } else if (a == KEY_UP || a == 'w') {
             mvwprintw(sideWin, pointerPos, 3, "  ");
-            pointerPos -= (pointerPos > 27 ? 2 : 0);
+            pointerPos -= (pointerPos > ANSWER_ITEM_HEIGHT ? 2 : 0);
         }
         mvwprintw(sideWin, pointerPos, 3, "=>");
         wrefresh(sideWin);
     }
 
+
     shared_ptr<Answer> ans;
+    ans = qs->getTypeAnswer(((pointerPos - 27) / 2) + 1);
+    ans->construct();
+    ans->save();
+    addAnswer(ans);
+
+
+    pointerPos = screenHeight - 5 - 5;
+    while (true){
+        mvwprintw(sideWin, pointerPos, 1, "=>");
+        wrefresh(sideWin);
+        int a = getch();
+
+        if (a == '\n' || a == 'd' || a == KEY_RIGHT || a == KEY_ENTER)
+            break;
+
+        if (a == KEY_DOWN || a == 's') {
+            mvwprintw(sideWin, pointerPos, 1, "  ");
+            pointerPos += (pointerPos < (screenHeight - 5 - 3) ? 2 : 0);
+        } else if (a == KEY_UP || a == 'w') {
+            mvwprintw(sideWin, pointerPos, 1, "  ");
+            pointerPos -= (pointerPos > (screenHeight - 5 - 5) ? 2 : 0);
+        }
+    }
+
+    return (pointerPos == screenHeight - 10 ? ADD_QUESTION : FINISH_SHEET);
+}
+
+void Sheet::save() {
+    ofstream outFile(SHEET_FILE_PATH + id);
+    if (outFile.is_open())
+    {
+        outFile << "sheet" << endl;
+
+        for (size_t i = 0; i < questions.size(); i++){
+            outFile << questions[i].get()->getId() << " " << answers[i].get()->getId() << endl;
+        }
+
+        outFile.close();
+    }
 }
