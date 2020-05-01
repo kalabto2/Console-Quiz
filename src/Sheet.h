@@ -16,11 +16,11 @@ using namespace std;
 class Sheet {
 public:
     Sheet ();
-    void addQuestion (shared_ptr<Question> question);
+    void addQuestion (const shared_ptr<Question>& question);
     void addAnswer (shared_ptr<Answer> answer);
     void createSheet ();
 protected:
-    int id;
+    string id;
     vector<shared_ptr<Question> > questions;
     vector<shared_ptr<Answer> >     answers;
     int screenWidth, screenHeight;

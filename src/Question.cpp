@@ -7,10 +7,53 @@
 #include <utility>
 #include <ncurses.h>
 #include <fstream>
+#include <ctime>
+
+
+string getInput (WINDOW * window){
+    string text;
+
+    while (true){
+        int a = getch();
+
+        if(a == KEY_BACKSPACE || a == (int)'\b' || a == 127) {
+            int x, y;
+            getyx(window, y, x);
+            mvwprintw(window, y, --x, " ");
+            wmove(window, y, x);
+            wrefresh(window);
+            if (!text.empty())
+                text.pop_back();
+            continue;
+        }
+
+        if ( a == KEY_ENTER || a == KEY_RIGHT)
+            break;
+
+        const char * tmp = new const char (a);
+        wprintw(window, tmp);
+        wrefresh(window);
+        delete tmp;
+
+        text += (char)a;
+    }
+    return text;
+}
 
 
 Question::Question() {
     getmaxyx(stdscr,screenHeight, screenWidth);
+
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[80];
+
+    time (&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer,sizeof(buffer),"%Y%m%d-%H:%M:%S",timeinfo);
+    std::string str(buffer);
+    id = str;
 }
 
 void Question::construct() {
@@ -21,16 +64,19 @@ void Question::save() {
 
 }
 
-/* ----------------------------------------------------- */
+void Question::renderAnswers(WINDOW *window) {
 
-//TextQuestion::TextQuestion(int id, string question) : Question(id), question(std::move(question)) {}
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
 
 TextQuestion::TextQuestion(string question) : question(question) {}
 
 TextQuestion::TextQuestion() : Question() {}
 
 void TextQuestion::setQuestion(string question){
-    this->question = question;
+    this->question = std::move(question);
 }
 
 void TextQuestion::construct() {
@@ -41,7 +87,7 @@ void TextQuestion::construct() {
     wmove(inputWin, 3, 2);    // presune kurzor do okna na x, y pozici
     wrefresh(inputWin);
 
-    std::string text;
+    /*std::string text;
 
     while (true){
         int a = getch();
@@ -68,17 +114,89 @@ void TextQuestion::construct() {
         text += (char)a;
     }
 
-    question = text;
+    question = text;*/
+    question = getInput(inputWin);
+    curs_set(0);
 }
 
 void TextQuestion::save() {
-    ofstream outFile(QUESTION_FILE_PATH + "123"); // TODO opravit na automaticke dle id
+    ofstream outFile(QUESTION_FILE_PATH + id);
     if (outFile.is_open())
     {
+        outFile << "txtQ" << endl;
         outFile << question;
         outFile.close();
     }
 }
 
-/* ----------------------------------------------------- */
+void TextQuestion::renderAnswers(WINDOW * window) {
+    mvwprintw(window, (screenHeight - 5) / 2 + 2, 6 , "* Text Answer           ");
+    mvwprintw(window, (screenHeight - 5) / 2 + 4, 6 , "* Value Answer          ");
+    mvwprintw(window, (screenHeight - 5) / 2 + 6, 6 , "                        ");
+    wrefresh(window);
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+ChoiceQuestion::ChoiceQuestion() : Question() {}
+
+void ChoiceQuestion::construct() {
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60); // fce newwin vytvori okno
+    box(inputWin, 0, 0); // vytvori hranice okolo okna
+    mvwprintw(inputWin, 2, 2, "Enter question to choices: (e.g. 'Which of following is true?')");
+    curs_set(1);    // zviditelni kurzor
+    wmove(inputWin, 3, 2);    // presune kurzor do okna na x, y pozici
+    wrefresh(inputWin);
+
+    question = getInput(inputWin);
+
+    wclear(inputWin);
+    box(inputWin, 0, 0); // vytvori hranice okolo okna
+    mvwprintw(inputWin, 2, 2, "Enter choices to question: (press KEY RIGHT to confirm)");
+    mvwprintw(inputWin, 3, 4, "1.  >");
+    wmove(inputWin, 3, 10);    // presune kurzor do okna na x, y pozici
+    wrefresh(inputWin);
+
+    for (int i = 0; i < 20; i++){
+        choices.emplace_back(getInput(inputWin));
+
+        int y,x;
+        getyx(inputWin,y,x);
+        curs_set(0);
+        mvwprintw(inputWin, y + 1, 8, "  Press KEY RIGHT to Exit & Save Question, or add another choice (any other KEY)");
+        wrefresh(inputWin);
+
+        int a = getch();
+        if (a == KEY_RIGHT)
+            break;
+
+        mvwprintw(inputWin, y + 1, 4, to_string(i + 2).c_str());
+        wprintw(inputWin, ".");
+        mvwprintw(inputWin, y + 1, 8, ">                                                                               ");
+        wmove(inputWin, y + 1, 10);
+        curs_set(1);
+        wrefresh(inputWin);
+    }
+}
+
+void ChoiceQuestion::save() {
+    ofstream outFile(QUESTION_FILE_PATH + id);
+    if (outFile.is_open())
+    {
+        outFile << "chcQ" << endl;
+        for (auto & choice : choices){
+            outFile << choice << endl;
+        }
+        outFile << endl;
+        outFile << question;
+        outFile.close();
+    }
+}
+
+void ChoiceQuestion::renderAnswers(WINDOW *window) {
+    mvwprintw(window, (screenHeight - 5) / 2 + 2, 6 , "* Single Choice Answer  ");
+    mvwprintw(window, (screenHeight - 5) / 2 + 4, 6 , "* Multiple Choice Answer");
+    mvwprintw(window, (screenHeight - 5) / 2 + 6, 6 , "* Pair Choice Answer    ");
+    wrefresh(window);
+}
 

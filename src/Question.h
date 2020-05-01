@@ -7,17 +7,20 @@
 
 #include <string>
 #include <utility>
+#include <vector>
+#include <ncurses.h>
 
 using namespace std;
 
 class Question {
 public:
-    //Question(int id);
     Question();
     virtual void save();
     virtual void construct();
+    virtual void renderAnswers(WINDOW * window);
 protected:
-    int id, screenHeight, screenWidth;
+    int screenHeight, screenWidth;
+    string id;
 
     const string QUESTION_FILE_PATH = "files/questions/";
 };
@@ -28,12 +31,12 @@ protected:
 
 class TextQuestion : public Question {
 public:
-    //TextQuestion(int id, string question);
     TextQuestion(string question);
     TextQuestion();
     void setQuestion(string question);
     void construct() override;
-    void save();
+    void save() override;
+    void renderAnswers(WINDOW * window) override ;
 protected:
     string question;
 
@@ -43,12 +46,15 @@ protected:
 /* ----------------------------------------------------- */
 
 
-class SingleChoiceQuestion : public Question {
+class ChoiceQuestion : public Question {
 public:
-    //SingleChoiceQuestion(int id, string question);
-
+    ChoiceQuestion ();
+    void construct () override;
+    void save() override;
+    void renderAnswers(WINDOW * window) override;
 protected:
     string question;
+    vector<string> choices;
 };
 
 

@@ -7,10 +7,21 @@
 
 Sheet::Sheet() {
     getmaxyx(stdscr,screenHeight,screenWidth);
+
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[80];
+
+    time (&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer,sizeof(buffer),"%Y%m%d-%H:%M:%S",timeinfo);
+    std::string str(buffer);
+    id = str;
 }
 
-void Sheet::addQuestion(shared_ptr<Question> question) {
-
+void Sheet::addQuestion(const shared_ptr<Question>& question) {
+    questions.emplace_back(question);
 }
 
 void Sheet::addAnswer(shared_ptr<Answer> answer) {
@@ -38,10 +49,11 @@ void Sheet::choosePanel() {
     mvwprintw(sideWin, 2, 4, "QUESTION");
     mvwprintw(sideWin, 4, 6, "* Text Question");
     mvwprintw(sideWin, 6, 6, "* Choice Question");
+    mvwprintw(sideWin, 8, 6, "* Sorting Question");
     mvwprintw(sideWin, 4, 3, "=>");
 
     mvwprintw(sideWin, (screenHeight - 5) / 2, 4, "ANSWER");
-    mvwprintw(sideWin, (screenHeight - 5) / 2 + 2, 6 , "* Text Answer");
+    //mvwprintw(sideWin, (screenHeight - 5) / 2 + 2, 6 , "* Text Answer");
 
     mvwprintw(sideWin, (screenHeight - 5) - 5, 4, "SAVE & ADD QUESTION");
     mvwprintw(sideWin, (screenHeight - 5) - 3, 4, "SAVE & FINISH SHEET");
@@ -50,6 +62,15 @@ void Sheet::choosePanel() {
     int pointerPos = 4;
 
     while (true) {
+        if (pointerPos == 4){
+            shared_ptr<Question> qs (new TextQuestion());
+            qs->renderAnswers(sideWin);
+        }
+        if (pointerPos == 6){
+            shared_ptr<Question> qs (new ChoiceQuestion());
+            qs->renderAnswers(sideWin);
+        }
+
         int a = getch();
 
         if (a == '\n' || a == 'd' || a == KEY_RIGHT || a == KEY_ENTER)
@@ -66,9 +87,37 @@ void Sheet::choosePanel() {
         wrefresh(sideWin);
     }
 
+    shared_ptr<Question> qs;
     if (pointerPos == 4) {
-        shared_ptr<Question> qs (new TextQuestion());
-        qs->construct();
-        qs->save();
+        qs = shared_ptr<Question> (new TextQuestion());
     }
+    if (pointerPos == 6) {
+        qs = shared_ptr<Question> (new ChoiceQuestion());
+    }
+    qs->construct();
+    qs->save();
+    addQuestion(qs);
+
+
+    pointerPos = 27;
+    mvwprintw(sideWin, pointerPos, 3, "=>");
+    wrefresh(sideWin);
+    while (true) {
+        int a = getch();
+
+        if (a == '\n' || a == 'd' || a == KEY_RIGHT || a == KEY_ENTER)
+            break;
+
+        if (a == KEY_DOWN || a == 's') {
+            mvwprintw(sideWin, pointerPos, 3, "  ");
+            pointerPos += (pointerPos < 30 ? 2 : 0);
+        } else if (a == KEY_UP || a == 'w') {
+            mvwprintw(sideWin, pointerPos, 3, "  ");
+            pointerPos -= (pointerPos > 27 ? 2 : 0);
+        }
+        mvwprintw(sideWin, pointerPos, 3, "=>");
+        wrefresh(sideWin);
+    }
+
+    shared_ptr<Answer> ans;
 }

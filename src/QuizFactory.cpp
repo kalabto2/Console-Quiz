@@ -13,7 +13,7 @@ const int QUIZ_FACTORY_DIALOG_WIDTH = 50;
 
 QuizFactory::QuizFactory() {
     wclear(stdscr);
-    refresh(); // refreshne screen
+    refresh(); // refresh screen
     getmaxyx(stdscr, screenHeight, screenWidth);   // ziska rozmery obrazovky
 }
 
