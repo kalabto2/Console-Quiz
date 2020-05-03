@@ -8,6 +8,7 @@
 #include <string>
 #include <set>
 #include <utility>
+#include <ncurses.h>
 
 using namespace std;
 
@@ -22,6 +23,8 @@ protected:
     int screenHeight, screenWidth;
 
     const string ANSWER_FILE_PATH = "files/answers/";
+
+    bool autoEval (WINDOW * win, string info);
 };
 
 

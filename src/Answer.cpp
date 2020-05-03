@@ -8,7 +8,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <ncurses.h>
 #include <memory>
 #include <fstream>
 
@@ -43,6 +42,26 @@ string Answer::getId() {
     return  id;
 }
 
+bool Answer::autoEval(WINDOW *win, string info) {
+    box(win, 0, 0); // vytvori hranice okolo okna
+    mvwprintw(win, 2, 2, "Do you want auto-evaluation? (y/n)");
+    wmove(win, 3, 2);    // presune kurzor do okna na x, y pozici
+    wrefresh(win);
+
+    bool autoEv = false;
+    while (true){
+        int a = getch();
+        if (a == 'y' || a == KEY_RIGHT){
+            autoEv = true;
+            break;
+        }
+        else if (a == 'n')
+            break;
+    }
+
+    return autoEv;
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -61,7 +80,7 @@ void TextAnswer::save() {
 
 void TextAnswer::construct() {
     WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
-    box(inputWin, 0, 0); // vytvori hranice okolo okna
+    /*box(inputWin, 0, 0); // vytvori hranice okolo okna
     mvwprintw(inputWin, 2, 2, "Do you want auto-evaluation? (y/n)");
     wmove(inputWin, 3, 2);    // presune kurzor do okna na x, y pozici
     wrefresh(inputWin);
@@ -75,7 +94,8 @@ void TextAnswer::construct() {
         }
         else if (a == 'n')
             break;
-    }
+    }*/
+    bool autoEv = autoEval(inputWin, "");
 
     if (autoEv){
         mvwprintw(inputWin, 4, 2, "> ");

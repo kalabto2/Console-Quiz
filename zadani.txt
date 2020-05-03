@@ -1,3 +1,7 @@
+----------------------------------------------------------------------------------------------------------------------
+    RÁMCOVÉ ZADÁNÍ
+----------------------------------------------------------------------------------------------------------------------
+
 Kvízy
 
 Vytvořte program, který umožní vytvářet kvízy a testovat znalosti.
@@ -19,15 +23,66 @@ Použití polymorfismu (doporučené)
 
 
 ----------------------------------------------------------------------------------------------------------------------
+    ZADÁNÍ
+----------------------------------------------------------------------------------------------------------------------
+-------------------------
+|   SPECIFIKACE ZADÁNÍ  |
+-------------------------
+
+Uživatel bude komunikovat s programem pomocí rozhraní ncurses. Aplikace poté půjde spustit ve dvou modech - mod Studenta a Učitele.
+Spouštět se bude pomocí parametru. Po spuštění se však bude komunikovat pomocí rozhraní.
+
+Mod Učitel bude umožňovat:
+    * Tvorbu kvízu
+    * Ohodnocení kvízu
+    * Import, Export
+    * Vyplnění kvízu
+Mod Student bude umožňovat:
+    * Vyplnění kvízu
+
+Kvíz bude umožňovat vytvářet různé kombinace odpovědí a otázek. Ty bude možno vytvořit přes rozhraní.
+Jednotlivé páry otázka + odpověd budou tvořit list, které reprezentují list papíru. Vytvořený kvíz bude možno exportovat
+do textového souboru (připravný na tisk), vyplnit. Vyplněný kvíz poté bude přes rozhraní možno ohodnotit, nebude-li nastavena autokorekce.
+
+Jednotlivé kvízy, data o vyplnění kvízů, ... bude možno nahrávat i po znovu otevření aplikace.
+Všechny tyto data se budou ukládata do konfiguračních souburů.
 
 
-Druhy otázek a odpovědí:
+Druhy otázek a jejich možných odpovědí:
 	OTÁZKY							ODPOVĚDI
-	- Sorting question					- Sorted Answer 
+	- Otázka s řazením  				- Řadící odpověď
 
-	- Choice question					- Single choice answer
-								        - Multiple choice answer
-								        - Pair choice answer
+	- Otázka s výběrem					- Single choice odpověď
+								        - Multiple choice odpověď
+								        - Párovaná odpověď (možnost 1. se přiřadí k možnosti 5. apod.)
 
-	- Text question					    - Text answer
-								        - Value answer
+	- Textová otázka				    - Textová odpověď
+								        - Odpověď hodnotou
+
+---------------------
+|   Implementace    |
+---------------------
+
+Využití polymorfismu:
+    * Typy otázek
+    * Typy odpovědí
+
+Popis navrhnutých tříd:
+    * App               -- Hlavní třída, ve které se bude aplikace startovat, ovládat menu
+    * Main menu         -- Třída Zobrazující hlavní menu (po spuštění)
+    * Quiz              -- drží informace o kvízu, exportuje kvízy
+    * QuizFactory       -- Třída řídí vytváření kvízů
+    * Sheet             -- reprezentuje 1 list s otázkami a odpovědmi, bude umožnovat veškerou práci s listy
+    * Question          -- reprezentuje otázku. Umožňuje práci s otázkami
+        * TextQuestion
+        * ChoiceQuestion
+        * SortingQuestion
+    * Odpověď           -- reprezentuje odpověď. Umožňuje práci s odpověďmi
+        * SortingAnswer
+        * SingleChoiceAnswer
+        * MultipleChoiceAnswer
+        * PairChoiceAnswer
+        * TextAnswer
+        * ValueAnswer
+    * QuizShowroom      -- zobrazuje kvízy v ncurses, exportuje je do textového dokumentu
+    * helpers           -- drží pomocné funkce, pro celou aplikaci - např. načítání vstupu přes ncurses
