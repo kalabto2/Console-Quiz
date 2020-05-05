@@ -10,6 +10,7 @@
 #include <vector>
 #include <memory>
 #include <fstream>
+#include <algorithm>
 
 
 using namespace std;
@@ -79,29 +80,20 @@ void TextAnswer::save() {
 }
 
 void TextAnswer::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
-    /*box(inputWin, 0, 0); // vytvori hranice okolo okna
-    mvwprintw(inputWin, 2, 2, "Do you want auto-evaluation? (y/n)");
-    wmove(inputWin, 3, 2);    // presune kurzor do okna na x, y pozici
-    wrefresh(inputWin);
-
-    bool autoEv = false;
-    while (true){
-        int a = getch();
-        if (a == 'y' || a == KEY_RIGHT){
-            autoEv = true;
-            break;
-        }
-        else if (a == 'n')
-            break;
-    }*/
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60);
     bool autoEv = autoEval(inputWin, "");
 
     if (autoEv){
-        mvwprintw(inputWin, 4, 2, "> ");
+        mvwprintw(inputWin, 4, 4, "Enter correct answer (e.g. 'Prague'):");
+        mvwprintw(inputWin, 5, 2, "> ");
         curs_set(1);
         wrefresh(inputWin);
-        //correctAnswer = getInput(inputWin);
+        char tmp[100];
+        echo();
+        wgetstr(inputWin, tmp);
+        noecho();
+        curs_set(0);
+        correctAnswer = string(tmp);
     }
 }
 
@@ -121,6 +113,24 @@ void ValueAnswer::save() {
     }
 }
 
+void ValueAnswer::construct() {
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
+    bool autoEv = autoEval(inputWin, "");
+
+    if (autoEv){
+        mvwprintw(inputWin, 4, 4, "Enter correct value (e.g. '55'):");
+        mvwprintw(inputWin, 5, 2, "> ");
+        curs_set(1);
+        wrefresh(inputWin);
+        char tmp[100];
+        echo();
+        wgetstr(inputWin, tmp);
+        noecho();
+        curs_set(0);
+        correctAnswer = string(tmp);
+    }
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -135,6 +145,42 @@ void SingleChoiceAnswer::save() {
         outFile << correctAnswer;
         outFile.close();
     }
+}
+
+void SingleChoiceAnswer::construct() {
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
+    bool autoEv = autoEval(inputWin, "");
+
+    if (autoEv){
+        mvwprintw(inputWin, 4, 4, "Enter number of correct choice (e.g. '2' -- only number):");
+        mvwprintw(inputWin, 5, 2, "> ");
+        curs_set(1);
+        wrefresh(inputWin);
+        char tmp[100];
+        echo();
+        wgetstr(inputWin, tmp);
+        noecho();
+        curs_set(0);
+        preprocess(string(tmp));
+    }
+}
+
+void SingleChoiceAnswer::preprocess(string answer) {
+    string number;
+    bool ws = true;
+
+    for (auto & ch : answer){
+        if (iswspace(ch) && ws)
+            continue;
+        if (isdigit(ch)){
+            number += ch;
+            ws = false;
+            continue;
+        }
+        break;
+    }
+
+    correctAnswer = stoi(number);
 }
 
 
@@ -159,6 +205,48 @@ void MultipleChoiceAnswer::save() {
     }
 }
 
+void MultipleChoiceAnswer::construct() {
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
+    bool autoEv = autoEval(inputWin, "");
+
+    if (autoEv){
+        mvwprintw(inputWin, 4, 4, "Enter number of correct choices (e.g. '2, 4, 1' -- seperated by comma in any order):");
+        mvwprintw(inputWin, 5, 2, "> ");
+        curs_set(1);
+        wrefresh(inputWin);
+        char tmp[100];
+        echo();
+        wgetstr(inputWin, tmp);
+        noecho();
+        curs_set(0);
+        preprocess(string(tmp));
+    }
+}
+
+void MultipleChoiceAnswer::preprocess(string answer) {
+    string number;
+    bool comma = false;
+
+    for (auto & ch : answer){
+        if (iswspace(ch))
+            continue;
+        if (ch == ',' && comma){
+            correctAnswer.insert(stoi(number));
+            number = "";
+            comma = false;
+            continue;
+        }
+        if (isdigit(ch)){
+            number += ch;
+            comma = true;
+            continue;
+        }
+        break;
+    }
+    correctAnswer.insert(stoi(number));
+    number = "";
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -174,9 +262,70 @@ void PairChoiceAnswer::save() {
         for (auto & choice : correctAnswer) {
             if (i != 0)
                 outFile << " ";
-            outFile << choice.first << " " << choice.second;
+            for (auto & k : choice){
+                outFile << k << " ";
+            }
+            //outFile << *choice.begin() << " " << *choice.end() << choice.;
             i++;
         }
         outFile.close();
     }
+}
+
+void PairChoiceAnswer::construct() {
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
+    bool autoEv = autoEval(inputWin, "");
+
+    if (autoEv){
+        mvwprintw(inputWin, 4, 4, "Enter paired number of correct choices (e.g. '2 + 3, 4 + 6, 1 + 5' -- separated by comma, paired with plus and in any order):");
+        mvwprintw(inputWin, 5, 2, "> ");
+        curs_set(1);
+        wrefresh(inputWin);
+        char tmp[100];
+        echo();
+        wgetstr(inputWin, tmp);
+        noecho();
+        curs_set(0);
+        preprocess(string(tmp));
+    }
+}
+
+void PairChoiceAnswer::preprocess(string answer) {
+    bool digit = true, plus = false, comma = false, second = false;
+    set <int> pair;
+    string number;
+
+    answer.erase(remove_if(answer.begin(), answer.end(), ::isspace), answer.end());
+
+    for (auto & ch : answer ){
+        if (isdigit(ch) && digit){
+            number += ch;
+            if (second)
+                comma = true;
+            else
+                plus = true;
+            continue;
+        }
+        if (ch == '+' && plus){
+            pair.insert(stoi(number));
+            number = "";
+            second = true;
+            plus = false;
+            continue;
+        }
+        if (ch == ',' && comma){
+            pair.insert(stoi(number));
+            number = "";
+            correctAnswer.insert(pair);
+            pair.clear();
+            comma = false;
+            second = false;
+            continue;
+        }
+        break;
+    }
+    pair.insert(stoi(number));
+    number = "";
+    correctAnswer.insert(pair);
+    pair.clear();
 }

@@ -64,7 +64,7 @@ public:
     SingleChoiceAnswer ();
     void save () override;
     void construct () override;
-
+    void preprocess (string answer);
 protected:
     int correctAnswer;
 };
@@ -78,7 +78,7 @@ public:
     MultipleChoiceAnswer ();
     void save () override;
     void construct () override;
-
+    void preprocess (string answer);
 protected:
     set<int> correctAnswer;
 
@@ -93,9 +93,9 @@ public:
     PairChoiceAnswer ();
     void save () override;
     void construct () override;
-
+    void preprocess (string answer);
 protected:
-    set< pair<int, int> > correctAnswer;
+    set< set<int> > correctAnswer;
 };
 
 
