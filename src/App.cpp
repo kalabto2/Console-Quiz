@@ -55,6 +55,7 @@ void App::run() {
             case 0: {
                 QuizFactory quizFactory;
                 string quizId = quizFactory.selectQuiz();
+                Quiz quiz(quizId); // loads quiz from file
                 break;
             }
             case 1: {                   // TODO

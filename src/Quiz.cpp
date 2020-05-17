@@ -59,3 +59,25 @@ vector<string> Quiz::preview(const string& id) {
 
     return res;
 }
+
+Quiz::Quiz(const string& fileName) {
+    ifstream inFile(fileName);
+    id = fileName.substr(fileName.size() - 17);
+
+    if (inFile.is_open()) {
+        string line;
+
+        for (int i = 0; getline (inFile,line); i++){
+            if (i == 0) {
+                if (line != "quiz")
+                    throw "Incompatible file type: expected 'quiz'";
+            }
+            else if (i == 1)
+                name = line;
+            else
+                sheets.push_back(Sheet(line));
+        }
+
+        inFile.close();
+    }
+}

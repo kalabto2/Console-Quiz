@@ -142,7 +142,7 @@ string QuizFactory::selectQuiz() {
     box(showWin, 0,0); // vytvori hranice okolo okna
 
     for (size_t i = 0; i < quizFileNames.size(); i++){
-        mvwprintw(showWin, 2 + i * 2, 10, quizFileNames[i].c_str());
+        mvwprintw(showWin, 2 + i * 2, 10, quizFileNames[i].substr(quizFileNames[i].size() - 17).c_str());
         mvwprintw(showWin, 2 + i * 2, 50, quizFileData[i][1].c_str());
     }
     wrefresh(showWin);

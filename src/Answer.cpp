@@ -63,6 +63,29 @@ bool Answer::autoEval(WINDOW *win, string info) {
     return autoEv;
 }
 
+shared_ptr<Answer> Answer::getAnswer(string answerId) {
+    ifstream inFile("files/answers/" + answerId);
+    string line;
+
+    if (inFile.is_open()){
+        getline(inFile, line);
+        inFile.close();
+    }
+
+    if (line == "txtA")
+        return shared_ptr<Answer> (new TextAnswer(answerId));
+    else if (line == "valA")
+        return shared_ptr<Answer> (new ValueAnswer(answerId));
+    else if (line == "schA")
+        return shared_ptr<Answer> (new SingleChoiceAnswer(answerId));
+    else if (line == "mchA")
+        return shared_ptr<Answer> (new MultipleChoiceAnswer(answerId));
+    else if (line == "pchA")
+        return shared_ptr<Answer> (new PairChoiceAnswer(answerId));
+
+    throw "Incompatible file type: expected 'txtA', 'valA', 'schA', 'mchA' or 'pchA' ";
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -97,6 +120,27 @@ void TextAnswer::construct() {
     }
 }
 
+TextAnswer::TextAnswer(string answerId) {
+    getmaxyx(stdscr,screenHeight, screenWidth);
+    id = answerId;
+
+    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    string line;
+
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "txtA")
+                    throw "Incompatible file type: expected 'txtA'";
+            }
+            else {
+                correctAnswer += line + '\n';
+            }
+        }
+        inFile.close();
+    }
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -128,6 +172,27 @@ void ValueAnswer::construct() {
         noecho();
         curs_set(0);
         correctAnswer = string(tmp);
+    }
+}
+
+ValueAnswer::ValueAnswer(string answerId) {
+    getmaxyx(stdscr,screenHeight, screenWidth);
+    id = answerId;
+
+    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    string line;
+
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "valA")
+                    throw "Incompatible file type: expected 'valA'";
+            }
+            else {
+                correctAnswer += line;
+            }
+        }
+        inFile.close();
     }
 }
 
@@ -181,6 +246,10 @@ void SingleChoiceAnswer::preprocess(string answer) {
     }
 
     correctAnswer = stoi(number);
+}
+
+SingleChoiceAnswer::SingleChoiceAnswer(string answerId) {
+
 }
 
 

@@ -25,6 +25,7 @@ public:
     virtual shared_ptr<Answer> getTypeAnswer(int i);
     string getId ();
     virtual int getNumOfAnsw ();
+    static shared_ptr<Question> getQuestion (string questionId);
 protected:
     int screenHeight, screenWidth;
     string id;
@@ -38,7 +39,7 @@ protected:
 
 class TextQuestion : public Question {
 public:
-    TextQuestion(string question);
+    TextQuestion(const string& questionId);
     TextQuestion();
     void setQuestion(string question);
     void construct() override;
@@ -57,6 +58,7 @@ protected:
 
 class ChoiceQuestion : public Question {
 public:
+    ChoiceQuestion (string questionId);
     ChoiceQuestion ();
     void construct () override;
     void save() override;

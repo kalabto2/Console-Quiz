@@ -16,8 +16,8 @@ void MainMenu::extendedWindow(int type) {
         case 0:{
             winHeight = MAIN_MENU_CONTINUE_HEIGHT;
             file = "files/continue";
-            fileType = 0;
-            windowType = INTERACTIVE;
+            fileType = 1;
+            windowType = QUESTION;
             break;
         }
         case 1:{

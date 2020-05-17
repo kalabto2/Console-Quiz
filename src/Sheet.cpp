@@ -172,3 +172,34 @@ void Sheet::save() {
 string Sheet::getId() {
     return id;
 }
+
+Sheet::Sheet(string id) {
+    this->id = id;
+    getmaxyx(stdscr,screenHeight,screenWidth);
+
+    ifstream inFile (SHEET_FILE_PATH + id);
+    string line;
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "sheet")
+                    throw "Incompatible file type: expected 'sheet'";
+            }
+            else{
+                // questions.push_back() TODO
+                string questionId = line.substr(0, 17);
+                string answerId = line.substr(18, 17);
+
+                shared_ptr<Question> question;
+                shared_ptr<Answer> answer;
+
+                question = Question::getQuestion(questionId);
+
+                questions.push_back(question);
+            }
+
+        }
+        inFile.close();
+    }
+
+}

@@ -16,6 +16,7 @@ public:
     void setName (string name);
     void save ();
     Quiz ();
+    Quiz (const string& filePath);
     static vector<string> preview (const string& id);
 protected:
     vector<Sheet> sheets;

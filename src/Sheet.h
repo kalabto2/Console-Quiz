@@ -16,6 +16,7 @@ using namespace std;
 class Sheet {
 public:
     Sheet ();
+    Sheet (string id);
     void addQuestion (const shared_ptr<Question>& question);
     void addAnswer (shared_ptr<Answer> answer);
     void createSheet ();

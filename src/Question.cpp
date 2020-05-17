@@ -81,10 +81,46 @@ int Question::getNumOfAnsw() {
     return 0;
 }
 
+shared_ptr<Question> Question::getQuestion(string questionId) {
+    ifstream inFile("files/questions/" + questionId);
+    string line;
+
+    if (inFile.is_open()){
+        getline(inFile, line);
+        inFile.close();
+    }
+
+    if (line == "txtQ")
+        return shared_ptr<Question> (new TextQuestion(questionId));
+    else if (line == "chcQ")
+        return shared_ptr<Question> (new ChoiceQuestion(questionId));
+
+    throw "Incompatible file type: expected 'txtQ' or 'chcQ'";
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
-TextQuestion::TextQuestion(string question) : question(question) {}
+TextQuestion::TextQuestion(const string& questionId) {
+    getmaxyx(stdscr,screenHeight, screenWidth);
+    id = questionId;
+
+    ifstream inFile(QUESTION_FILE_PATH + questionId);
+    string line;
+
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "txtQ")
+                    throw "Incompatible file type: expected 'txtQ'";
+            }
+            else {
+                question += line + '\n';
+            }
+        }
+        inFile.close();
+    }
+}
 
 TextQuestion::TextQuestion() : Question() {}
 
@@ -240,5 +276,31 @@ shared_ptr<Answer> ChoiceQuestion::getTypeAnswer(int i) {
 
 int ChoiceQuestion::getNumOfAnsw() {
     return 3;
+}
+
+ChoiceQuestion::ChoiceQuestion(string questionId) {
+    getmaxyx(stdscr,screenHeight, screenWidth);
+    id = questionId;
+
+    ifstream inFile(QUESTION_FILE_PATH + questionId);
+    string line;
+
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "chcQ")
+                    throw "Incompatible file type: expected 'chcQ'";
+            }
+            else if (!line.empty()){
+                choices.push_back(line);
+            }
+            else
+                break;
+        }
+        while (getline(inFile, line)){
+            question += line + '\n';
+        }
+        inFile.close();
+    }
 }
 

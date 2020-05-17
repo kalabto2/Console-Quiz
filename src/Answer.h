@@ -9,6 +9,7 @@
 #include <set>
 #include <utility>
 #include <ncurses.h>
+#include <memory>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ public:
     virtual void save ();
     virtual void construct ();
     string getId ();
+    static shared_ptr<Answer> getAnswer (string answerId);
 protected:
     string id;
     int screenHeight, screenWidth;
@@ -34,6 +36,7 @@ protected:
 class TextAnswer : public Answer {
 public:
     TextAnswer ();
+    TextAnswer (string answerId);
     void save () override;
     void construct () override;
 
@@ -48,6 +51,7 @@ protected:
 class ValueAnswer : public Answer {
 public:
     ValueAnswer ();
+    ValueAnswer (string answerId);
     void save () override;
     void construct () override;
 
@@ -62,6 +66,7 @@ protected:
 class SingleChoiceAnswer : public Answer {
 public:
     SingleChoiceAnswer ();
+    SingleChoiceAnswer (string answerId);
     void save () override;
     void construct () override;
     void preprocess (string answer);
@@ -76,6 +81,7 @@ protected:
 class MultipleChoiceAnswer : public Answer {
 public:
     MultipleChoiceAnswer ();
+    MultipleChoiceAnswer (string answerId);
     void save () override;
     void construct () override;
     void preprocess (string answer);
@@ -91,6 +97,7 @@ protected:
 class PairChoiceAnswer : public Answer {
 public:
     PairChoiceAnswer ();
+    PairChoiceAnswer (string answerId);
     void save () override;
     void construct () override;
     void preprocess (string answer);
