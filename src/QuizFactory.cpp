@@ -7,6 +7,7 @@
 #include <ncurses.h>
 #include <string>
 #include <iostream>
+#include <filesystem>
 
 const int QUIZ_FACTORY_DIALOG_HEIGHT = 10;
 const int QUIZ_FACTORY_DIALOG_WIDTH = 50;
@@ -24,12 +25,9 @@ void QuizFactory::setName() {
     mvwprintw(dialog, 3, 2, "> ");
     curs_set(1);    // zviditelni kurzor
     wmove(dialog, 3, 4);    // presune kurzor do okna na x, y pozici
-    //echo(); // vypisuje se na screen
     wrefresh(dialog);
 
-    std::string name;
-
-    while (true){
+    /*while (true){
         int a = wgetch(dialog);
 
         if(a == KEY_BACKSPACE || a == (int)'\b' || a == 127) {
@@ -52,14 +50,18 @@ void QuizFactory::setName() {
         delete tmp;
 
         name += (char)a;
-    }
+    }*/
 
+    char name2[100];
+    echo();
+    wgetstr(dialog, name2);
+    noecho();
     curs_set(0);
-    mvwprintw(dialog, 4, 2, name.c_str());
-    wrefresh(dialog);
-    getch();
+    quiz.setName(string(name2));
 
-    quiz.setName(name);
+    /*mvwprintw(dialog, 4, 2, name.c_str());
+    wrefresh(dialog);
+    getch();*/
 }
 
 void QuizFactory::createQuiz() {
@@ -71,7 +73,8 @@ void QuizFactory::createQuiz() {
     wrefresh(upperWin);
 
     addSheetDialog();
-
+    quiz.save();
+    // getch();
 }
 
 void QuizFactory::addSheetDialog() {
@@ -115,4 +118,56 @@ void QuizFactory::addSheetDialog() {
         }
 
     }
+}
+
+string QuizFactory::selectQuiz() {
+    wclear(stdscr);
+    refresh();
+    WINDOW * upperWin = newwin(5, screenWidth, 0, 0); // fce newwin vytvori okno
+    box(upperWin, 0,0); // vytvori hranice okolo okna
+    mvwprintw(upperWin, 2, screenWidth/2 - 6, "QUIZ SELECTOR");
+    wrefresh(upperWin);
+
+    vector<string> quizFileNames;
+    vector< vector<string> > quizFileData;
+    namespace fs = std::filesystem;
+
+    std::string path = "./files/quizzes/";
+    for (const auto & entry : fs::directory_iterator(path)) {
+        quizFileData.push_back(Quiz::preview(entry.path()));
+        quizFileNames.push_back(entry.path());
+    }
+
+    WINDOW * showWin = newwin(screenHeight - 5, screenWidth, 6, 0); // fce newwin vytvori okno
+    box(showWin, 0,0); // vytvori hranice okolo okna
+
+    for (size_t i = 0; i < quizFileNames.size(); i++){
+        mvwprintw(showWin, 2 + i * 2, 10, quizFileNames[i].c_str());
+        mvwprintw(showWin, 2 + i * 2, 50, quizFileData[i][1].c_str());
+    }
+    wrefresh(showWin);
+
+
+    int pointerPos = 2;
+    mvwprintw(showWin, 2, 3, "=>");
+    wrefresh(showWin);
+
+    while (true) {
+        int a = getch();
+
+        if (a == '\n' || a == KEY_ENTER || a == KEY_RIGHT)
+            break;
+
+        if (a == KEY_DOWN || a == 's') {
+            mvwprintw(showWin, pointerPos, 3, "  ");
+            pointerPos += (pointerPos < 2 * quizFileNames.size() ? 2 : 0);
+        } else if (a == KEY_UP || a == 'w') {
+            mvwprintw(showWin, pointerPos, 3, "  ");
+            pointerPos -= (pointerPos > 2 ? 2 : 0);
+        }
+        mvwprintw(showWin, pointerPos, 3, "=>");
+        wrefresh(showWin);
+    }
+
+    return quizFileNames[pointerPos / 2 -1];
 }

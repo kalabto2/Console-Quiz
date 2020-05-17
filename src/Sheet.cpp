@@ -168,3 +168,7 @@ void Sheet::save() {
         outFile.close();
     }
 }
+
+string Sheet::getId() {
+    return id;
+}

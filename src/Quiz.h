@@ -14,11 +14,15 @@ class Quiz {
 public:
     void addSheet (Sheet);
     void setName (string name);
+    void save ();
     Quiz ();
+    static vector<string> preview (const string& id);
 protected:
     vector<Sheet> sheets;
-    int id;
+    string id;
     string name;
+
+    const string QUIZ_FILE_PATH = "files/quizzes/";
 };
 
 #endif //QUIZ_QUIZ_H

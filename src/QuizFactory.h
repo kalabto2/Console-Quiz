@@ -13,6 +13,8 @@ public:
     void setName ();
     void createQuiz ();
     void addSheetDialog ();
+    string selectQuiz ();
+
 protected:
     Quiz quiz;
     int screenHeight;

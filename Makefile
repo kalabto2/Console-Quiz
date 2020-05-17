@@ -2,7 +2,7 @@
 
 PROGRAM=kalabto2
 CC=g++
-CFLAGS=-std=c++11 -Wall -pedantic -lncurses -lpthread #-Wextra -g -Wno-long-long -O0 -ggdb
+CFLAGS=-std=c++17 -Wall -pedantic -lncurses -lpthread #-Wextra -g -Wno-long-long -O0 -ggdb
 
 ## Spuštění programu 'all'
 .PHONY: all

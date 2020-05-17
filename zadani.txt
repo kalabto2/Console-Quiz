@@ -85,4 +85,5 @@ Popis navrhnutých tříd:
         * TextAnswer
         * ValueAnswer
     * QuizShowroom      -- zobrazuje kvízy v ncurses, exportuje je do textového dokumentu
+    * AnswerSheet       -- udrzuje odpovedi ke kvizum
     * helpers           -- drží pomocné funkce, pro celou aplikaci - např. načítání vstupu přes ncurses

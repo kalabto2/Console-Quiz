@@ -268,3 +268,8 @@ int MainMenu::run() {
         }
     }
 }
+
+MainMenu::~MainMenu() {
+    delwin(extendedWin);
+    delwin(mainWin);
+}

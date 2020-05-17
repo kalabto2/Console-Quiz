@@ -20,6 +20,7 @@ public:
     void addAnswer (shared_ptr<Answer> answer);
     void createSheet ();
     void save();
+    string getId();
 protected:
     enum SHEET_OPTION {FINISH_SHEET, ADD_QUESTION};
     const string SHEET_FILE_PATH = "files/sheets/";

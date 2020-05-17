@@ -52,39 +52,16 @@ void App::run() {
         menuAction = mainMenu.run();
 
         switch (menuAction) {
-            case 0: {/*
-                string line;
-                ifstream continueFile("continue");
-                if (continueFile.is_open()) {
-                    int i = 0;
-                    while (getline(continueFile, line)) {
-                        if (i == 6)
-                            break;
-                        i++;
-                    }
-                    continueFile.close();
-
-                    ACTION_AFTER_GAME action;
-                    game = new Game(line);
-                    action = game->run();
-
-                    if (action == EXIT)
-                        return;
-                    if (action == BACK_TO_MENU)
-                        break;
-                    if (action == WON){
-
-                    }
-                    if (action == LOST){
-
-                    }
-                }*/
+            case 0: {
+                QuizFactory quizFactory;
+                string quizId = quizFactory.selectQuiz();
                 break;
             }
             case 1: {                   // TODO
                 QuizFactory quizFactory;
                 quizFactory.setName();
                 quizFactory.createQuiz();
+                //getch();
                 //mainMenu.refresh();
                 break;
             }

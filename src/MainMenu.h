@@ -32,6 +32,7 @@ protected:
     };
 public:
     MainMenu();
+    ~MainMenu();
     int run();
     void extendedWindow (int type);
     void refresh();
