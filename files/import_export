@@ -1,2 +1,16 @@
-
-	// TODO ...
+# File contents possibilities of export/import
+# Odd rows - names of export/import action. Even rows - description to equivalent. First 2 rows are header.
+Export/Import Action
+Note
+-----------------------------------------------------------
+----------------------------------
+* Exporting quiz to text file (questions + correct answers)
+--
+* Exporting quiz to text file (questions)
+--
+* Exporting quiz to text file (questions + space for answers)
+Ready to print and fill in
+* Exporting answersheet to text file
+Prints only answers of filled quiz
+* Exporting answersheet to text file (with questions)
+Prints filled quiz

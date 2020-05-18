@@ -17,9 +17,6 @@ App::App() {
     getmaxyx(stdscr, screenHeight, screenWidth);   // ziska rozmery obrazovky
     start_color(); // nastavi barvy ...
 
-    // settings_menu = new Settings();
-    // game = nullptr;
-
     /*if (!has_colors()){
          printw("Doesnt support colors");
          getch();
@@ -40,40 +37,45 @@ App::App() {
 }
 
 App::~App() {
-    // delete settings_menu;
-    // delete game;
     endwin(); // dealokuje pamet a ukonci ncurses
 }
 
 void App::run() {
     while (true) {
         MainMenu mainMenu;
-        int menuAction;
+        MainMenu::MENU_ACTION menuAction;
         menuAction = mainMenu.run();
 
         switch (menuAction) {
-            case 0: {
+            case MainMenu::START_QUIZ: {
                 QuizFactory quizFactory;
                 string quizId = quizFactory.selectQuiz();
                 Quiz quiz(quizId); // loads quiz from file
+                // todo
                 break;
             }
-            case 1: {                   // TODO
+            case MainMenu::CREATE_QUIZ: {
                 QuizFactory quizFactory;
                 quizFactory.setName();
                 quizFactory.createQuiz();
-                //getch();
-                //mainMenu.refresh();
                 break;
             }
-            case 4: {
+            case MainMenu::EVALUATE_QUIZ: {
                 // TODO
             }
-            case 5: {
+            case MainMenu::EXPORT_TO_TXT_QA: {}
+            case MainMenu::EXPORT_TO_TXT_Q: {}
+            case MainMenu::EXPORT_TO_TXT_QS: {}
+            case MainMenu::EXPORT_TO_TXT_QAS: {}
+            case MainMenu::EXPORT_TO_TXT_AS: {
+                // TODO
+                continue;
+            }
+            case MainMenu::NONE: {
                 // TODO
             }
-            case 6:
-                return; // EXIT
+            case MainMenu::EXIT:
+                return;
             default: {/*
                 if (menuAction >= 200 && menuAction < 300) {    // CHOOSE LEVEL
                     string line;

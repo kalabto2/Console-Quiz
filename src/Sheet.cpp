@@ -194,8 +194,10 @@ Sheet::Sheet(string id) {
                 shared_ptr<Answer> answer;
 
                 question = Question::getQuestion(questionId);
+                answer = Answer::getAnswer(answerId);
 
                 questions.push_back(question);
+                answers.push_back(answer);
             }
 
         }

@@ -31,7 +31,7 @@ void MainMenu::extendedWindow(int type) {
             winHeight = MAIN_MENU_EVALUATE_QUIZ_HEIGHT;
             file = "files/evaluate";
             fileType = 2;
-            windowType = INTERACTIVE;
+            windowType = QUESTION;
             break;
         }
         case 3:{
@@ -45,7 +45,7 @@ void MainMenu::extendedWindow(int type) {
             winHeight = MAIN_MENU_SETTINGS_HEIGHT;
             file = "files/settings_menu";
             fileType = 1;
-            windowType = QUESTION;
+            windowType = INTERACTIVE;
             break;
         }
         case 5:{
@@ -138,7 +138,7 @@ void MainMenu::extendedWindow(int type) {
                 while ( getline (mapFile,line) )
                 {
                     if(i > 1)
-                        mvwprintw(extendedWin, 1 + (i - 2 )/4, 5 + ((i - 2 ) % 4)*(screenWidth - 10 - 4 * MAIN_MENU_WINDOW_WIDTH / 2)/4, "%s", line.c_str());  // fce c_str() prevede string na char*
+                        mvwprintw(extendedWin, 1 + (i - 2 )/2, 5 + ((i - 2 ) % 2)*(screenWidth - 10 - 2 * MAIN_MENU_WINDOW_WIDTH / 2)/2, "%s", line.c_str());
                     i++;
                 }
                 break;
@@ -190,7 +190,7 @@ void MainMenu::refresh() {
     wrefresh(extendedWin);
 }
 
-int MainMenu::run() {
+MainMenu::MENU_ACTION MainMenu::run() {
     int curSelection = 0;
     int movement;
     while(true) {
@@ -209,7 +209,7 @@ int MainMenu::run() {
         else if (movement == 's' || movement == KEY_DOWN)
             curSelection = curSelection < 6 ? curSelection + 1 : curSelection;
         else if (movement == 27 ) // 27 == klavesa ESC
-            return 6;
+            return EXIT;
         else if (movement == KEY_ENTER || movement == KEY_RIGHT){
             mvwprintw(mainWin, 2 + 2*curSelection, 2, "  ");
             wrefresh(mainWin);
@@ -220,46 +220,61 @@ int MainMenu::run() {
                     wrefresh(extendedWin);
                     int c = getch();
                     if (c == 'y' || c == KEY_RIGHT)
-                        return 0;
+                        return START_QUIZ;
                     break;
                 }
-                case 1:
-                    return 1; // TODO
+                case 1: {
+                    mvwprintw(extendedWin, 2, 2, "=>");
+                    wrefresh(extendedWin);
+                    int c = getch();
+                    if (c == 'y' || c == KEY_RIGHT)
+                        return CREATE_QUIZ;
+                    break;
+                }
                 case 2:{
+                    mvwprintw(extendedWin, 2, 2, "=>");
+                    wrefresh(extendedWin);
+                    int c = getch();
+                    if (c == 'y' || c == KEY_RIGHT)
+                        return EVALUATE_QUIZ;
+                    break;
+                }
+                case 3:{
                     int c, selection = 0;
 
                     while (true) {
-                        mvwprintw(extendedWin, 2 + selection, 2, "=>");
+                        mvwprintw(extendedWin, 3 + selection, 2, "=>");
                         wrefresh(extendedWin);
 
                         c = getch();
 
-                        mvwprintw(extendedWin, 2 + selection, 2, "  ");
+                        mvwprintw(extendedWin, 3 + selection, 2, "  ");
                         wrefresh(extendedWin);
                         if (c == 'w' || c == KEY_UP)
                             selection = selection > 0 ? selection - 1 : selection;
                         else if (c == 's' || c == KEY_DOWN)
-                            selection = selection < 10 ? selection + 1 : selection;
-                        else if (c == 'y' || c == KEY_RIGHT)
-                            return 200+selection;
+                            selection = selection < 4 ? selection + 1 : selection;
+                        else if (c == 'y' || c == KEY_RIGHT) {
+                            return  (selection == 0 ? EXPORT_TO_TXT_QA  :
+                                    (selection == 1 ? EXPORT_TO_TXT_Q   :
+                                    (selection == 2 ? EXPORT_TO_TXT_QS  :
+                                    (selection == 3 ? EXPORT_TO_TXT_QAS : EXPORT_TO_TXT_AS ))));
+                        }
                         else if (c == 'n' || c == KEY_LEFT)
                             break;
                     }
                     break;
-
                 }
-                case 3:
-                    return 3;   // TODO
                 case 4:
-                    return 4;   // TODO
+                    return NONE;   // TODO
                 case 5:
-                    return 5;   // TODO
+                    return NONE;   // TODO
                 case 6:{
                     mvwprintw(extendedWin, 2, 2, "=>");
                     wrefresh(extendedWin);
                     int c = getch();
                     if (c == 'y' || c == KEY_RIGHT)
-                        return 6;
+                        return EXIT;
                     break;
                 }
                 default:

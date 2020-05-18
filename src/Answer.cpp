@@ -11,6 +11,7 @@
 #include <memory>
 #include <fstream>
 #include <algorithm>
+#include <sstream>
 
 
 using namespace std;
@@ -249,7 +250,24 @@ void SingleChoiceAnswer::preprocess(string answer) {
 }
 
 SingleChoiceAnswer::SingleChoiceAnswer(string answerId) {
+    getmaxyx(stdscr,screenHeight, screenWidth);
+    id = answerId;
 
+    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    string line;
+
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "schA")
+                    throw "Incompatible file type: expected 'schA'";
+            }
+            else if (i == 1){
+                correctAnswer = stoi(line);
+            }
+        }
+        inFile.close();
+    }
 }
 
 
@@ -314,6 +332,29 @@ void MultipleChoiceAnswer::preprocess(string answer) {
     }
     correctAnswer.insert(stoi(number));
     number = "";
+}
+
+MultipleChoiceAnswer::MultipleChoiceAnswer(string answerId) {
+    getmaxyx(stdscr,screenHeight, screenWidth);
+    id = answerId;
+
+    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    string line;
+
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "mchA")
+                    throw "Incompatible file type: expected 'mchA'";
+            }
+            else if (i == 1){
+                istringstream iss(line);
+                for(string s; iss >> s; )
+                    correctAnswer.insert(stoi(s));
+            }
+        }
+        inFile.close();
+    }
 }
 
 
@@ -397,4 +438,33 @@ void PairChoiceAnswer::preprocess(string answer) {
     number = "";
     correctAnswer.insert(pair);
     pair.clear();
+}
+
+PairChoiceAnswer::PairChoiceAnswer(string answerId) {
+    getmaxyx(stdscr,screenHeight, screenWidth);
+    id = answerId;
+
+    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    string line;
+
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "pchA")
+                    throw "Incompatible file type: expected 'pchA'";
+            }
+            else if (i == 1){
+                istringstream iss(line);
+                set<int> pair;
+                for(string s; iss >> s; ){
+                    pair.insert(stoi(s));
+                    if (pair.size() == 2){
+                        correctAnswer.insert(pair);
+                        pair.clear();
+                    }
+                }
+            }
+        }
+        inFile.close();
+    }
 }
