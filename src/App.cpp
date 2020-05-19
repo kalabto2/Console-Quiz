@@ -6,6 +6,7 @@
 #include "App.h"
 #include "MainMenu.h"
 #include "QuizFactory.h"
+#include "ShowRoom.h"
 
 App::App() {
     initscr(); // inicializuje screen, nastavi pamet
@@ -66,13 +67,17 @@ void App::run() {
             case MainMenu::EXPORT_TO_TXT_QA: {}
             case MainMenu::EXPORT_TO_TXT_Q: {}
             case MainMenu::EXPORT_TO_TXT_QS: {}
-            case MainMenu::EXPORT_TO_TXT_QAS: {}
-            case MainMenu::EXPORT_TO_TXT_AS: {
-                // TODO
-                continue;
+            case MainMenu::EXPORT_TO_TXT_QAS: {}    // TODO
+            case MainMenu::EXPORT_TO_TXT_AS: {      // TODO
+                QuizFactory quizFactory;
+                string quizId = quizFactory.selectQuiz();
+                Quiz quiz(quizId); // loads quiz from file
+                ShowRoom exports(quiz);
+                exports.Export(menuAction);
+                break;
             }
             case MainMenu::NONE: {
-                // TODO
+                // TODO ?
             }
             case MainMenu::EXIT:
                 return;

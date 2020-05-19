@@ -26,6 +26,7 @@ public:
     string getId ();
     virtual int getNumOfAnsw ();
     static shared_ptr<Question> getQuestion (string questionId);
+    virtual string print ();
 protected:
     int screenHeight, screenWidth;
     string id;
@@ -47,6 +48,7 @@ public:
     void renderAnswers(WINDOW * window) override ;
     shared_ptr<Answer> getTypeAnswer(int i) override ;
     int getNumOfAnsw () override ;
+    string print() override;
 protected:
     string question;
 
@@ -65,6 +67,7 @@ public:
     void renderAnswers(WINDOW * window) override;
     shared_ptr<Answer> getTypeAnswer(int i) override;
     int getNumOfAnsw () override ;
+    string print() override ;
 protected:
     string question;
     vector<string> choices;

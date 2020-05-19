@@ -18,6 +18,8 @@ public:
     Quiz ();
     Quiz (const string& filePath);
     static vector<string> preview (const string& id);
+    string print (bool printQuestion = true, bool printAnswer = true, bool printSpaceAnswer = true);
+
 protected:
     vector<Sheet> sheets;
     string id;

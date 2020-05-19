@@ -98,6 +98,10 @@ shared_ptr<Question> Question::getQuestion(string questionId) {
     throw "Incompatible file type: expected 'txtQ' or 'chcQ'";
 }
 
+string Question::print() {
+    return std::string("Vytisknul se superclass");
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -196,6 +200,10 @@ shared_ptr<Answer> TextQuestion::getTypeAnswer(int i) {
 
 int TextQuestion::getNumOfAnsw() {
     return 2;
+}
+
+string TextQuestion::print() {
+    return question;
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -302,5 +310,16 @@ ChoiceQuestion::ChoiceQuestion(string questionId) {
         }
         inFile.close();
     }
+}
+
+string ChoiceQuestion::print() {
+    string res;
+
+    int i = 1;
+    for (auto & choice : choices) {
+        res += "\n\t\t" + to_string(i) + ".\t" + choice;
+        i ++;
+    }
+    return question + "\n\tChoose from following:" + res + "\n";
 }
 

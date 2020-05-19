@@ -87,6 +87,10 @@ shared_ptr<Answer> Answer::getAnswer(string answerId) {
     throw "Incompatible file type: expected 'txtA', 'valA', 'schA', 'mchA' or 'pchA' ";
 }
 
+string Answer::print(bool printCorrectAnswer) {
+    return "Error :: vypsala se supperclass - data byla ztracena";
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -142,6 +146,22 @@ TextAnswer::TextAnswer(string answerId) {
     }
 }
 
+string TextAnswer::print(bool printCorrectAnswer) {
+    string res;
+
+    if (printCorrectAnswer){
+        res += correctAnswer;
+    }
+    else {
+        res +=
+        "> ______________________________________________________________________________________________________________\n"
+        "________________________________________________________________________________________________________________\n"
+        "________________________________________________________________________________________________________________\n"
+        "________________________________________________________________________________________________________________\n";
+    }
+    return res + "\n";
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -195,6 +215,19 @@ ValueAnswer::ValueAnswer(string answerId) {
         }
         inFile.close();
     }
+}
+
+string ValueAnswer::print(bool printCorrectAnswer) {
+    string res;
+
+    if (printCorrectAnswer){
+        res += correctAnswer;
+    }
+    else {
+        res +=
+                "> ______________________________________________________________________________________________________________\n";
+    }
+    return res + "\n";
 }
 
 
@@ -268,6 +301,19 @@ SingleChoiceAnswer::SingleChoiceAnswer(string answerId) {
         }
         inFile.close();
     }
+}
+
+string SingleChoiceAnswer::print(bool printCorrectAnswer) {
+    string res;
+
+    if (printCorrectAnswer){
+        res += to_string(correctAnswer);
+    }
+    else {
+        res +=
+                "> ______________________________________________________________________________________________________________\n";
+    }
+    return res + "\n";
 }
 
 
@@ -355,6 +401,21 @@ MultipleChoiceAnswer::MultipleChoiceAnswer(string answerId) {
         }
         inFile.close();
     }
+}
+
+string MultipleChoiceAnswer::print(bool printCorrectAnswer) {
+    string res;
+
+    if (printCorrectAnswer){
+        for (auto & i : correctAnswer){
+            res += (i == *(correctAnswer.rbegin()) ? to_string(i) : to_string(i) + ", ");
+        }
+    }
+    else {
+        res +=
+                "> ______________________________________________________________________________________________________________\n";
+    }
+    return res + "\n";
 }
 
 
@@ -467,4 +528,22 @@ PairChoiceAnswer::PairChoiceAnswer(string answerId) {
         }
         inFile.close();
     }
+}
+
+string PairChoiceAnswer::print(bool printCorrectAnswer) {
+    string res;
+
+    if (printCorrectAnswer){
+        for (auto & i : correctAnswer){
+            for (auto & j : i){
+                res += (j == *(i.rbegin()) ? to_string(j) : to_string(j) + " + ");
+            }
+            res += (i == *correctAnswer.rbegin() ? "" : ", ");
+        }
+    }
+    else {
+        res +=
+                "> ______________________________________________________________________________________________________________\n";
+    }
+    return res + "\n";
 }

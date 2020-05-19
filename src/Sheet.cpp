@@ -205,3 +205,20 @@ Sheet::Sheet(string id) {
     }
 
 }
+
+string Sheet::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
+    string result;
+
+    for (size_t i = 0; i < questions.size(); i++){
+        result += "----------------------------------------------------\n";
+        if (printQuestion){
+            result += "\tQ no. " + to_string(i + 1) + ".\n\t\t" + questions[i].get()->print();
+        }
+        if (printAnswer || printSpaceAnswer){
+            result += "\n\tA no. " + to_string(i + 1) + ".\n\t\t" + answers[i].get()->print(printAnswer);
+        }
+        result += "----------------------------------------------------\n\n";
+    }
+
+    return result;
+}

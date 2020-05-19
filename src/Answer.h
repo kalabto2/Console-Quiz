@@ -18,6 +18,7 @@ public:
     Answer ();
     virtual void save ();
     virtual void construct ();
+    virtual string print (bool printCorrectAnswer = true);
     string getId ();
     static shared_ptr<Answer> getAnswer (string answerId);
 protected:
@@ -39,6 +40,7 @@ public:
     TextAnswer (string answerId);
     void save () override;
     void construct () override;
+    string print(bool printCorrectAnswer = true) override ;
 
 protected:
     string correctAnswer = "";
@@ -54,6 +56,7 @@ public:
     ValueAnswer (string answerId);
     void save () override;
     void construct () override;
+    string print (bool printCorrectAnswer = true) override ;
 
 protected:
     string correctAnswer = "";
@@ -70,6 +73,7 @@ public:
     void save () override;
     void construct () override;
     void preprocess (string answer);
+    string print(bool printCorrectAnswer = true) override ;
 protected:
     int correctAnswer;
 };
@@ -85,6 +89,7 @@ public:
     void save () override;
     void construct () override;
     void preprocess (string answer);
+    string print(bool printCorrectAnswer = true) override ;
 protected:
     set<int> correctAnswer;
 
@@ -101,6 +106,7 @@ public:
     void save () override;
     void construct () override;
     void preprocess (string answer);
+    string print(bool printCorrectAnswer = true) override ;
 protected:
     set< set<int> > correctAnswer;
 };

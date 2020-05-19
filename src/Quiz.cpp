@@ -81,3 +81,34 @@ Quiz::Quiz(const string& fileName) {
         inFile.close();
     }
 }
+
+string Quiz::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
+    string result;
+
+    ifstream bannerFile ("files/banner");
+    if (bannerFile.is_open())
+    {
+        string line;
+        int i = 0;
+        while ( getline (bannerFile,line) )
+        {
+            result += "\t" + line + "\n";
+            i++;
+        }
+        wrefresh(stdscr);
+        bannerFile.close();
+    }
+    result += "\n\tQuiz name: " + name + "\t\tcreated " + id + "\n";
+
+    int i = 1;
+    for (auto & sheet : sheets) {
+        result +=
+        "------------------------------------------------------------------------------------------------------------------------"
+        "\nSheet no. " + to_string(i) + "\n"
+        "------------------------------------------------------------------------------------------------------------------------"
+        "\n" + sheet.print(printQuestion, printAnswer, printSpaceAnswer);
+        i++;
+    }
+
+    return result;
+}
