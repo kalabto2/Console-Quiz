@@ -52,6 +52,9 @@ void App::run() {
                 QuizFactory quizFactory;
                 string quizId = quizFactory.selectQuiz();
                 Quiz quiz(quizId); // loads quiz from file
+                ShowRoom showRoom(quiz);
+                showRoom.StartQuiz();
+
                 // todo
                 break;
             }

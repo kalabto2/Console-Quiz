@@ -112,3 +112,11 @@ string Quiz::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer) 
 
     return result;
 }
+
+string Quiz::getName() {
+    return name;
+}
+
+string Quiz::getId() {
+    return id;
+}

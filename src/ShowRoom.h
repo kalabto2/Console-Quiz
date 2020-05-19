@@ -18,6 +18,7 @@ private:
 public:
     ShowRoom (Quiz quiz);
     void Export (MainMenu::MENU_ACTION action);
+    void StartQuiz ();
 };
 
 #endif //QUIZ_SHOWROOM_H
