@@ -9,6 +9,14 @@
 /home/tom/FIT/PA2/semestralka/quiz/src/Answer.h
 string
 -
+set
+-
+utility
+-
+ncurses.h
+-
+memory
+-
 
 /home/tom/FIT/PA2/semestralka/quiz/src/App.cpp
 ncurses.h
@@ -19,6 +27,8 @@ MainMenu.h
 /home/tom/FIT/PA2/semestralka/quiz/src/MainMenu.h
 QuizFactory.h
 /home/tom/FIT/PA2/semestralka/quiz/src/QuizFactory.h
+ShowRoom.h
+/home/tom/FIT/PA2/semestralka/quiz/src/ShowRoom.h
 
 /home/tom/FIT/PA2/semestralka/quiz/src/App.h
 
@@ -68,7 +78,9 @@ vector
 memory
 -
 
-/home/tom/FIT/PA2/semestralka/quiz/src/main.cpp
-App.h
-/home/tom/FIT/PA2/semestralka/quiz/src/App.h
+/home/tom/FIT/PA2/semestralka/quiz/src/ShowRoom.h
+Quiz.h
+/home/tom/FIT/PA2/semestralka/quiz/src/Quiz.h
+MainMenu.h
+/home/tom/FIT/PA2/semestralka/quiz/src/MainMenu.h
 

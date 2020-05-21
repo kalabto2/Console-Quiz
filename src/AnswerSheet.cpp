@@ -16,3 +16,7 @@ AnswerSheet::AnswerSheet() {
     std::string str(buffer);
     id = str;
 }
+
+void AnswerSheet::renderInput(int sheetIndex, int answerIndex) {
+     quiz.renderInput(sheetIndex, answerIndex);
+}

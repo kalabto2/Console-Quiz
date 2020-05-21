@@ -209,7 +209,7 @@ Sheet::Sheet(string id) {
 string Sheet::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
     string result;
 
-    for (size_t i = 0; i < questions.size(); i++){
+    /*for (size_t i = 0; i < questions.size(); i++){
         result += "----------------------------------------------------\n";
         if (printQuestion){
             result += "\tQ no. " + to_string(i + 1) + ".\n\t\t" + questions[i].get()->print();
@@ -218,7 +218,49 @@ string Sheet::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer)
             result += "\n\tA no. " + to_string(i + 1) + ".\n\t\t" + answers[i].get()->print(printAnswer);
         }
         result += "----------------------------------------------------\n\n";
+    }*/
+    for (auto & QA : getPrintedQA(printQuestion, printAnswer, printSpaceAnswer)){
+        result += QA;
     }
 
     return result;
+}
+
+vector<string> Sheet::getPrintedQA(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
+    vector <string> result;
+
+    for (size_t i = 0; i < questions.size(); i++){
+        result.push_back("----------------------------------------------------\n");
+        if (printQuestion){
+            result[i] += "\tQ no. " + to_string(i + 1) + ".\n\t\t" + questions[i].get()->print();
+        }
+        if (printAnswer || printSpaceAnswer){
+            result[i] += "\n\tA no. " + to_string(i + 1) + ".\n\t\t" + answers[i].get()->print(printAnswer);
+        }
+        result[i] += "----------------------------------------------------\n\n";
+    }
+
+    return result;
+}
+
+vector<int> Sheet::getLines(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
+    vector <string> questionsAndAnswers = getPrintedQA(printQuestion, printAnswer, printSpaceAnswer);
+    vector <int> result;
+
+    int add = 0;
+    for (auto & q : questionsAndAnswers){
+        int numOfLines = 0;
+        for (auto & c: q){
+            if (c == '\n')
+                numOfLines ++;
+        }
+        result.push_back(numOfLines);
+        add = numOfLines + add;
+    }
+
+    return result;
+}
+
+void Sheet::renderInput(int answerIndex) {
+    answers[answerIndex].get()->construct();
 }

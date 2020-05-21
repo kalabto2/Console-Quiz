@@ -21,7 +21,9 @@ public:
     string print (bool printQuestion = true, bool printAnswer = true, bool printSpaceAnswer = true);
     string getName ();
     string getId ();
-
+    tuple < vector<string>, vector< vector<int> > > getPrintedSheets (bool printQuestion = true, bool printAnswer = false, bool PrintSpaceAnswer = false);
+    void renderInput (int sheetIndex, int answerIndex);
+    vector< vector<string> > getPrintSheets (bool printQuestion = true, bool printAnswer = false, bool PrintSpaceAnswer = false);
 protected:
     vector<Sheet> sheets;
     string id;

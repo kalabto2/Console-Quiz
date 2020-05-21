@@ -31,7 +31,7 @@ clean:
 
 # PROGRAMY
 ## Program 'kalabto2'
-$(PROGRAM): build/main.o build/MainMenu.o build/App.o build/QuizFactory.o build/Quiz.o build/Sheet.o build/Question.o build/Answer.o build/ShowRoom.o
+$(PROGRAM): build/main.o build/MainMenu.o build/App.o build/QuizFactory.o build/Quiz.o build/Sheet.o build/Question.o build/Answer.o build/ShowRoom.o build/AnswerSheet.o
 	mkdir -p build
 	$(CC) $(CFLAGS) $^ -o $@
 
@@ -78,5 +78,10 @@ build/Answer.o: src/Answer.cpp src/Answer.h
 
 ## Třída 'ShowRoom.cpp'
 build/ShowRoom.o: src/ShowRoom.cpp src/ShowRoom.h src/Quiz.h src/MainMenu.h
+	mkdir -p build
+	$(CC) $(CFLAGS) -c $< -o $@
+
+## Třída 'AnswerSheet.cpp'
+build/AnswerSheet.o: src/AnswerSheet.cpp src/AnswerSheet.h src/Quiz.h
 	mkdir -p build
 	$(CC) $(CFLAGS) -c $< -o $@

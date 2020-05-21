@@ -120,3 +120,35 @@ string Quiz::getName() {
 string Quiz::getId() {
     return id;
 }
+
+tuple < vector<string>, vector< vector<int> > > Quiz::getPrintedSheets(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
+    vector<string> printedResult;
+    vector< vector<int> > questionPointer;
+
+    int i = 1;
+    for (auto & sheet : sheets) {
+        auto lineInfo = sheet.getLines(printQuestion, printAnswer, printSpaceAnswer);
+        //for (auto & lf: lineInfo)
+        //    lf += 3;
+        questionPointer.push_back(lineInfo);
+        printedResult.push_back(
+         "------------------------------------------------------------------------------------------------------------------------"
+         "\nSheet no. " + to_string(i) + "\n"
+         "------------------------------------------------------------------------------------------------------------------------"
+         "\n" + sheet.print(printQuestion, printAnswer, printSpaceAnswer));
+        i++;
+    }
+
+    return make_tuple(printedResult, questionPointer);
+}
+
+void Quiz::renderInput(int sheetIndex, int answerIndex) {
+    sheets[sheetIndex].renderInput(answerIndex);
+}
+
+vector<vector<string> > Quiz::getPrintSheets(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
+    vector<vector<string> > result;
+    for (auto &sheet: sheets)
+        result.push_back(sheet.getPrintedQA(printQuestion, printAnswer, printSpaceAnswer));
+    return  result;
+}

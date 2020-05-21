@@ -21,6 +21,7 @@ private:
 
 public:
     AnswerSheet ();
+    void renderInput (int sheetIndex, int answerIndex);
 };
 
 #endif //QUIZ_ANSWERSHEET_H

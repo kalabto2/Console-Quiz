@@ -11,7 +11,8 @@
 class ShowRoom {
 private:
     Quiz quiz;
-    int screenWidth, screenHeight;
+    int screenWidth, screenHeight, showWinScroll = 0;
+    void scrollWin (WINDOW * window, string content, int scrolledLines);
 
     const string EXPORTS_FILE_PATH = "files/exports/";
 

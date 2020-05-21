@@ -9,6 +9,7 @@ CMakeFiles/quiz.dir/src/App.cpp.o: ../src/Question.h
 CMakeFiles/quiz.dir/src/App.cpp.o: ../src/Quiz.h
 CMakeFiles/quiz.dir/src/App.cpp.o: ../src/QuizFactory.h
 CMakeFiles/quiz.dir/src/App.cpp.o: ../src/Sheet.h
+CMakeFiles/quiz.dir/src/App.cpp.o: ../src/ShowRoom.h
 
 CMakeFiles/quiz.dir/src/MainMenu.cpp.o: ../src/MainMenu.cpp
 CMakeFiles/quiz.dir/src/MainMenu.cpp.o: ../src/MainMenu.h
