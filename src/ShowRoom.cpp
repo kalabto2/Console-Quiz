@@ -73,20 +73,24 @@ void ShowRoom::StartQuiz() {
     vector <vector <int> > sheetCursorHeight;
     vector <string> sheets;
     tie(sheets, sheetCursorHeight) = quiz.getPrintedSheets(true, true);
-    vector <vector<string> > printedQuestions = quiz.getPrintSheets(true,true,false);
+    //vector <vector<string> > printedQuestions = quiz.getPrintSheets(true,true,false);
 
+    for (auto &i: sheetCursorHeight) {
+        i[i.size() - 1] += 2;
+        i.push_back(2);
+    }
 
     for (size_t j = 0; j < sheets.size(); j++) {
         showWinScroll = 0;
         int winHeight = count(sheets[j].begin(), sheets[j].end(), '\n') + 8;
-        sheetCursorHeight[j][sheetCursorHeight[j].size() - 1] += 2;
-        sheetCursorHeight[j].push_back(2);
+        //sheetCursorHeight[j][sheetCursorHeight[j].size() - 1] += 2;
+        //sheetCursorHeight[j].push_back(2);
         WINDOW *showWin = newwin(winHeight, screenWidth, 6, 0);
         scrollok(showWin, true);
 
         string output = sheets[j];
-
         int numberOfOptions = sheetCursorHeight[j].size();
+
         /*int rows = 5;
         wmove(showWin, rows, 5);
         for (int i = 0; i < output.size(); i++) {
@@ -117,19 +121,18 @@ void ShowRoom::StartQuiz() {
         wscrl(showWin, -10);
         wrefresh(showWin);
         getch();*/
-        wmove(showWin, 0, 5);
+       /* wmove(showWin, 0, 5);
         for (auto & i: sheetCursorHeight[j])
             wprintw(showWin, (to_string(i) + " ").c_str());
         wmove(showWin, 1, 5);
-        for (auto & i: printedQuestions[j])
-            wprintw(showWin, (to_string(count(i.begin(), i.end(), '\n')) + " ").c_str());
+
         wprintw(showWin, to_string(numberOfOptions).c_str());
+
+        //mvwprintw(showWin, 5, 2, "=>");
+        wrefresh(showWin);*/
 
         bool previous = false;
         int c, selection = 0;
-        //mvwprintw(showWin, 5, 2, "=>");
-
-        wrefresh(showWin);
         while (true){
             c = getch();
             if (c == 'w' || c == KEY_UP){
@@ -137,28 +140,35 @@ void ShowRoom::StartQuiz() {
                 selection = (selection - 1 < 0 ? 0 : selection - 1);
                 mvwprintw(showWin, sheetCursorHeight[j][(selection - 1 < 0 ? 0 : selection - 1)], 2, "=>");
                 wrefresh(showWin);*/
+                int lastSelection = selection;
                 selection = (selection - 1 < 0 ? 0 : selection - 1);
-
+                if (lastSelection == 0)
+                    continue;
                 scrollWin(showWin, output, -sheetCursorHeight[j][selection]);
             } else if (c == 's' || c == KEY_DOWN){
                 /*mvwprintw(showWin, sheetCursorHeight[j][(selection - 1 < 0 ? 0 : selection - 1)], 2, "  " );
                 selection = (selection + 1 > numberOfOptions - 1 ? numberOfOptions - 1 : selection + 1);
                 mvwprintw(showWin, sheetCursorHeight[j][(selection - 1 < 0 ? 0 : selection - 1)], 2, "=>");
                 wrefresh(showWin);*/
+                int lastSelection = selection;
                 selection = (selection + 1 > numberOfOptions ? numberOfOptions : selection + 1);
-                if (selection <= 0 || selection >= numberOfOptions)
+                if (selection <= 0 || lastSelection == numberOfOptions)
                     continue;
                 scrollWin(showWin, output, sheetCursorHeight[j][selection - 1]);
 
             } else if (c == 'a' || c == KEY_LEFT){
-                if (selection == numberOfOptions - 2){
+                if (selection == numberOfOptions - 1){
+                    if (j == 0)
+                        continue;
                     previous = true;
                     break;
                 }
             } else if (c == 'd' || c == KEY_RIGHT){
-                if (selection == numberOfOptions - 1)
+                if (selection == numberOfOptions)
                     break;
-                if (selection == numberOfOptions - 2 && j > 0){
+                if (selection == numberOfOptions - 1){
+                    if (j == 0)
+                        continue;
                     previous = true;
                     break;
                 }
@@ -166,6 +176,8 @@ void ShowRoom::StartQuiz() {
                 scrollWin(showWin, output, 0);
             } else if (c == ' ')
                 scrollWin(showWin, output, 1);
+            /*mvwprintw(showWin, 1, 10, to_string(selection).c_str());
+            wrefresh(showWin);*/
         }
 
         if (previous){
@@ -174,7 +186,7 @@ void ShowRoom::StartQuiz() {
         }
     }
 
-    /* TODO tady udelat oznameni po kvizu  + vyhodnoceni/ veci pro evaluation*/
+    /* TODO tady udelat oznameni po kvizu  + vyhodnoceni/ veci pro evaluation */
 }
 
 void ShowRoom::scrollWin(WINDOW *window, string content, int scrolledLines) {
