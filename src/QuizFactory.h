@@ -13,7 +13,8 @@ public:
     void setName ();
     void createQuiz ();
     void addSheetDialog ();
-    string selectQuiz ();
+    //string selectQuiz (bool findQuiz = true);
+    //string selectAnswersheet ();
 
 protected:
     Quiz quiz;

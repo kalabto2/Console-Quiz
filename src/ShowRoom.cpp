@@ -5,6 +5,7 @@
 #include <ncurses.h>
 #include <numeric>
 #include <algorithm>
+#include <filesystem>
 
 #include "ShowRoom.h"
 #include "AnswerSheet.h"
@@ -220,4 +221,71 @@ void ShowRoom::scrollWin(WINDOW *window, string content, int scrolledLines) {
     mvwprintw(window, 5, 2, "->");
     wrefresh(window);
     showWinScroll += scrolledLines;
+}
+
+string ShowRoom::selectAnswersheet(string quizId) {
+    return selectFile(false, quizId);
+}
+
+string ShowRoom::selectQuiz() {
+    return selectFile();
+}
+
+string ShowRoom::selectFile(bool findQuiz, string quizId) {
+    int screenWidth, screenHeight;
+    getmaxyx(stdscr, screenHeight, screenWidth);
+    wclear(stdscr);
+    refresh();
+    WINDOW * upperWin = newwin(5, screenWidth, 0, 0); // fce newwin vytvori okno
+    box(upperWin, 0,0); // vytvori hranice okolo okna
+    mvwprintw(upperWin, 2, screenWidth/2 - 7, (findQuiz ? "QUIZ SELECTOR" : "ANSWERSHEET SELECTOR"));
+    wrefresh(upperWin);
+
+    vector<string> quizFileNames;
+    vector< vector<string> > quizFileData;
+    namespace fs = std::filesystem;
+
+    std::string path = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/");
+    for (const auto & entry : fs::directory_iterator(path)) {
+        vector<string> a = (findQuiz ? Quiz::preview(entry.path()) : AnswerSheet::preview(entry.path()));
+        if (findQuiz || a[3] == quizId.substr(string("./files/quizzes/").size())) {
+            quizFileData.push_back(a);
+            quizFileNames.push_back(entry.path());
+        }
+    }
+
+    WINDOW * showWin = newwin(screenHeight - 5, screenWidth, 6, 0); // fce newwin vytvori okno
+    box(showWin, 0,0); // vytvori hranice okolo okna
+
+    for (size_t i = 0; i < quizFileNames.size(); i++){
+        mvwprintw(showWin, 2 + i * 2, 10, quizFileNames[i].substr(quizFileNames[i].size() - 17).c_str());
+        mvwprintw(showWin, 2 + i * 2, 50, quizFileData[i][1].c_str());
+        if (!findQuiz)
+            mvwprintw(showWin, 2 + i * 2, 75, quizFileData[i][2].c_str());
+    }
+    wrefresh(showWin);
+
+
+    int pointerPos = 2;
+    mvwprintw(showWin, 2, 3, "=>");
+    wrefresh(showWin);
+
+    while (true) {
+        int a = getch();
+
+        if (a == '\n' || a == KEY_ENTER || a == KEY_RIGHT)
+            break;
+
+        if (a == KEY_DOWN || a == 's') {
+            mvwprintw(showWin, pointerPos, 3, "  ");
+            pointerPos += (pointerPos < 2 * quizFileNames.size() ? 2 : 0);
+        } else if (a == KEY_UP || a == 'w') {
+            mvwprintw(showWin, pointerPos, 3, "  ");
+            pointerPos -= (pointerPos > 2 ? 2 : 0);
+        }
+        mvwprintw(showWin, pointerPos, 3, "=>");
+        wrefresh(showWin);
+    }
+
+    return quizFileNames[pointerPos / 2 -1];
 }

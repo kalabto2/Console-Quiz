@@ -22,8 +22,10 @@ private:
     bool evaluated = false;
 public:
     AnswerSheet (Quiz q);
+    AnswerSheet (Quiz q, string id);
     void renderInput (int sheetIndex, int answerIndex);
     void save ();
+    static vector<string> preview (const string & id);
 
     string ANSWERSHEET_FILE_PATH = "files/answerSheets/";
 };

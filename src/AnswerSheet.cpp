@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <typeinfo>
+#include <sstream>
 #include "AnswerSheet.h"
 
 AnswerSheet::AnswerSheet(Quiz quiz1) {
@@ -65,5 +66,74 @@ void AnswerSheet::save() {
         }
 
         outFile.close();
+    }
+}
+
+vector<string> AnswerSheet::preview(const string& id) {
+    vector <string> res;
+    ifstream inFile(id);
+
+    if (inFile.is_open()){
+        string line;
+        int i = 0;
+
+        while ( getline (inFile,line) )
+        {
+            if (i == 2) {
+                res.push_back((line == "1" ? "evaluated" : "not evaluated"));
+            } else if (i == 3){
+                res.push_back(line);
+                break;
+            }
+            else
+                res.push_back(line);
+            i++;
+        }
+        inFile.close();
+    }
+
+    return res;
+}
+
+AnswerSheet::AnswerSheet(Quiz quiz1, string id) {
+    quiz = quiz1;
+    ifstream inFile(id);
+    this->id = id.substr(ANSWERSHEET_FILE_PATH.size() + 2);
+
+    if (inFile.is_open()) {
+        string line;
+        vector<shared_ptr<Answer> > sheet;
+        vector<int> scoreOfSheet;
+        for (int i = 0; getline (inFile,line); i++){
+            if (i == 0) {
+                if (line != "answerSheet")
+                    throw "Incompatible file type: expected 'answerSheet'";
+            }
+            else if (i == 1)
+                author = line;
+            else if (i == 2)
+                evaluated = line == "1";
+            else if (i == 3)
+                ;
+            else{
+                if (line.empty()){
+                    if (sheet.empty())
+                        continue;
+                    answers.push_back(sheet);
+                    sheet.clear();
+                    score.push_back(scoreOfSheet);
+                    scoreOfSheet.clear();
+                    continue;
+                }
+                istringstream iss (line);
+                string tmp;
+                iss >> tmp;
+                sheet.push_back(Answer::getAnswer(tmp));
+                iss >> tmp;
+                scoreOfSheet.push_back(stoi(tmp));
+            }
+        }
+
+        inFile.close();
     }
 }

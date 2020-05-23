@@ -49,13 +49,11 @@ void App::run() {
 
         switch (menuAction) {
             case MainMenu::START_QUIZ: {
-                QuizFactory quizFactory;
-                string quizId = quizFactory.selectQuiz();
+                //QuizFactory quizFactory;
+                string quizId = ShowRoom::selectQuiz();
                 Quiz quiz(quizId); // loads quiz from file
                 ShowRoom showRoom(quiz);
                 showRoom.StartQuiz();
-
-                // todo
                 break;
             }
             case MainMenu::CREATE_QUIZ: {
@@ -65,6 +63,11 @@ void App::run() {
                 break;
             }
             case MainMenu::EVALUATE_QUIZ: {
+                //QuizFactory quizFactory;
+                string quizId = ShowRoom::selectQuiz();
+                string answerSheetId = ShowRoom::selectAnswersheet(quizId);
+                Quiz quiz(quizId); // loads quiz from file
+                break;
                 // TODO
             }
             case MainMenu::EXPORT_TO_TXT_QA: {}
@@ -72,8 +75,8 @@ void App::run() {
             case MainMenu::EXPORT_TO_TXT_QS: {}
             case MainMenu::EXPORT_TO_TXT_QAS: {}    // TODO
             case MainMenu::EXPORT_TO_TXT_AS: {      // TODO
-                QuizFactory quizFactory;
-                string quizId = quizFactory.selectQuiz();
+                //QuizFactory quizFactory;
+                string quizId = ShowRoom::selectQuiz();
                 Quiz quiz(quizId); // loads quiz from file
                 ShowRoom exports(quiz);
                 exports.Export(menuAction);

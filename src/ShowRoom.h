@@ -20,6 +20,9 @@ public:
     ShowRoom (Quiz quiz);
     void Export (MainMenu::MENU_ACTION action);
     void StartQuiz ();
+    static string selectQuiz ();
+    static string selectAnswersheet (string quizId);
+    static string selectFile (bool findQuiz = true, string quizId = "");
 };
 
 #endif //QUIZ_SHOWROOM_H

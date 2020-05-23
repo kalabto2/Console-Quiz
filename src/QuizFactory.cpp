@@ -119,20 +119,24 @@ void QuizFactory::addSheetDialog() {
 
     }
 }
+/*
+string QuizFactory::selectAnswersheet() {
+    return selectQuiz(false);
+}
 
-string QuizFactory::selectQuiz() {
+string QuizFactory::selectQuiz(bool findQuiz) {
     wclear(stdscr);
     refresh();
     WINDOW * upperWin = newwin(5, screenWidth, 0, 0); // fce newwin vytvori okno
     box(upperWin, 0,0); // vytvori hranice okolo okna
-    mvwprintw(upperWin, 2, screenWidth/2 - 6, "QUIZ SELECTOR");
+    mvwprintw(upperWin, 2, screenWidth/2 - 6, (findQuiz ? "QUIZ SELECTOR" : "ANSWERSHEET SELECOTR"));
     wrefresh(upperWin);
 
     vector<string> quizFileNames;
     vector< vector<string> > quizFileData;
     namespace fs = std::filesystem;
 
-    std::string path = "./files/quizzes/";
+    std::string path = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/");
     for (const auto & entry : fs::directory_iterator(path)) {
         quizFileData.push_back(Quiz::preview(entry.path()));
         quizFileNames.push_back(entry.path());
@@ -171,3 +175,4 @@ string QuizFactory::selectQuiz() {
 
     return quizFileNames[pointerPos / 2 -1];
 }
+*/
