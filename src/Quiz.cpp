@@ -152,3 +152,10 @@ vector<vector<string> > Quiz::getPrintSheets(bool printQuestion, bool printAnswe
         result.push_back(sheet.getPrintedQA(printQuestion, printAnswer, printSpaceAnswer));
     return  result;
 }
+
+vector<int> Quiz::getNumberOfQuestions() {
+    vector<int> result;
+    for (auto &sheet: sheets)
+        result.push_back(sheet.getNumberofQuestions());
+    return result;
+}

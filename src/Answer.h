@@ -17,7 +17,7 @@ class Answer {
 public:
     Answer ();
     virtual void save ();
-    virtual void construct ();
+    virtual void construct (bool creatingMode = true);
     virtual string print (bool printCorrectAnswer = true);
     string getId ();
     static shared_ptr<Answer> getAnswer (string answerId);
@@ -39,7 +39,7 @@ public:
     TextAnswer ();
     TextAnswer (string answerId);
     void save () override;
-    void construct () override;
+    void construct (bool creatingMode = true) override;
     string print(bool printCorrectAnswer = true) override ;
 
 protected:
@@ -55,7 +55,7 @@ public:
     ValueAnswer ();
     ValueAnswer (string answerId);
     void save () override;
-    void construct () override;
+    void construct (bool creatingMode = true) override;
     string print (bool printCorrectAnswer = true) override ;
 
 protected:
@@ -71,7 +71,7 @@ public:
     SingleChoiceAnswer ();
     SingleChoiceAnswer (string answerId);
     void save () override;
-    void construct () override;
+    void construct (bool creatingMode = true) override;
     void preprocess (string answer);
     string print(bool printCorrectAnswer = true) override ;
 protected:
@@ -87,7 +87,7 @@ public:
     MultipleChoiceAnswer ();
     MultipleChoiceAnswer (string answerId);
     void save () override;
-    void construct () override;
+    void construct (bool creatingMode = true) override;
     void preprocess (string answer);
     string print(bool printCorrectAnswer = true) override ;
 protected:
@@ -104,7 +104,7 @@ public:
     PairChoiceAnswer ();
     PairChoiceAnswer (string answerId);
     void save () override;
-    void construct () override;
+    void construct (bool creatingMode = true) override;
     void preprocess (string answer);
     string print(bool printCorrectAnswer = true) override ;
 protected:

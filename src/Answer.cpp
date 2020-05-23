@@ -12,6 +12,8 @@
 #include <fstream>
 #include <algorithm>
 #include <sstream>
+#include <sys/stat.h>
+#include <filesystem>
 
 
 using namespace std;
@@ -33,10 +35,20 @@ Answer::Answer() {
 }
 
 void Answer::save() {
-
+    if (std::filesystem::exists(ANSWER_FILE_PATH + id) && id.size() == 17)
+        id += "-1";
+    else if(std::filesystem::exists(ANSWER_FILE_PATH + id) && id.size() > 17){
+        string base = id.substr(0, 17);
+        string postfix = id.substr(18, id.size() - base.size() - 1);
+        int x = stoi(postfix) + 1;
+        postfix = to_string(x);
+        id = base + "-" + postfix;
+    }
+    else return;
+    Answer::save();
 }
 
-void Answer::construct() {
+void Answer::construct(bool creatingMode) {
 
 }
 
@@ -98,6 +110,7 @@ string Answer::print(bool printCorrectAnswer) {
 TextAnswer::TextAnswer() : Answer() {}
 
 void TextAnswer::save() {
+    Answer::save();
     ofstream outFile(ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
@@ -107,11 +120,17 @@ void TextAnswer::save() {
     }
 }
 
-void TextAnswer::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60);
-    bool autoEv = autoEval(inputWin, "");
+void TextAnswer::construct(bool creatingMode) {
+    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
+    int winStartX = (creatingMode ? screenWidth - 60 : 0);
+    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
+    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
+    box(inputWin, 0, 0);
+    bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
-    if (autoEv){
+    if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 4, "TEXT ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter correct answer (e.g. 'Prague'):");
         mvwprintw(inputWin, 5, 2, "> ");
         curs_set(1);
@@ -122,6 +141,10 @@ void TextAnswer::construct() {
         noecho();
         curs_set(0);
         correctAnswer = string(tmp);
+    }
+    if (!creatingMode) {
+        wclear(inputWin);
+        wrefresh(inputWin);
     }
 }
 
@@ -169,6 +192,7 @@ string TextAnswer::print(bool printCorrectAnswer) {
 ValueAnswer::ValueAnswer() : Answer() {}
 
 void ValueAnswer::save() {
+    Answer::save();
     ofstream outFile(ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
@@ -178,11 +202,17 @@ void ValueAnswer::save() {
     }
 }
 
-void ValueAnswer::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
-    bool autoEv = autoEval(inputWin, "");
+void ValueAnswer::construct(bool creatingMode) {
+    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
+    int winStartX = (creatingMode ? screenWidth - 60 : 0);
+    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
+    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
+    box(inputWin, 0, 0);
+    bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
-    if (autoEv){
+    if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 4, "VALUE ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter correct value (e.g. '55'):");
         mvwprintw(inputWin, 5, 2, "> ");
         curs_set(1);
@@ -193,6 +223,10 @@ void ValueAnswer::construct() {
         noecho();
         curs_set(0);
         correctAnswer = string(tmp);
+    }
+    if (!creatingMode) {
+        wclear(inputWin);
+        wrefresh(inputWin);
     }
 }
 
@@ -237,6 +271,7 @@ string ValueAnswer::print(bool printCorrectAnswer) {
 SingleChoiceAnswer::SingleChoiceAnswer() : Answer(), correctAnswer(0) {}
 
 void SingleChoiceAnswer::save() {
+    Answer::save();
     ofstream outFile(ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
@@ -246,11 +281,17 @@ void SingleChoiceAnswer::save() {
     }
 }
 
-void SingleChoiceAnswer::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
-    bool autoEv = autoEval(inputWin, "");
+void SingleChoiceAnswer::construct(bool creatingMode) {
+    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
+    int winStartX = (creatingMode ? screenWidth - 60 : 0);
+    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
+    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
+    box(inputWin, 0, 0);
+    bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
-    if (autoEv){
+    if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 4, "SINGLE CHOICE ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter number of correct choice (e.g. '2' -- only number):");
         mvwprintw(inputWin, 5, 2, "> ");
         curs_set(1);
@@ -261,6 +302,10 @@ void SingleChoiceAnswer::construct() {
         noecho();
         curs_set(0);
         preprocess(string(tmp));
+    }
+    if (!creatingMode) {
+        wclear(inputWin);
+        wrefresh(inputWin);
     }
 }
 
@@ -323,6 +368,7 @@ string SingleChoiceAnswer::print(bool printCorrectAnswer) {
 MultipleChoiceAnswer::MultipleChoiceAnswer() : Answer() {}
 
 void MultipleChoiceAnswer::save() {
+    Answer::save();
     ofstream outFile(ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
@@ -338,11 +384,17 @@ void MultipleChoiceAnswer::save() {
     }
 }
 
-void MultipleChoiceAnswer::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
-    bool autoEv = autoEval(inputWin, "");
+void MultipleChoiceAnswer::construct(bool creatingMode) {
+    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
+    int winStartX = (creatingMode ? screenWidth - 60 : 0);
+    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
+    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
+    box(inputWin, 0, 0);
+    bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
-    if (autoEv){
+    if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 4, "MULTIPLE CHOICE ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter number of correct choices (e.g. '2, 4, 1' -- seperated by comma in any order):");
         mvwprintw(inputWin, 5, 2, "> ");
         curs_set(1);
@@ -353,6 +405,10 @@ void MultipleChoiceAnswer::construct() {
         noecho();
         curs_set(0);
         preprocess(string(tmp));
+    }
+    if (!creatingMode) {
+        wclear(inputWin);
+        wrefresh(inputWin);
     }
 }
 
@@ -425,6 +481,7 @@ string MultipleChoiceAnswer::print(bool printCorrectAnswer) {
 PairChoiceAnswer::PairChoiceAnswer() : Answer() {}
 
 void PairChoiceAnswer::save() {
+    Answer::save();
     ofstream outFile(ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
@@ -443,11 +500,17 @@ void PairChoiceAnswer::save() {
     }
 }
 
-void PairChoiceAnswer::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5 + ((screenHeight - 5) / 2), 60); // fce newwin vytvori okno
-    bool autoEv = autoEval(inputWin, "");
+void PairChoiceAnswer::construct(bool creatingMode) {
+    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
+    int winStartX = (creatingMode ? screenWidth - 60 : 0);
+    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
+    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
+    box(inputWin, 0, 0);
+    bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
-    if (autoEv){
+    if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 4, "PAIR CHOICE ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter paired number of correct choices (e.g. '2 + 3, 4 + 6, 1 + 5' -- separated by comma, paired with plus and in any order):");
         mvwprintw(inputWin, 5, 2, "> ");
         curs_set(1);
@@ -458,6 +521,10 @@ void PairChoiceAnswer::construct() {
         noecho();
         curs_set(0);
         preprocess(string(tmp));
+    }
+    if (!creatingMode) {
+        wclear(inputWin);
+        wrefresh(inputWin);
     }
 }
 

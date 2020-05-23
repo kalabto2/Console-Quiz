@@ -16,12 +16,16 @@ private:
     string author;
     string id;
     Quiz quiz;
-    vector<shared_ptr<Answer> > answers;
-    vector<int> score;
-
+    vector<vector<shared_ptr<Answer> > > answers;
+    vector<vector<int> > score;
+    vector<int> numOfQuestions;
+    bool evaluated = false;
 public:
-    AnswerSheet ();
+    AnswerSheet (Quiz q);
     void renderInput (int sheetIndex, int answerIndex);
+    void save ();
+
+    string ANSWERSHEET_FILE_PATH = "files/answerSheets/";
 };
 
 #endif //QUIZ_ANSWERSHEET_H

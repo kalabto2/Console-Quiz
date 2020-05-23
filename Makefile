@@ -77,7 +77,7 @@ build/Answer.o: src/Answer.cpp src/Answer.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 ## Třída 'ShowRoom.cpp'
-build/ShowRoom.o: src/ShowRoom.cpp src/ShowRoom.h src/Quiz.h src/MainMenu.h
+build/ShowRoom.o: src/ShowRoom.cpp src/ShowRoom.h src/Quiz.h src/MainMenu.h src/AnswerSheet.h
 	mkdir -p build
 	$(CC) $(CFLAGS) -c $< -o $@
 

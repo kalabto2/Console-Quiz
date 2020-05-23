@@ -24,12 +24,15 @@ public:
     tuple < vector<string>, vector< vector<int> > > getPrintedSheets (bool printQuestion = true, bool printAnswer = false, bool PrintSpaceAnswer = false);
     void renderInput (int sheetIndex, int answerIndex);
     vector< vector<string> > getPrintSheets (bool printQuestion = true, bool printAnswer = false, bool PrintSpaceAnswer = false);
+    vector<int> getNumberOfQuestions ();
 protected:
     vector<Sheet> sheets;
     string id;
     string name;
 
-    const string QUIZ_FILE_PATH = "files/quizzes/";
+    string QUIZ_FILE_PATH = "files/quizzes/";
+
+    friend class AnswerSheet;
 };
 
 #endif //QUIZ_QUIZ_H

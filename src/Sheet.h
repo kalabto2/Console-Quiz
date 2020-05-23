@@ -26,9 +26,10 @@ public:
     vector<string> getPrintedQA (bool printQuestion = true, bool printAnswer = true, bool printSpaceAnswer = true);
     vector<int> getLines (bool printQuestion = true, bool printAnswer = true, bool printSpaceAnswer = true);
     void renderInput (int answerIndex);
+    int getNumberofQuestions();
 protected:
     enum SHEET_OPTION {FINISH_SHEET, ADD_QUESTION};
-    const string SHEET_FILE_PATH = "files/sheets/";
+    string SHEET_FILE_PATH = "files/sheets/";
 
     string id;
     int screenWidth, screenHeight;
@@ -36,6 +37,9 @@ protected:
     vector<shared_ptr<Answer> >     answers;
 
     SHEET_OPTION choosePanel ();
+
+    friend class Quiz;
+    friend class AnswerSheet;
 };
 
 #endif //QUIZ_SHEET_H

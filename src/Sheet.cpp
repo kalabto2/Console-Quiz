@@ -264,3 +264,7 @@ vector<int> Sheet::getLines(bool printQuestion, bool printAnswer, bool printSpac
 void Sheet::renderInput(int answerIndex) {
     answers[answerIndex].get()->construct();
 }
+
+int Sheet::getNumberofQuestions() {
+    return questions.size();
+}

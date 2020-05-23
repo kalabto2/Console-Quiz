@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include "ShowRoom.h"
+#include "AnswerSheet.h"
 
 const int QUIZ_FACTORY_DIALOG_HEIGHT = 10;
 const int QUIZ_FACTORY_DIALOG_WIDTH = 50;
@@ -74,6 +75,7 @@ void ShowRoom::StartQuiz() {
     vector <string> sheets;
     tie(sheets, sheetCursorHeight) = quiz.getPrintedSheets(true, true);
     //vector <vector<string> > printedQuestions = quiz.getPrintSheets(true,true,false);
+    AnswerSheet answerSheet(quiz);
 
     for (auto &i: sheetCursorHeight) {
         i[i.size() - 1] += 2;
@@ -172,9 +174,10 @@ void ShowRoom::StartQuiz() {
                     previous = true;
                     break;
                 }
-                quiz.renderInput(j,selection);
+                //quiz.renderInput(j,selection);
+                answerSheet.renderInput(j, selection);
                 scrollWin(showWin, output, 0);
-            } else if (c == ' ')
+                wrefresh(showWin);            } else if (c == ' ')
                 scrollWin(showWin, output, 1);
             /*mvwprintw(showWin, 1, 10, to_string(selection).c_str());
             wrefresh(showWin);*/
@@ -185,6 +188,7 @@ void ShowRoom::StartQuiz() {
             continue;
         }
     }
+    answerSheet.save();
 
     /* TODO tady udelat oznameni po kvizu  + vyhodnoceni/ veci pro evaluation */
 }
