@@ -7,10 +7,12 @@
 
 #include "Quiz.h"
 #include "MainMenu.h"
+#include "AnswerSheet.h"
 
 class ShowRoom {
 private:
     Quiz quiz;
+    AnswerSheet answerSheet;
     int screenWidth, screenHeight, showWinScroll = 0;
     void scrollWin (WINDOW * window, string content, int scrolledLines);
 
@@ -18,8 +20,10 @@ private:
 
 public:
     ShowRoom (Quiz quiz);
+    ShowRoom (string quizId);
+    ShowRoom (string quizId, string answerSheetId);
     void Export (MainMenu::MENU_ACTION action);
-    void StartQuiz ();
+    void StartQuiz (bool fillMode = true);
     static string selectQuiz ();
     static string selectAnswersheet (string quizId);
     static string selectFile (bool findQuiz = true, string quizId = "");

@@ -24,7 +24,10 @@ public:
     AnswerSheet (Quiz q);
     AnswerSheet (Quiz q, string id);
     void renderInput (int sheetIndex, int answerIndex);
+    void renderEvaluation (int sheetIndex, int answerIndex);
     void save ();
+    //tuple < vector<string>, vector< vector<int> > > getPrintedSheets (bool printQuestion, bool printAnswer);
+    void setEvaluated (bool setting);
     static vector<string> preview (const string & id);
 
     string ANSWERSHEET_FILE_PATH = "files/answerSheets/";

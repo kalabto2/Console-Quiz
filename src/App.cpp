@@ -66,7 +66,9 @@ void App::run() {
                 //QuizFactory quizFactory;
                 string quizId = ShowRoom::selectQuiz();
                 string answerSheetId = ShowRoom::selectAnswersheet(quizId);
-                Quiz quiz(quizId); // loads quiz from file
+                //Quiz quiz(quizId); // loads quiz from file
+                ShowRoom showRoom(quizId, answerSheetId);
+                showRoom.StartQuiz(false);
                 break;
                 // TODO
             }

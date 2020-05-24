@@ -103,6 +103,10 @@ string Answer::print(bool printCorrectAnswer) {
     return "Error :: vypsala se supperclass - data byla ztracena";
 }
 
+bool Answer::equal(shared_ptr<Answer> &a) {
+    return false;
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -185,6 +189,10 @@ string TextAnswer::print(bool printCorrectAnswer) {
     return res + "\n";
 }
 
+bool TextAnswer::equal(shared_ptr<Answer> &a) {
+    return dynamic_cast<TextAnswer*>(a.get())->correctAnswer == correctAnswer;
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -262,6 +270,10 @@ string ValueAnswer::print(bool printCorrectAnswer) {
                 "> ______________________________________________________________________________________________________________\n";
     }
     return res + "\n";
+}
+
+bool ValueAnswer::equal(shared_ptr<Answer> &a) {
+    return dynamic_cast<ValueAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
 
 
@@ -359,6 +371,10 @@ string SingleChoiceAnswer::print(bool printCorrectAnswer) {
                 "> ______________________________________________________________________________________________________________\n";
     }
     return res + "\n";
+}
+
+bool SingleChoiceAnswer::equal(shared_ptr<Answer> &a) {
+    return dynamic_cast<SingleChoiceAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
 
 
@@ -472,6 +488,10 @@ string MultipleChoiceAnswer::print(bool printCorrectAnswer) {
                 "> ______________________________________________________________________________________________________________\n";
     }
     return res + "\n";
+}
+
+bool MultipleChoiceAnswer::equal(shared_ptr<Answer> &a) {
+    return dynamic_cast<MultipleChoiceAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
 
 
@@ -613,4 +633,8 @@ string PairChoiceAnswer::print(bool printCorrectAnswer) {
                 "> ______________________________________________________________________________________________________________\n";
     }
     return res + "\n";
+}
+
+bool PairChoiceAnswer::equal(shared_ptr<Answer> &a) {
+    return dynamic_cast<PairChoiceAnswer*>(a.get())->correctAnswer == correctAnswer;
 }

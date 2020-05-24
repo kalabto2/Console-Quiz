@@ -19,6 +19,7 @@ public:
     virtual void save ();
     virtual void construct (bool creatingMode = true);
     virtual string print (bool printCorrectAnswer = true);
+    virtual bool equal (shared_ptr<Answer> & a);
     string getId ();
     static shared_ptr<Answer> getAnswer (string answerId);
 protected:
@@ -41,6 +42,7 @@ public:
     void save () override;
     void construct (bool creatingMode = true) override;
     string print(bool printCorrectAnswer = true) override ;
+    bool equal (shared_ptr<Answer> & a) override ;
 
 protected:
     string correctAnswer = "";
@@ -57,6 +59,7 @@ public:
     void save () override;
     void construct (bool creatingMode = true) override;
     string print (bool printCorrectAnswer = true) override ;
+    bool equal (shared_ptr<Answer> & a) override ;
 
 protected:
     string correctAnswer = "";
@@ -74,6 +77,8 @@ public:
     void construct (bool creatingMode = true) override;
     void preprocess (string answer);
     string print(bool printCorrectAnswer = true) override ;
+    bool equal (shared_ptr<Answer> & a) override ;
+
 protected:
     int correctAnswer;
 };
@@ -90,6 +95,8 @@ public:
     void construct (bool creatingMode = true) override;
     void preprocess (string answer);
     string print(bool printCorrectAnswer = true) override ;
+    bool equal (shared_ptr<Answer> & a) override ;
+
 protected:
     set<int> correctAnswer;
 
@@ -107,6 +114,8 @@ public:
     void construct (bool creatingMode = true) override;
     void preprocess (string answer);
     string print(bool printCorrectAnswer = true) override ;
+    bool equal (shared_ptr<Answer> & a) override ;
+
 protected:
     set< set<int> > correctAnswer;
 };

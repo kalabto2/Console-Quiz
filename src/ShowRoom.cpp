@@ -8,12 +8,19 @@
 #include <filesystem>
 
 #include "ShowRoom.h"
-#include "AnswerSheet.h"
 
 const int QUIZ_FACTORY_DIALOG_HEIGHT = 10;
 const int QUIZ_FACTORY_DIALOG_WIDTH = 50;
 
-ShowRoom::ShowRoom(Quiz quiz) : quiz(quiz) {
+ShowRoom::ShowRoom(Quiz quiz) : quiz(quiz), answerSheet(quiz){
+    getmaxyx(stdscr, screenHeight, screenWidth);
+}
+
+ShowRoom::ShowRoom(string quizId) : quiz(quizId), answerSheet(quiz){
+    getmaxyx(stdscr, screenHeight, screenWidth);
+}
+
+ShowRoom::ShowRoom(string quizId, string answerSheetId) : quiz(quizId), answerSheet(quiz, answerSheetId){
     getmaxyx(stdscr, screenHeight, screenWidth);
 }
 
@@ -62,21 +69,20 @@ void ShowRoom::Export(MainMenu::MENU_ACTION action) {
     }
 }
 
-void ShowRoom::StartQuiz() {
+void ShowRoom::StartQuiz(bool fillMode) {
     wclear(stdscr);
     refresh();
     WINDOW * upperWin = newwin(5, screenWidth, 0, 0);
     box(upperWin, 0,0);
-    mvwprintw(upperWin, 2, screenWidth/2 - 6, "START FILLING!");
+    mvwprintw(upperWin, 2, screenWidth/2 - 6, (fillMode ? "START FILLING!" : "EVALUATE QUIZ"));
     mvwprintw(upperWin, 2, 7, ("Quiz - " + quiz.getName()).c_str());
     mvwprintw(upperWin, 2, screenWidth - 7 - 20, ("id: " + quiz.getId()).c_str());
     wrefresh(upperWin);
 
     vector <vector <int> > sheetCursorHeight;
     vector <string> sheets;
-    tie(sheets, sheetCursorHeight) = quiz.getPrintedSheets(true, true);
-    //vector <vector<string> > printedQuestions = quiz.getPrintSheets(true,true,false);
-    AnswerSheet answerSheet(quiz);
+    tie(sheets, sheetCursorHeight) = quiz.getPrintedSheets(true, false);//todo here
+    //AnswerSheet answerSheet(quiz);
 
     for (auto &i: sheetCursorHeight) {
         i[i.size() - 1] += 2;
@@ -86,73 +92,24 @@ void ShowRoom::StartQuiz() {
     for (size_t j = 0; j < sheets.size(); j++) {
         showWinScroll = 0;
         int winHeight = count(sheets[j].begin(), sheets[j].end(), '\n') + 8;
-        //sheetCursorHeight[j][sheetCursorHeight[j].size() - 1] += 2;
-        //sheetCursorHeight[j].push_back(2);
         WINDOW *showWin = newwin(winHeight, screenWidth, 6, 0);
         scrollok(showWin, true);
 
         string output = sheets[j];
         int numberOfOptions = sheetCursorHeight[j].size();
-
-        /*int rows = 5;
-        wmove(showWin, rows, 5);
-        for (int i = 0; i < output.size(); i++) {
-            if (output[i] == '\n') {
-                wmove(showWin, ++rows, 5);
-                wrefresh(showWin);
-                continue;
-            }
-            string sym(1, output[i]);
-            wprintw(showWin, sym.c_str());
-        }
-        // wmove(showWin, screenHeight * 2, 5);
-
-        if (j != 0)
-            mvwprintw(showWin, winHeight - 7, 5, "PREVIOUS SHEET");
-        if (j < sheets.size())
-            mvwprintw(showWin, winHeight - 5, 5, "NEXT SHEET");
-        else
-            mvwprintw(showWin, winHeight - 5, 5, "FINISH QUIZ!");*/
-        scrollWin(showWin, output, 0);
-        /*getch();
-        wscrl(showWin, 10);
-        wrefresh(showWin);
-        getch();
-        wscrl(showWin, 10);
-        wrefresh(showWin);
-        getch();
-        wscrl(showWin, -10);
-        wrefresh(showWin);
-        getch();*/
-       /* wmove(showWin, 0, 5);
-        for (auto & i: sheetCursorHeight[j])
-            wprintw(showWin, (to_string(i) + " ").c_str());
-        wmove(showWin, 1, 5);
-
-        wprintw(showWin, to_string(numberOfOptions).c_str());
-
-        //mvwprintw(showWin, 5, 2, "=>");
-        wrefresh(showWin);*/
+        scrollWin(showWin, output, 0);  // for first rendering
 
         bool previous = false;
         int c, selection = 0;
         while (true){
             c = getch();
             if (c == 'w' || c == KEY_UP){
-                /*mvwprintw(showWin, sheetCursorHeight[j][(selection - 1 < 0 ? 0 : selection - 1)], 2, "  " );
-                selection = (selection - 1 < 0 ? 0 : selection - 1);
-                mvwprintw(showWin, sheetCursorHeight[j][(selection - 1 < 0 ? 0 : selection - 1)], 2, "=>");
-                wrefresh(showWin);*/
                 int lastSelection = selection;
                 selection = (selection - 1 < 0 ? 0 : selection - 1);
                 if (lastSelection == 0)
                     continue;
                 scrollWin(showWin, output, -sheetCursorHeight[j][selection]);
             } else if (c == 's' || c == KEY_DOWN){
-                /*mvwprintw(showWin, sheetCursorHeight[j][(selection - 1 < 0 ? 0 : selection - 1)], 2, "  " );
-                selection = (selection + 1 > numberOfOptions - 1 ? numberOfOptions - 1 : selection + 1);
-                mvwprintw(showWin, sheetCursorHeight[j][(selection - 1 < 0 ? 0 : selection - 1)], 2, "=>");
-                wrefresh(showWin);*/
                 int lastSelection = selection;
                 selection = (selection + 1 > numberOfOptions ? numberOfOptions : selection + 1);
                 if (selection <= 0 || lastSelection == numberOfOptions)
@@ -175,13 +132,15 @@ void ShowRoom::StartQuiz() {
                     previous = true;
                     break;
                 }
-                //quiz.renderInput(j,selection);
-                answerSheet.renderInput(j, selection);
+                if (fillMode)
+                    answerSheet.renderInput(j, selection);
+                else
+                    answerSheet.renderEvaluation(j, selection);
+
                 scrollWin(showWin, output, 0);
-                wrefresh(showWin);            } else if (c == ' ')
+                wrefresh(showWin);
+            } else if (c == ' ')
                 scrollWin(showWin, output, 1);
-            /*mvwprintw(showWin, 1, 10, to_string(selection).c_str());
-            wrefresh(showWin);*/
         }
 
         if (previous){
@@ -189,6 +148,8 @@ void ShowRoom::StartQuiz() {
             continue;
         }
     }
+    if (!fillMode)
+        answerSheet.setEvaluated(true);
     answerSheet.save();
 
     /* TODO tady udelat oznameni po kvizu  + vyhodnoceni/ veci pro evaluation */
