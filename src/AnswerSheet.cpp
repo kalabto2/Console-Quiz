@@ -5,6 +5,7 @@
 #include <fstream>
 #include <typeinfo>
 #include <sstream>
+#include <numeric>
 #include "AnswerSheet.h"
 
 AnswerSheet::AnswerSheet(Quiz quiz1) {
@@ -179,9 +180,9 @@ void AnswerSheet::renderEvaluation(int sheetIndex, int answerIndex) {
         wprintw(evalWin, sym.c_str());
     }
 
+    //if (quiz.sheets[sheetIndex].answers[answerIndex].get().)
     mvwprintw(evalWin, ++rows, 5, (answers[sheetIndex][answerIndex].get()->equal(quiz.sheets[sheetIndex].answers[answerIndex]) ? "Auto Evaluated: 1" : "Auto Evaluated: 0"));
-
-    mvwprintw(evalWin, ++rows, 5, "Score for this answer (number; e.g. 0/1)");
+    mvwprintw(evalWin, ++rows, 5, "Score for this answer (number; e.g. 0/1)");  // TODO
     mvwprintw(evalWin, ++rows, 3, "> ");
     wrefresh(evalWin);
     char name2[100];
@@ -197,4 +198,53 @@ void AnswerSheet::renderEvaluation(int sheetIndex, int answerIndex) {
 
 void AnswerSheet::setEvaluated(bool) {
     evaluated = true;
+}
+
+string AnswerSheet::print(bool printQuestions) {
+    string result;
+
+    ifstream bannerFile ("files/banner");
+    if (bannerFile.is_open())
+    {
+        string line;
+        int i = 0;
+        while ( getline (bannerFile,line) )
+        {
+            result += "\t" + line + "\n";
+            i++;
+        }
+        wrefresh(stdscr);
+        bannerFile.close();
+    }
+    int finalScore = 0;
+    for ( auto &sh : score){
+        finalScore += accumulate(sh.begin(), sh.end(), 0);
+    }
+
+    result += "\n\tQuiz name: " + quiz.name + "\n\tCreated " + id + "\t\tAuthor: " + author + "\n\tFINAL SCORE: " +
+            to_string(finalScore) + "\t" + (evaluated? "evaluated" : "not evaluated") + "\n";
+
+    for (int shNum = 0; shNum < answers.size(); shNum ++){
+        result +=
+        "------------------------------------------------------------------------------------------------------------------------"
+        "\nSheet no. " + to_string(shNum + 1) + "\n"
+        "------------------------------------------------------------------------------------------------------------------------"
+        "\n";
+        for (int qaNum = 0; qaNum < answers[shNum].size(); qaNum ++){
+            result += "----------------------------------------------------\n";
+            if (printQuestions){
+                result += "\tQ no. " + to_string(qaNum + 1) + "\n";
+                result += quiz.sheets[shNum].questions[qaNum].get()->print();
+            }
+            result += "\n\tA no. " + to_string(qaNum + 1) + " -- score: " + to_string(score[shNum][qaNum]) + "\n";
+            result += answers[shNum][qaNum].get()->print(true);
+            result += "----------------------------------------------------\n";
+        }
+    }
+
+    return result;
+}
+
+void AnswerSheet::setAuthor(const string &author) {
+    AnswerSheet::author = author;
 }

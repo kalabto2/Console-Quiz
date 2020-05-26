@@ -26,8 +26,12 @@ public:
     void renderInput (int sheetIndex, int answerIndex);
     void renderEvaluation (int sheetIndex, int answerIndex);
     void save ();
+    string print (bool printQuestions);
     //tuple < vector<string>, vector< vector<int> > > getPrintedSheets (bool printQuestion, bool printAnswer);
     void setEvaluated (bool setting);
+
+    void setAuthor(const string &author);
+
     static vector<string> preview (const string & id);
 
     string ANSWERSHEET_FILE_PATH = "files/answerSheets/";

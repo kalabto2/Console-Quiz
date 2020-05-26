@@ -9,7 +9,6 @@
 #include <string>
 #include <fstream>
 
-#define PAUSE_MENU_WINDOW_HEIGHT 10
 #define MAIN_MENU_WINDOW_HEIGHT 20
 #define MAIN_MENU_WINDOW_WIDTH 40
 #define MAIN_MENU_CONTINUE_HEIGHT 5
@@ -36,9 +35,9 @@ public:
         EXPORT_TO_TXT_AS, NONE, EXPORT_TO_TXT_QS, EXPORT_TO_TXT_QAS
     };
 
-    MainMenu();
+    MainMenu(bool studentMode = false);
     ~MainMenu();
-    MENU_ACTION run();
+    MENU_ACTION run(bool studentMode = false);
     void extendedWindow (int type);
     void refresh();
 

@@ -46,20 +46,23 @@ void ShowRoom::Export(MainMenu::MENU_ACTION action) {
     noecho();
     curs_set(0);
 
-    bool printQuestion = true, printAnswer = true, printAnswerSpace = false;
+    //bool printQuestion = true, printAnswer = true, printAnswerSpace = false;
+    string output;
     if (action == MainMenu::EXPORT_TO_TXT_QA){
-
+        output = quiz.print(true, true, false);
     } else if (action == MainMenu::EXPORT_TO_TXT_Q){
-        printAnswer = false;
+        //printAnswer = false;
+        output = quiz.print(true, false, false);
     } else if (action == MainMenu::EXPORT_TO_TXT_QS){
-        printAnswer = false;
-        printAnswerSpace = true;
+        //printAnswer = false;
+        //printAnswerSpace = true;
+        output = quiz.print(true, false, true);
     } else if (action == MainMenu::EXPORT_TO_TXT_QAS){  // TODO
-
+        output = answerSheet.print(true);
     } else if (action == MainMenu::EXPORT_TO_TXT_AS){   // TODO
-
+        output = answerSheet.print(false);
     }
-    string output = quiz.print(printQuestion,printAnswer, printAnswerSpace);
+    //string output = quiz.print(printQuestion,printAnswer, printAnswerSpace);
 
     ofstream outFile(EXPORTS_FILE_PATH + string(name2));
     if (outFile.is_open())
@@ -82,7 +85,6 @@ void ShowRoom::StartQuiz(bool fillMode) {
     vector <vector <int> > sheetCursorHeight;
     vector <string> sheets;
     tie(sheets, sheetCursorHeight) = quiz.getPrintedSheets(true, false);//todo here
-    //AnswerSheet answerSheet(quiz);
 
     for (auto &i: sheetCursorHeight) {
         i[i.size() - 1] += 2;
@@ -202,27 +204,35 @@ string ShowRoom::selectFile(bool findQuiz, string quizId) {
     mvwprintw(upperWin, 2, screenWidth/2 - 7, (findQuiz ? "QUIZ SELECTOR" : "ANSWERSHEET SELECTOR"));
     wrefresh(upperWin);
 
-    vector<string> quizFileNames;
-    vector< vector<string> > quizFileData;
+    vector<string> fileNames;
+    vector< vector<string> > fileData;
     namespace fs = std::filesystem;
 
     std::string path = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/");
     for (const auto & entry : fs::directory_iterator(path)) {
         vector<string> a = (findQuiz ? Quiz::preview(entry.path()) : AnswerSheet::preview(entry.path()));
         if (findQuiz || a[3] == quizId.substr(string("./files/quizzes/").size())) {
-            quizFileData.push_back(a);
-            quizFileNames.push_back(entry.path());
+            fileData.push_back(a);
+            fileNames.push_back(entry.path());
         }
     }
 
     WINDOW * showWin = newwin(screenHeight - 5, screenWidth, 6, 0); // fce newwin vytvori okno
     box(showWin, 0,0); // vytvori hranice okolo okna
 
-    for (size_t i = 0; i < quizFileNames.size(); i++){
-        mvwprintw(showWin, 2 + i * 2, 10, quizFileNames[i].substr(quizFileNames[i].size() - 17).c_str());
-        mvwprintw(showWin, 2 + i * 2, 50, quizFileData[i][1].c_str());
+    if (fileNames.empty()){
+        mvwprintw(showWin, 2, 10, (findQuiz ? "NO QUIZ FOUND" : ("NO ANSWERSHEET TO " + quizId + " FOUND").c_str()));
+        mvwprintw(showWin, 3, 10, "Press any key ...");
+        wrefresh(showWin);
+        getch();
+        return "";
+    }
+
+    for (size_t i = 0; i < fileNames.size(); i++){
+        mvwprintw(showWin, 2 + i * 2, 10, fileNames[i].substr(fileNames[i].size() - 17).c_str());
+        mvwprintw(showWin, 2 + i * 2, 50, fileData[i][1].c_str());
         if (!findQuiz)
-            mvwprintw(showWin, 2 + i * 2, 75, quizFileData[i][2].c_str());
+            mvwprintw(showWin, 2 + i * 2, 75, fileData[i][2].c_str());
     }
     wrefresh(showWin);
 
@@ -239,7 +249,7 @@ string ShowRoom::selectFile(bool findQuiz, string quizId) {
 
         if (a == KEY_DOWN || a == 's') {
             mvwprintw(showWin, pointerPos, 3, "  ");
-            pointerPos += (pointerPos < 2 * quizFileNames.size() ? 2 : 0);
+            pointerPos += (pointerPos < 2 * fileNames.size() ? 2 : 0);
         } else if (a == KEY_UP || a == 'w') {
             mvwprintw(showWin, pointerPos, 3, "  ");
             pointerPos -= (pointerPos > 2 ? 2 : 0);
@@ -248,5 +258,9 @@ string ShowRoom::selectFile(bool findQuiz, string quizId) {
         wrefresh(showWin);
     }
 
-    return quizFileNames[pointerPos / 2 -1];
+    return fileNames[pointerPos / 2 - 1];
+}
+
+void ShowRoom::setAuthor(string author) {
+    answerSheet.setAuthor(author);
 }

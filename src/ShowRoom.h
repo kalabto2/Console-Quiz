@@ -22,6 +22,7 @@ public:
     ShowRoom (Quiz quiz);
     ShowRoom (string quizId);
     ShowRoom (string quizId, string answerSheetId);
+    void setAuthor (string author);
     void Export (MainMenu::MENU_ACTION action);
     void StartQuiz (bool fillMode = true);
     static string selectQuiz ();

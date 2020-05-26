@@ -152,7 +152,7 @@ void MainMenu::extendedWindow(int type) {
 
 }
 
-MainMenu::MainMenu() {
+MainMenu::MainMenu(bool studentMode) {
     getmaxyx(stdscr, screenHeight, screenWidth);   // ziska rozmery obrazovky
     wclear(stdscr);
 
@@ -175,13 +175,20 @@ MainMenu::MainMenu() {
     refresh(); // refreshne screen
     box(mainWin, 0,0); // vytvori hranice okolo okna statWin
     //mvwprintw(mainWin, 0, 10, "MAIN MENU"); // vypise do okna
-    mvwprintw(mainWin, 2, 4, "START QUIZ"); // vypise do okna
-    mvwprintw(mainWin, 4, 4, "CREATE QUIZ"); // vypise do okna
-    mvwprintw(mainWin, 6, 4, "EVALUATE QUIZ"); // vypise do okna
-    mvwprintw(mainWin, 8, 4, "EXPORT / IMPORT"); // vypise do okna
-    mvwprintw(mainWin, 10, 4, "SETTINGS"); // vypise do okna
-    mvwprintw(mainWin, 12, 4, "HELP"); // vypise do okna
-    mvwprintw(mainWin, 14, 4, "EXIT"); // vypise do okna
+    if (!studentMode) {
+        mvwprintw(mainWin, 2, 4, "START QUIZ"); // vypise do okna
+        mvwprintw(mainWin, 4, 4, "CREATE QUIZ"); // vypise do okna
+        mvwprintw(mainWin, 6, 4, "EVALUATE QUIZ"); // vypise do okna
+        mvwprintw(mainWin, 8, 4, "EXPORT / IMPORT"); // vypise do okna
+        mvwprintw(mainWin, 10, 4, "SETTINGS"); // vypise do okna
+        mvwprintw(mainWin, 12, 4, "HELP"); // vypise do okna
+        mvwprintw(mainWin, 14, 4, "EXIT"); // vypise do okna
+    }
+    else{
+        mvwprintw(mainWin, 2, 4, "START QUIZ");
+        mvwprintw(mainWin, 4, 4, "HELP");
+        mvwprintw(mainWin, 6, 4, "EXIT");
+    }
     wrefresh(mainWin); // refreshne okno
 }
 
@@ -190,11 +197,15 @@ void MainMenu::refresh() {
     wrefresh(extendedWin);
 }
 
-MainMenu::MENU_ACTION MainMenu::run() {
-    int curSelection = 0;
-    int movement;
+MainMenu::MENU_ACTION MainMenu::run(bool studentMode) {
+    int curSelection = 0, movement;
+    int numOfSelection = (studentMode ? 3 : 7);
     while(true) {
-        mvwprintw(mainWin, 2 + 2*curSelection, 2, "->");
+        if (studentMode){
+            mvwprintw(mainWin, (curSelection == 0 ? 2 : 2 + (curSelection - 4) * 2), 2, "->");
+        }
+        else
+            mvwprintw(mainWin, 2 + 2*curSelection, 2, "->");
         wrefresh(mainWin);
 
         extendedWindow(curSelection);
@@ -202,12 +213,31 @@ MainMenu::MENU_ACTION MainMenu::run() {
 
         movement = getch();
 
-        mvwprintw(mainWin, 2 + 2*curSelection, 2, "  ");
+        if (studentMode){
+            mvwprintw(mainWin, (curSelection == 0 ? 2 : 2 + (curSelection - 4) * 2), 2, "  ");
+        }
+        else
+            mvwprintw(mainWin, 2 + 2*curSelection, 2, "  ");
 
-        if (movement == 'w' || movement == KEY_UP)
-            curSelection = curSelection > 0 ? curSelection - 1 : curSelection;
-        else if (movement == 's' || movement == KEY_DOWN)
-            curSelection = curSelection < 6 ? curSelection + 1 : curSelection;
+        if (movement == 'w' || movement == KEY_UP){
+            if (studentMode){
+                if (curSelection == 6)
+                    curSelection = 5;
+                else if (curSelection == 5)
+                    curSelection = 0;
+            } else
+                curSelection = curSelection > 0 ? curSelection - 1 : curSelection;
+        }
+        else if (movement == 's' || movement == KEY_DOWN){
+            if (studentMode){
+                if (curSelection == 0)
+                    curSelection = 5;
+                else if (curSelection == 5)
+                    curSelection = 6;
+            }
+            else
+                curSelection = curSelection < numOfSelection - 1 ? curSelection + 1 : curSelection;
+        }
         else if (movement == 27 ) // 27 == klavesa ESC
             return EXIT;
         else if (movement == KEY_ENTER || movement == KEY_RIGHT){
@@ -258,7 +288,7 @@ MainMenu::MENU_ACTION MainMenu::run() {
                             return  (selection == 0 ? EXPORT_TO_TXT_QA  :
                                     (selection == 1 ? EXPORT_TO_TXT_Q   :
                                     (selection == 2 ? EXPORT_TO_TXT_QS  :
-                                    (selection == 3 ? EXPORT_TO_TXT_QAS : EXPORT_TO_TXT_AS ))));
+                                    (selection == 3 ? EXPORT_TO_TXT_AS : EXPORT_TO_TXT_QAS ))));
                         }
                         else if (c == 'n' || c == KEY_LEFT)
                             break;

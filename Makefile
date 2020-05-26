@@ -10,7 +10,8 @@ all: compile doc
 
 ## Vygenerování dokumentace
 .PHONY: doc
-doc: src/main.cpp
+doc: src/main.cpp src/App.h
+	doxygen Doxyfile
 
 ## Kompilace
 compile: $(PROGRAM)

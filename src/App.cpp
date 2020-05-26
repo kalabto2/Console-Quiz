@@ -41,18 +41,19 @@ App::~App() {
     endwin(); // dealokuje pamet a ukonci ncurses
 }
 
-void App::run() {
+void App::run(bool studentMode) {
     while (true) {
-        MainMenu mainMenu;
+        MainMenu mainMenu (studentMode);
         MainMenu::MENU_ACTION menuAction;
-        menuAction = mainMenu.run();
+        menuAction = mainMenu.run(studentMode);
 
+        /// Makes certain action
         switch (menuAction) {
             case MainMenu::START_QUIZ: {
-                //QuizFactory quizFactory;
                 string quizId = ShowRoom::selectQuiz();
-                Quiz quiz(quizId); // loads quiz from file
-                ShowRoom showRoom(quiz);
+                if (quizId.empty()) break;
+                ShowRoom showRoom(quizId);
+                showRoom.setAuthor(username);
                 showRoom.StartQuiz();
                 break;
             }
@@ -63,51 +64,53 @@ void App::run() {
                 break;
             }
             case MainMenu::EVALUATE_QUIZ: {
-                //QuizFactory quizFactory;
                 string quizId = ShowRoom::selectQuiz();
+                if (quizId.empty()) break;
                 string answerSheetId = ShowRoom::selectAnswersheet(quizId);
-                //Quiz quiz(quizId); // loads quiz from file
+                if (answerSheetId.empty()) break;
                 ShowRoom showRoom(quizId, answerSheetId);
                 showRoom.StartQuiz(false);
                 break;
-                // TODO
             }
             case MainMenu::EXPORT_TO_TXT_QA: {}
             case MainMenu::EXPORT_TO_TXT_Q: {}
-            case MainMenu::EXPORT_TO_TXT_QS: {}
-            case MainMenu::EXPORT_TO_TXT_QAS: {}    // TODO
-            case MainMenu::EXPORT_TO_TXT_AS: {      // TODO
-                //QuizFactory quizFactory;
+            case MainMenu::EXPORT_TO_TXT_QS: {
                 string quizId = ShowRoom::selectQuiz();
-                Quiz quiz(quizId); // loads quiz from file
+                if (quizId.empty()) break;
+                Quiz quiz(quizId);
                 ShowRoom exports(quiz);
                 exports.Export(menuAction);
                 break;
             }
-            case MainMenu::NONE: {
-                // TODO ?
+            case MainMenu::EXPORT_TO_TXT_QAS: {}
+            case MainMenu::EXPORT_TO_TXT_AS: {
+                string quizId = ShowRoom::selectQuiz();
+                if (quizId.empty()) break;
+                string answerSheetId = ShowRoom::selectAnswersheet(quizId);
+                if (answerSheetId.empty()) break;
+                ShowRoom exports(quizId, answerSheetId);
+                exports.Export(menuAction);
+                break;
+            }
+            case MainMenu::NONE: { // TODO ?
+                break;
             }
             case MainMenu::EXIT:
                 return;
-            default: {/*
-                if (menuAction >= 200 && menuAction < 300) {    // CHOOSE LEVEL
-                    string line;
-                    ifstream chooseLvlFile("evaluate");
-                    if (chooseLvlFile.is_open()) {
-                        int i = 0;
-                        while (getline(chooseLvlFile, line)) {
-                            if (i == (2 + 3 + 2 + 4 * (menuAction - 200)))
-                                break;
-                            i++;
-                        }
-                        chooseLvlFile.close();
-
-                        game = new Game(line);
-                        game->run();
-                    }
-                    break;
-                }*/
-            }
         }
     }
 }
+
+string App::getInfo() {
+    string output = "EXECUTION: ./kalabto2  [MODE|PARAMETERS]:\n\n"
+                    "PARAMETERS:\n\t--help\n\tprints info about application"
+                    "\n\t--import\n\tstarts importing sequence"
+                    "\n\nMODES:\n\tSTUDENT\n\tlaunch application in limited student mode"
+                    "\n\tTEACHER\n\tlaunch whole application\n";
+    return output;
+}
+
+void App::setUsername(const string &username) {
+    App::username = username;
+}
+
