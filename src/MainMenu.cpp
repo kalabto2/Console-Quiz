@@ -6,7 +6,7 @@
 
 
 void MainMenu::extendedWindow(int type) {
-    int winHeight, fileType;
+    int winHeight;
     EXTENDED_MENU_TYPE windowType;
     string file;
     wclear(extendedWin);
@@ -16,61 +16,43 @@ void MainMenu::extendedWindow(int type) {
         case 0:{
             winHeight = MAIN_MENU_CONTINUE_HEIGHT;
             file = "files/continue";
-            fileType = 1;
             windowType = QUESTION;
             break;
-        }
-        case 1:{
+        } case 1:{
             winHeight = MAIN_MENU_LOAD_GAME_HEIGHT;
             file = "files/load_game";
-            fileType = 2;
             windowType = QUESTION;
             break;
-        }
-        case 2:{
+        } case 2:{
             winHeight = MAIN_MENU_EVALUATE_QUIZ_HEIGHT;
             file = "files/evaluate";
-            fileType = 2;
             windowType = QUESTION;
             break;
-        }
-        case 3:{
+        } case 3:{
             winHeight = MAIN_MENU_IMPORT_EXPORT_HEIGHT;
             file = "files/import_export";
-            fileType = 1;
             windowType = INTERACTIVE;
             break;
-        }
-        case 4:{
+        } case 4:{
             winHeight = MAIN_MENU_SETTINGS_HEIGHT;
             file = "files/settings_menu";
-            fileType = 1;
             windowType = INTERACTIVE;
             break;
-        }
-        case 5:{
+        } case 5:{
             winHeight = MAIN_MENU_HELP_HEIGHT;
             file = "files/help";
-            fileType = 1;
             windowType = QUESTION;
             break;
-        }
-        case 6:{
+        } case 6:{
             winHeight = MAIN_MENU_EXIT_HEIGHT;
             file = "files/exit";
-            fileType = 1;
             windowType = QUESTION;
             break;
-        }
-        default :
+        } default:{
             winHeight = 30;
-            fileType = 3;
+            windowType = QUESTION;
+        }
     }
-
-    /*mvprintw(0,0,"   ");
-    mvprintw(0,0,"%d",winHeight);
-    mvprintw(1,0,"   ");
-    mvprintw(1,0,"%d",screenHeight - 5 - winHeight);*/
 
     wresize(extendedWin, winHeight ,screenWidth - 10 - 3 * MAIN_MENU_WINDOW_WIDTH / 2);
     if ((screenHeight/2 + MAIN_MENU_WINDOW_HEIGHT/2 + winHeight/2) >= screenHeight)
@@ -83,73 +65,30 @@ void MainMenu::extendedWindow(int type) {
     string line;
     ifstream mapFile (file);
 
-    /*if (mapFile.is_open())
-    {
-        int i = 0;
-
-        switch (fileType){
-            case 0:{
-                while ( getline (mapFile,line) )
-                {
-                    if(i > 1)
-                        mvwprintw(extendedWin, 1 + (i - 2 )/3, 5 + ((i - 2 ) % 3)*(screenWidth - 10 - 3 * MAIN_MENU_WINDOW_WIDTH / 2)/3, "%s", line.c_str());  // fce c_str() prevede string na char*
-                    i++;
-                }
-                break;
-            }
-            case 1:{
-                while ( getline (mapFile,line) )
-                {
-                    mvwprintw(extendedWin, 2 + i, 5, "%s", line.c_str());  // fce c_str() prevede string na char*
-                    i++;
-                }
-                break;
-            }
-            case 2:{
-                while ( getline (mapFile,line) )
-                {
-                    if(i > 1)
-                        mvwprintw(extendedWin, 1 + (i - 2 )/4, 5 + ((i - 2 ) % 4)*(screenWidth - 10 - 4 * MAIN_MENU_WINDOW_WIDTH / 2)/4, "%s", line.c_str());  // fce c_str() prevede string na char*
-                    i++;
-                }
-                break;
-            }
-            default:
-                break;
-        }
-        refresh();
-        mapFile.close();
-    }*/
-
     if (mapFile.is_open())
     {
         int i = 0;
 
         switch (windowType){
             case QUESTION:{
-                while ( getline (mapFile,line) )
-                {
-                    mvwprintw(extendedWin, 2 + i, 5, "%s", line.c_str());  // fce c_str() prevede string na char*
+                while ( getline (mapFile,line) ) {
+                    mvwprintw(extendedWin, 2 + i, 5, "%s", line.c_str());
                     i++;
                 }
                 break;
             }
             case INTERACTIVE:{
-                while ( getline (mapFile,line) )
-                {
+                while ( getline (mapFile,line) ) {
                     if(i > 1)
                         mvwprintw(extendedWin, 1 + (i - 2 )/2, 5 + ((i - 2 ) % 2)*(screenWidth - 10 - 2 * MAIN_MENU_WINDOW_WIDTH / 2)/2, "%s", line.c_str());
                     i++;
                 }
                 break;
             }
-            default:
-                break;
         }
         refresh();
         mapFile.close();
     }
-
 }
 
 MainMenu::MainMenu(bool studentMode) {
@@ -172,17 +111,16 @@ MainMenu::MainMenu(bool studentMode) {
 
     extendedWin = newwin(MAIN_MENU_CONTINUE_HEIGHT, screenWidth - 10 - 3 * MAIN_MENU_WINDOW_WIDTH / 2, screenHeight/2 + MAIN_MENU_WINDOW_HEIGHT/2 - MAIN_MENU_CONTINUE_HEIGHT/2, MAIN_MENU_WINDOW_WIDTH * 3 / 2 + 5 );
     mainWin = newwin(MAIN_MENU_WINDOW_HEIGHT, MAIN_MENU_WINDOW_WIDTH, screenHeight/2, MAIN_MENU_WINDOW_WIDTH/2); // fce newwin vytvori okno
-    refresh(); // refreshne screen
-    box(mainWin, 0,0); // vytvori hranice okolo okna statWin
-    //mvwprintw(mainWin, 0, 10, "MAIN MENU"); // vypise do okna
+    refresh();
+    box(mainWin, 0,0);
     if (!studentMode) {
-        mvwprintw(mainWin, 2, 4, "START QUIZ"); // vypise do okna
-        mvwprintw(mainWin, 4, 4, "CREATE QUIZ"); // vypise do okna
-        mvwprintw(mainWin, 6, 4, "EVALUATE QUIZ"); // vypise do okna
-        mvwprintw(mainWin, 8, 4, "EXPORT / IMPORT"); // vypise do okna
-        mvwprintw(mainWin, 10, 4, "SETTINGS"); // vypise do okna
-        mvwprintw(mainWin, 12, 4, "HELP"); // vypise do okna
-        mvwprintw(mainWin, 14, 4, "EXIT"); // vypise do okna
+        mvwprintw(mainWin, 2, 4, "START QUIZ");
+        mvwprintw(mainWin, 4, 4, "CREATE QUIZ");
+        mvwprintw(mainWin, 6, 4, "EVALUATE QUIZ");
+        mvwprintw(mainWin, 8, 4, "EXPORT / IMPORT");
+        mvwprintw(mainWin, 10, 4, "SETTINGS");
+        mvwprintw(mainWin, 12, 4, "HELP");
+        mvwprintw(mainWin, 14, 4, "EXIT");
     }
     else{
         mvwprintw(mainWin, 2, 4, "START QUIZ");
@@ -238,7 +176,7 @@ MainMenu::MENU_ACTION MainMenu::run(bool studentMode) {
             else
                 curSelection = curSelection < numOfSelection - 1 ? curSelection + 1 : curSelection;
         }
-        else if (movement == 27 ) // 27 == klavesa ESC
+        else if (movement == 27 ) // 27 == KEY ESC
             return EXIT;
         else if (movement == KEY_ENTER || movement == KEY_RIGHT){
             mvwprintw(mainWin, 2 + 2*curSelection, 2, "  ");
@@ -296,9 +234,9 @@ MainMenu::MENU_ACTION MainMenu::run(bool studentMode) {
                     break;
                 }
                 case 4:
-                    return NONE;   // TODO
+                    return NONE;    // TODO?
                 case 5:
-                    return NONE;   // TODO
+                    return NONE;
                 case 6:{
                     mvwprintw(extendedWin, 2, 2, "=>");
                     wrefresh(extendedWin);

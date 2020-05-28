@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['username_44',['username',['../classApp.html#add695d71a4e17f7fac9050ce97f30903',1,'App']]]
+  ['screenheight_57',['screenHeight',['../classMainMenu.html#a8d08a9f8942a6e993705c0dca8f1dd1c',1,'MainMenu']]],
+  ['screenwidth_58',['screenWidth',['../classApp.html#a3fdcbb40692ec5157cb728bb5169886b',1,'App']]]
 ];

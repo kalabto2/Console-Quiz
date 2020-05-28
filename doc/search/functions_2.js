@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['run_40',['run',['../classApp.html#aea8b4f9fc1ef6d6b3f170f06e700bc4e',1,'App']]]
+  ['getinfo_49',['getInfo',['../classApp.html#a74f0a1d65abc3ea087a81152077aca9b',1,'App']]]
 ];
