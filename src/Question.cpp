@@ -94,12 +94,14 @@ shared_ptr<Question> Question::getQuestion(string questionId) {
         return shared_ptr<Question> (new TextQuestion(questionId));
     else if (line == "chcQ")
         return shared_ptr<Question> (new ChoiceQuestion(questionId));
+    else if (line == "srtQ")
+        return shared_ptr<Question> (new SortingQuestion(questionId));
 
-    throw "Incompatible file type: expected 'txtQ' or 'chcQ'";
+    throw "Incompatible file type: expected 'txtQ', 'chcQ' or 'srtQ'";
 }
 
 string Question::print() {
-    return std::string("Vytisknul se superclass");
+    return std::string("Vytisknula se superclass :(. Data ztracena");
 }
 
 
@@ -133,42 +135,34 @@ void TextQuestion::setQuestion(string question){
 }
 
 void TextQuestion::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60); // fce newwin vytvori okno
-    box(inputWin, 0, 0); // vytvori hranice okolo okna
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60);
+    box(inputWin, 0, 0);
     mvwprintw(inputWin, 2, 2, "Enter text of the question. (e.g. 'Which city is capital of Czech Republic')");
-    curs_set(1);    // zviditelni kurzor
-    wmove(inputWin, 3, 2);    // presune kurzor do okna na x, y pozici
+    curs_set(1);
+    wmove(inputWin, 3, 2);
     wrefresh(inputWin);
 
-    /*std::string text;
-
-    while (true){
-        int a = getch();
-
-        if(a == KEY_BACKSPACE || a == (int)'\b' || a == 127) {
-            int x, y;
-            getyx(inputWin, y, x);
-            mvwprintw(inputWin, y, --x, " ");
-            wmove(inputWin, y, x);
-            wrefresh(inputWin);
-            if (!text.empty())
-                text.pop_back();
-            continue;
-        }
-
-        if ( a == KEY_ENTER || a == KEY_RIGHT)
+    string res;
+    char input[500];
+    for (int i = 0; ; i++){
+        echo();
+        wgetnstr(inputWin, input, 499);
+        noecho();
+        res += (i == 0 ? "" : "\n") + string(input);
+        int y,x;
+        getyx(inputWin, y, x);
+        mvwprintw(inputWin, y, 2, "To save & exit pres KEY ESCAPE");
+        wrefresh(inputWin);
+        int c = getch();
+        if (c == 27)
             break;
 
-        const char * tmp = new const char (a);
-        wprintw(inputWin, tmp);
+        mvwprintw(inputWin, y, 2, "                              ");
+        wmove(inputWin, y, 2);
         wrefresh(inputWin);
-        delete tmp;
-
-        text += (char)a;
     }
 
-    question = text;*/
-    question = getInput(inputWin);
+    question = res;
     curs_set(0);
 }
 
@@ -322,4 +316,113 @@ string ChoiceQuestion::print() {
     }
     return question + "\n\tChoose from following:" + res + "\n";
 }
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+SortingQuestion::SortingQuestion(string questionId) {
+    getmaxyx(stdscr,screenHeight, screenWidth);
+    id = questionId;
+
+    ifstream inFile(QUESTION_FILE_PATH + questionId);
+    string line;
+
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "srtQ")
+                    throw "Incompatible file type: expected 'srtQ'";
+            }
+            else if (!line.empty()){
+                choices.push_back(line);
+            }
+            else
+                break;
+        }
+        while (getline(inFile, line)){
+            question += line + '\n';
+        }
+        inFile.close();
+    }
+}
+
+SortingQuestion::SortingQuestion() : Question() {}
+
+void SortingQuestion::construct() {
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60); // fce newwin vytvori okno
+    box(inputWin, 0, 0); // vytvori hranice okolo okna
+    mvwprintw(inputWin, 2, 2, "Enter description to following sorting : (e.g. 'Sort by oldest ...')");
+    curs_set(1);    // zviditelni kurzor
+    wmove(inputWin, 3, 2);    // presune kurzor do okna na x, y pozici
+    wrefresh(inputWin);
+
+    question = getInput(inputWin);
+
+    wclear(inputWin);
+    box(inputWin, 0, 0); // vytvori hranice okolo okna
+    mvwprintw(inputWin, 2, 2, "Enter text to be sorted: (press KEY RIGHT to confirm)");
+    mvwprintw(inputWin, 3, 4, "1.  >");
+    wmove(inputWin, 3, 10);    // presune kurzor do okna na x, y pozici
+    wrefresh(inputWin);
+
+    for (int i = 0; i < 20; i++){
+        choices.emplace_back(getInput(inputWin));
+
+        int y,x;
+        getyx(inputWin,y,x);
+        curs_set(0);
+        mvwprintw(inputWin, y + 1, 8, "  Press KEY RIGHT to Exit & Save Question, or add another sorting choice (any other KEY)");
+        wrefresh(inputWin);
+
+        int a = getch();
+        if (a == KEY_RIGHT)
+            break;
+
+        mvwprintw(inputWin, y + 1, 4, to_string(i + 2).c_str());
+        wprintw(inputWin, ".");
+        mvwprintw(inputWin, y + 1, 8, ">                                                                                       ");
+        wmove(inputWin, y + 1, 10);
+        curs_set(1);
+        wrefresh(inputWin);
+    }
+    wclear(inputWin);}
+
+void SortingQuestion::save() {
+    ofstream outFile(QUESTION_FILE_PATH + id);
+    if (outFile.is_open())
+    {
+        outFile << "srtQ" << endl;
+        for (auto & choice : choices){
+            outFile << choice << endl;
+        }
+        outFile << endl;
+        outFile << question;
+        outFile.close();
+    }}
+
+void SortingQuestion::renderAnswers(WINDOW *window) {
+    mvwprintw(window, (screenHeight - 5) / 2 + 2, 6 , "* Sorting Answer        ");
+    wrefresh(window);
+}
+
+shared_ptr<Answer> SortingQuestion::getTypeAnswer(int i) {
+    if (i == 1)
+        return shared_ptr<Answer> (new TextAnswer());
+    return nullptr;
+}
+
+int SortingQuestion::getNumOfAnsw() {
+    return 1;
+}
+
+string SortingQuestion::print() {
+    string res;
+
+    int i = 1;
+    for (auto & choice : choices) {
+        res += "\n\t\t" + to_string(i) + ".\t" + choice;
+        i ++;
+    }
+    return question + "\n\tSort following:" + res + "\n";
+}
+
 

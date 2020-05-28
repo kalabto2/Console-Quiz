@@ -18,6 +18,12 @@ ncurses.h
 memory
 -
 
+/home/tom/FIT/PA2/semestralka/quiz/src/AnswerSheet.h
+string
+-
+Quiz.h
+/home/tom/FIT/PA2/semestralka/quiz/src/Quiz.h
+
 /home/tom/FIT/PA2/semestralka/quiz/src/App.cpp
 ncurses.h
 -
@@ -31,6 +37,8 @@ ShowRoom.h
 /home/tom/FIT/PA2/semestralka/quiz/src/ShowRoom.h
 
 /home/tom/FIT/PA2/semestralka/quiz/src/App.h
+string
+-
 
 /home/tom/FIT/PA2/semestralka/quiz/src/MainMenu.cpp
 MainMenu.h
@@ -83,4 +91,12 @@ Quiz.h
 /home/tom/FIT/PA2/semestralka/quiz/src/Quiz.h
 MainMenu.h
 /home/tom/FIT/PA2/semestralka/quiz/src/MainMenu.h
+AnswerSheet.h
+/home/tom/FIT/PA2/semestralka/quiz/src/AnswerSheet.h
+
+/home/tom/FIT/PA2/semestralka/quiz/src/main.cpp
+iostream
+-
+App.h
+/home/tom/FIT/PA2/semestralka/quiz/src/App.h
 

@@ -638,3 +638,87 @@ string PairChoiceAnswer::print(bool printCorrectAnswer) {
 bool PairChoiceAnswer::equal(shared_ptr<Answer> &a) {
     return dynamic_cast<PairChoiceAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/*
+SortingAnswer::SortingAnswer() : Answer() {}
+
+bool SortingAnswer::equal(shared_ptr<Answer> &a) {
+    return dynamic_cast<SortingAnswer*>(a.get())->correctAnswer == correctAnswer;
+}
+
+void SortingAnswer::save() {
+
+}
+
+void SortingAnswer::construct(bool creatingMode) {
+    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
+    int winStartX = (creatingMode ? screenWidth - 60 : 0);
+    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
+    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
+    box(inputWin, 0, 0);
+    bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
+
+    if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 4, "SORTING ANSWER");
+        mvwprintw(inputWin, 4, 4, "Enter paired number of correct choices (e.g. '2 + 3, 4 + 6, 1 + 5' -- separated by comma, paired with plus and in any order):");
+        mvwprintw(inputWin, 5, 2, "> ");
+        curs_set(1);
+        wrefresh(inputWin);
+        char tmp[100];
+        echo();
+        wgetstr(inputWin, tmp);
+        noecho();
+        curs_set(0);
+        preprocess(string(tmp));
+    }
+    if (!creatingMode) {
+        wclear(inputWin);
+        wrefresh(inputWin);
+    }
+}
+
+void SortingAnswer::preprocess(string answer) {
+    string number;
+    bool comma = false;
+
+    for (auto & ch : answer){
+        if (iswspace(ch))
+            continue;
+        if (ch == ',' && comma){
+            correctAnswer.push_back(stoi(number));
+            number = "";
+            comma = false;
+            continue;
+        }
+        if (isdigit(ch)){
+            number += ch;
+            comma = true;
+            continue;
+        }
+        break;
+    }
+    correctAnswer.push_back(stoi(number));
+    number = "";
+}
+
+string SortingAnswer::print(bool printCorrectAnswer) {
+    string res;
+
+    if (printCorrectAnswer){
+        for (auto & i : correctAnswer){
+            res += (i == *(correctAnswer.rbegin()) ? to_string(i) : to_string(i) + ", ");
+        }
+    }
+    else {
+        res +=
+                "> ______________________________________________________________________________________________________________\n";
+    }
+    return res + "\n";
+}
+
+SortingAnswer::SortingAnswer(string answerId) {
+
+}
+*/

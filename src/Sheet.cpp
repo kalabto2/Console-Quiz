@@ -76,6 +76,10 @@ Sheet::SHEET_OPTION Sheet::choosePanel() {
             shared_ptr<Question> qs (new ChoiceQuestion());
             qs->renderAnswers(sideWin);
         }
+        if (pointerPos == 8){
+            shared_ptr<Question> qs (new SortingQuestion());
+            qs->renderAnswers(sideWin);
+        }
 
         int a = getch();
 
@@ -84,7 +88,7 @@ Sheet::SHEET_OPTION Sheet::choosePanel() {
 
         if (a == KEY_DOWN || a == 's') {
             mvwprintw(sideWin, pointerPos, 3, "  ");
-            pointerPos += (pointerPos < 6 ? 2 : 0);
+            pointerPos += (pointerPos < 8 ? 2 : 0);
         } else if (a == KEY_UP || a == 'w') {
             mvwprintw(sideWin, pointerPos, 3, "  ");
             pointerPos -= (pointerPos > 4 ? 2 : 0);
@@ -99,6 +103,9 @@ Sheet::SHEET_OPTION Sheet::choosePanel() {
     }
     else if (pointerPos == 6) {
         qs = shared_ptr<Question> (new ChoiceQuestion());
+    }
+    else if (pointerPos == 8) {
+        qs = shared_ptr<Question> (new SortingQuestion());
     }
     qs->construct();
     qs->save();

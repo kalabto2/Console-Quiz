@@ -74,5 +74,24 @@ protected:
 };
 
 
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+
+class SortingQuestion : public Question {
+public:
+    SortingQuestion (string questionId);
+    SortingQuestion ();
+    void construct () override;
+    void save() override;
+    void renderAnswers(WINDOW * window) override;
+    shared_ptr<Answer> getTypeAnswer(int i) override;
+    int getNumOfAnsw () override ;
+    string print() override ;
+protected:
+    string question;
+    vector<string> choices;
+};
+
+
 
 #endif //QUIZ_QUESTION_H

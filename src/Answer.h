@@ -121,4 +121,21 @@ protected:
 };
 
 
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+/*
+class SortingAnswer : public Answer {
+public:
+    SortingAnswer ();
+    SortingAnswer (string answerId);
+    void save () override;
+    void construct (bool creatingMode = true) override;
+    void preprocess (string answer);
+    string print(bool printCorrectAnswer = true) override ;
+    bool equal (shared_ptr<Answer> & a) override ;
+
+protected:
+    vector<int> correctAnswer;
+};
+*/
 #endif //QUIZ_ANSWER_H
