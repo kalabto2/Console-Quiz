@@ -47,56 +47,69 @@ void App::run(bool studentMode) {
         MainMenu::MENU_ACTION menuAction;
         menuAction = mainMenu.run(studentMode);
 
-        /// Makes certain action
-        switch (menuAction) {
-            case MainMenu::START_QUIZ: {
-                string quizId = ShowRoom::selectQuiz();
-                if (quizId.empty()) break;
-                ShowRoom showRoom(quizId);
-                showRoom.setAuthor(username);
-                showRoom.StartQuiz();
-                break;
+        try {
+            /// Makes certain action
+            switch (menuAction) {
+                case MainMenu::START_QUIZ: {
+                    string quizId = ShowRoom::selectQuiz();
+                    if (quizId.empty()) break;
+                    ShowRoom showRoom(quizId);
+                    showRoom.setAuthor(username);
+                    showRoom.StartQuiz();
+                    break;
+                }
+                case MainMenu::CREATE_QUIZ: {
+                    QuizFactory quizFactory;
+                    quizFactory.setName();
+                    quizFactory.createQuiz();
+                    break;
+                }
+                case MainMenu::EVALUATE_QUIZ: {
+                    string quizId = ShowRoom::selectQuiz();
+                    if (quizId.empty()) break;
+                    string answerSheetId = ShowRoom::selectAnswersheet(quizId);
+                    if (answerSheetId.empty()) break;
+                    ShowRoom showRoom(quizId, answerSheetId);
+                    showRoom.StartQuiz(false);
+                    break;
+                }
+                case MainMenu::EXPORT_TO_TXT_QA: {
+                }
+                case MainMenu::EXPORT_TO_TXT_Q: {
+                }
+                case MainMenu::EXPORT_TO_TXT_QS: {
+                    string quizId = ShowRoom::selectQuiz();
+                    if (quizId.empty()) break;
+                    Quiz quiz(quizId);
+                    ShowRoom exports(quiz);
+                    exports.Export(menuAction);
+                    break;
+                }
+                case MainMenu::EXPORT_TO_TXT_QAS: {
+                }
+                case MainMenu::EXPORT_TO_TXT_AS: {
+                    string quizId = ShowRoom::selectQuiz();
+                    if (quizId.empty()) break;
+                    string answerSheetId = ShowRoom::selectAnswersheet(quizId);
+                    if (answerSheetId.empty()) break;
+                    ShowRoom exports(quizId, answerSheetId);
+                    exports.Export(menuAction);
+                    break;
+                }
+                case MainMenu::NONE: { // TODO ?
+                    break;
+                }
+                case MainMenu::EXIT:
+                    return;
             }
-            case MainMenu::CREATE_QUIZ: {
-                QuizFactory quizFactory;
-                quizFactory.setName();
-                quizFactory.createQuiz();
-                break;
-            }
-            case MainMenu::EVALUATE_QUIZ: {
-                string quizId = ShowRoom::selectQuiz();
-                if (quizId.empty()) break;
-                string answerSheetId = ShowRoom::selectAnswersheet(quizId);
-                if (answerSheetId.empty()) break;
-                ShowRoom showRoom(quizId, answerSheetId);
-                showRoom.StartQuiz(false);
-                break;
-            }
-            case MainMenu::EXPORT_TO_TXT_QA: {}
-            case MainMenu::EXPORT_TO_TXT_Q: {}
-            case MainMenu::EXPORT_TO_TXT_QS: {
-                string quizId = ShowRoom::selectQuiz();
-                if (quizId.empty()) break;
-                Quiz quiz(quizId);
-                ShowRoom exports(quiz);
-                exports.Export(menuAction);
-                break;
-            }
-            case MainMenu::EXPORT_TO_TXT_QAS: {}
-            case MainMenu::EXPORT_TO_TXT_AS: {
-                string quizId = ShowRoom::selectQuiz();
-                if (quizId.empty()) break;
-                string answerSheetId = ShowRoom::selectAnswersheet(quizId);
-                if (answerSheetId.empty()) break;
-                ShowRoom exports(quizId, answerSheetId);
-                exports.Export(menuAction);
-                break;
-            }
-            case MainMenu::NONE: { // TODO ?
-                break;
-            }
-            case MainMenu::EXIT:
-                return;
+        } catch (const char * err){
+            clear();
+            refresh();
+            mvprintw(2, screenWidth/2 - 7, "Error occured:");
+            mvprintw(3, screenWidth/2 - string(err).size()/2, err);
+            mvprintw(4, screenWidth/2 - 12, "Press any key to continue");
+            refresh();
+            getch();
         }
     }
 }
@@ -112,5 +125,31 @@ string App::getInfo() {
 
 void App::setUsername(const string &username) {
     App::username = username;
+}
+
+void App::import(int argv, char **args) {
+    for (int i = 2; i < argv; i++){
+        ifstream inFile(args[i]);
+        string line, importPath;
+
+        if (inFile.is_open()) {
+            getline(inFile, line);
+            if (line == "quiz")
+                importPath = "files/quizzes/";
+            else if (line == "sheet")
+                importPath = "files/sheets/";
+            else if (line == "answerSheet")
+                importPath = "files/answerSheets/";
+            else if (line == "sheet")
+                importPath = "files/sheets/";
+            else if (line == "txtQ" || line == "chcQ" || line == "srtQ")
+                importPath = "files/questions/";
+            else if (line == "txtA" || line == "valA" || line == "schA" || line == "mchA" || line == "pchA")
+                importPath = "files/answers/";
+        }
+
+        ofstream dst(importPath + args[i]);
+        dst << inFile.rdbuf();
+    }
 }
 

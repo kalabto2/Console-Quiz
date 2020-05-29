@@ -9,39 +9,6 @@
 #include <fstream>
 #include <ctime>
 
-#include "helpers.cpp"
-/*
-string getInput (WINDOW * window){
-    string text;
-
-    while (true){
-        int a = getch();
-
-        if(a == KEY_BACKSPACE || a == (int)'\b' || a == 127) {
-            int x, y;
-            getyx(window, y, x);
-            mvwprintw(window, y, --x, " ");
-            wmove(window, y, x);
-            wrefresh(window);
-            if (!text.empty())
-                text.pop_back();
-            continue;
-        }
-
-        if ( a == KEY_ENTER || a == KEY_RIGHT)
-            break;
-
-        const char * tmp = new const char (a);
-        wprintw(window, tmp);
-        wrefresh(window);
-        delete tmp;
-
-        text += (char)a;
-    }
-    return text;
-}*/
-
-
 Question::Question() {
     getmaxyx(stdscr,screenHeight, screenWidth);
 
@@ -57,17 +24,11 @@ Question::Question() {
     id = str;
 }
 
-void Question::construct() {
+void Question::construct() {}
 
-}
+void Question::save() {}
 
-void Question::save() {
-
-}
-
-void Question::renderAnswers(WINDOW *window) {
-
-}
+void Question::renderAnswers(WINDOW *window) {}
 
 shared_ptr<Answer> Question::getTypeAnswer(int i) {
     return nullptr;
@@ -101,7 +62,7 @@ shared_ptr<Question> Question::getQuestion(string questionId) {
 }
 
 string Question::print() {
-    return std::string("Vytisknula se superclass :(. Data ztracena");
+    return std::string("Vytisknula se superclass :(. Data ztracena ...");
 }
 
 
@@ -205,39 +166,64 @@ string TextQuestion::print() {
 ChoiceQuestion::ChoiceQuestion() : Question() {}
 
 void ChoiceQuestion::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60); // fce newwin vytvori okno
-    box(inputWin, 0, 0); // vytvori hranice okolo okna
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60);
+    box(inputWin, 0, 0);
     mvwprintw(inputWin, 2, 2, "Enter question to choices: (e.g. 'Which of following is true?')");
-    curs_set(1);    // zviditelni kurzor
-    wmove(inputWin, 3, 2);    // presune kurzor do okna na x, y pozici
+    curs_set(1);
+    wmove(inputWin, 3, 2);
     wrefresh(inputWin);
 
-    question = getInput(inputWin);
+    string res;
+    char input[500];
+    for (int i = 0; ; i++){
+        echo();
+        wgetnstr(inputWin, input, 499);
+        noecho();
+        res += (i == 0 ? "" : "\n") + string(input);
+        int y,x;
+        getyx(inputWin, y, x);
+        mvwprintw(inputWin, y, 2, "To confirm description press KEY ESCAPE");
+        wrefresh(inputWin);
+        int c = getch();
+        if (c == 27)
+            break;
+
+        mvwprintw(inputWin, y, 2, "                              ");
+        wmove(inputWin, y, 2);
+        wrefresh(inputWin);
+    }
+    question = res;
 
     wclear(inputWin);
-    box(inputWin, 0, 0); // vytvori hranice okolo okna
-    mvwprintw(inputWin, 2, 2, "Enter choices to question: (press KEY RIGHT to confirm)");
+    box(inputWin, 0, 0);
+    mvwprintw(inputWin, 2, 2, "Enter choices to question: (press KEY ENTER to confirm)");
     mvwprintw(inputWin, 3, 4, "1.  >");
-    wmove(inputWin, 3, 10);    // presune kurzor do okna na x, y pozici
+    wmove(inputWin, 3, 10);
     wrefresh(inputWin);
 
     for (int i = 0; i < 20; i++){
-        choices.emplace_back(getInput(inputWin));
+        string res2;
+        char input2[500];
+        echo();
+        wgetnstr(inputWin, input2, 499);
+        noecho();
+        res += string(input2);
+        choices.push_back(res2);
 
         int y,x;
         getyx(inputWin,y,x);
         curs_set(0);
-        mvwprintw(inputWin, y + 1, 8, "  Press KEY RIGHT to Exit & Save Question, or add another choice (any other KEY)");
+        mvwprintw(inputWin, y, 8, "  Press KEY ESC to Exit & Save Question, or add another choice (any other KEY)");
         wrefresh(inputWin);
 
         int a = getch();
-        if (a == KEY_RIGHT)
+        if (a == 27)    // KEY_ESC
             break;
 
-        mvwprintw(inputWin, y + 1, 4, to_string(i + 2).c_str());
+        mvwprintw(inputWin, y, 4, to_string(i + 2).c_str());
         wprintw(inputWin, ".");
-        mvwprintw(inputWin, y + 1, 8, ">                                                                               ");
-        wmove(inputWin, y + 1, 10);
+        mvwprintw(inputWin, y, 8, ">                                                                             ");
+        wmove(inputWin, y, 10);
         curs_set(1);
         wrefresh(inputWin);
     }
@@ -355,32 +341,57 @@ void SortingQuestion::construct() {
     wmove(inputWin, 3, 2);    // presune kurzor do okna na x, y pozici
     wrefresh(inputWin);
 
-    question = getInput(inputWin);
+    string res;
+    char input[500];
+    for (int i = 0; ; i++){
+        echo();
+        wgetnstr(inputWin, input, 499);
+        noecho();
+        res += (i == 0 ? "" : "\n") + string(input);
+        int y,x;
+        getyx(inputWin, y, x);
+        mvwprintw(inputWin, y, 2, "To save & exit pres KEY ESCAPE");
+        wrefresh(inputWin);
+        int c = getch();
+        if (c == 27)
+            break;
+
+        mvwprintw(inputWin, y, 2, "                              ");
+        wmove(inputWin, y, 2);
+        wrefresh(inputWin);
+    }
+    question = res;
 
     wclear(inputWin);
     box(inputWin, 0, 0); // vytvori hranice okolo okna
-    mvwprintw(inputWin, 2, 2, "Enter text to be sorted: (press KEY RIGHT to confirm)");
+    mvwprintw(inputWin, 2, 2, "Enter text to be sorted: (press KEY ENTER to confirm)");
     mvwprintw(inputWin, 3, 4, "1.  >");
     wmove(inputWin, 3, 10);    // presune kurzor do okna na x, y pozici
     wrefresh(inputWin);
 
     for (int i = 0; i < 20; i++){
-        choices.emplace_back(getInput(inputWin));
+        string res2;
+        char input2[500];
+        echo();
+        wgetnstr(inputWin, input2, 499);
+        noecho();
+        res += string(input2);
+        choices.push_back(res2);
 
         int y,x;
         getyx(inputWin,y,x);
         curs_set(0);
-        mvwprintw(inputWin, y + 1, 8, "  Press KEY RIGHT to Exit & Save Question, or add another sorting choice (any other KEY)");
+        mvwprintw(inputWin, y, 8, "  Press KEY ESC to Exit & Save Question, or add another sorting choice (any other KEY)");
         wrefresh(inputWin);
 
         int a = getch();
-        if (a == KEY_RIGHT)
+        if (a == 27)    // KEY_ESC
             break;
 
-        mvwprintw(inputWin, y + 1, 4, to_string(i + 2).c_str());
+        mvwprintw(inputWin, y, 4, to_string(i + 2).c_str());
         wprintw(inputWin, ".");
-        mvwprintw(inputWin, y + 1, 8, ">                                                                                       ");
-        wmove(inputWin, y + 1, 10);
+        mvwprintw(inputWin, y, 8, ">                                                                                     ");
+        wmove(inputWin, y, 10);
         curs_set(1);
         wrefresh(inputWin);
     }
@@ -400,7 +411,9 @@ void SortingQuestion::save() {
     }}
 
 void SortingQuestion::renderAnswers(WINDOW *window) {
-    mvwprintw(window, (screenHeight - 5) / 2 + 2, 6 , "* Sorting Answer        ");
+    mvwprintw(window, (screenHeight - 5) / 2 + 2, 6 , "* Text Answer           ");
+    mvwprintw(window, (screenHeight - 5) / 2 + 4, 6 , "                        ");
+    mvwprintw(window, (screenHeight - 5) / 2 + 6, 6 , "                        ");
     wrefresh(window);
 }
 

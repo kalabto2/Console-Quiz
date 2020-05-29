@@ -29,6 +29,9 @@ protected:
     const string ANSWER_FILE_PATH = "files/answers/";
 
     bool autoEval (WINDOW * win, string info);
+
+    friend class Sheet;
+    friend class AnswerSheet;
 };
 
 
@@ -46,6 +49,9 @@ public:
 
 protected:
     string correctAnswer = "";
+
+    friend class Sheet;
+    friend class AnswerSheet;
 };
 
 
@@ -63,6 +69,9 @@ public:
 
 protected:
     string correctAnswer = "";
+
+    friend class Sheet;
+    friend class AnswerSheet;
 };
 
 
@@ -81,6 +90,9 @@ public:
 
 protected:
     int correctAnswer;
+
+    friend class Sheet;
+    friend class AnswerSheet;
 };
 
 
@@ -100,6 +112,9 @@ public:
 protected:
     set<int> correctAnswer;
 
+    friend class Sheet;
+    friend class AnswerSheet;
+
 };
 
 
@@ -118,6 +133,9 @@ public:
 
 protected:
     set< set<int> > correctAnswer;
+
+    friend class Sheet;
+    friend class AnswerSheet;
 };
 
 

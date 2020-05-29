@@ -125,15 +125,16 @@ void TextAnswer::save() {
 }
 
 void TextAnswer::construct(bool creatingMode) {
-    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
-    int winStartX = (creatingMode ? screenWidth - 60 : 0);
-    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
-    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
+    int winStartX = (creatingMode ? 60 : 0);
+    int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
+    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
     if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 2, "                                  ");
         mvwprintw(inputWin, 2, 4, "TEXT ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter correct answer (e.g. 'Prague'):");
         mvwprintw(inputWin, 5, 2, "> ");
@@ -211,15 +212,16 @@ void ValueAnswer::save() {
 }
 
 void ValueAnswer::construct(bool creatingMode) {
-    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
-    int winStartX = (creatingMode ? screenWidth - 60 : 0);
-    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
-    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
+    int winStartX = (creatingMode ? 60 : 0);
+    int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
+    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
     if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 2, "                                  ");
         mvwprintw(inputWin, 2, 4, "VALUE ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter correct value (e.g. '55'):");
         mvwprintw(inputWin, 5, 2, "> ");
@@ -294,15 +296,16 @@ void SingleChoiceAnswer::save() {
 }
 
 void SingleChoiceAnswer::construct(bool creatingMode) {
-    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
-    int winStartX = (creatingMode ? screenWidth - 60 : 0);
-    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
-    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
+    int winStartX = (creatingMode ? 60 : 0);
+    int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
+    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
     if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 2, "                                  ");
         mvwprintw(inputWin, 2, 4, "SINGLE CHOICE ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter number of correct choice (e.g. '2' -- only number):");
         mvwprintw(inputWin, 5, 2, "> ");
@@ -336,7 +339,11 @@ void SingleChoiceAnswer::preprocess(string answer) {
         break;
     }
 
-    correctAnswer = stoi(number);
+    try {
+        correctAnswer = stoi(number);
+    } catch( invalid_argument &e){
+        correctAnswer = 0;
+    }
 }
 
 SingleChoiceAnswer::SingleChoiceAnswer(string answerId) {
@@ -353,7 +360,11 @@ SingleChoiceAnswer::SingleChoiceAnswer(string answerId) {
                     throw "Incompatible file type: expected 'schA'";
             }
             else if (i == 1){
-                correctAnswer = stoi(line);
+                try {
+                    correctAnswer = stoi(line);
+                } catch (invalid_argument & e){
+                    throw "Incompatible file type: expected 'schA'";
+                }
             }
         }
         inFile.close();
@@ -401,15 +412,16 @@ void MultipleChoiceAnswer::save() {
 }
 
 void MultipleChoiceAnswer::construct(bool creatingMode) {
-    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
-    int winStartX = (creatingMode ? screenWidth - 60 : 0);
-    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
-    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
+    int winStartX = (creatingMode ? 60 : 0);
+    int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
+    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
     if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 2, "                                  ");
         mvwprintw(inputWin, 2, 4, "MULTIPLE CHOICE ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter number of correct choices (e.g. '2, 4, 1' -- seperated by comma in any order):");
         mvwprintw(inputWin, 5, 2, "> ");
@@ -436,7 +448,11 @@ void MultipleChoiceAnswer::preprocess(string answer) {
         if (iswspace(ch))
             continue;
         if (ch == ',' && comma){
-            correctAnswer.insert(stoi(number));
+            try {
+                correctAnswer.insert(stoi(number));
+            } catch (invalid_argument & e){
+                correctAnswer.insert(0);
+            }
             number = "";
             comma = false;
             continue;
@@ -448,7 +464,11 @@ void MultipleChoiceAnswer::preprocess(string answer) {
         }
         break;
     }
-    correctAnswer.insert(stoi(number));
+    try {
+        correctAnswer.insert(stoi(number));
+    } catch (invalid_argument & e){
+        correctAnswer.insert(0);
+    }
     number = "";
 }
 
@@ -467,8 +487,13 @@ MultipleChoiceAnswer::MultipleChoiceAnswer(string answerId) {
             }
             else if (i == 1){
                 istringstream iss(line);
-                for(string s; iss >> s; )
-                    correctAnswer.insert(stoi(s));
+                for(string s; iss >> s; ){
+                    try {
+                        correctAnswer.insert(stoi(s));
+                    } catch (invalid_argument & e){
+                        throw "Incompatible file type: expected 'mchA'";
+                    }
+                }
             }
         }
         inFile.close();
@@ -521,15 +546,16 @@ void PairChoiceAnswer::save() {
 }
 
 void PairChoiceAnswer::construct(bool creatingMode) {
-    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
-    int winStartX = (creatingMode ? screenWidth - 60 : 0);
-    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
-    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
+    int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
+    int winStartX = (creatingMode ? 60 : 0);
+    int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
+    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
 
     if (autoEv || !creatingMode){
+        mvwprintw(inputWin, 2, 2, "                                  ");
         mvwprintw(inputWin, 2, 4, "PAIR CHOICE ANSWER");
         mvwprintw(inputWin, 4, 4, "Enter paired number of correct choices (e.g. '2 + 3, 4 + 6, 1 + 5' -- separated by comma, paired with plus and in any order):");
         mvwprintw(inputWin, 5, 2, "> ");
@@ -565,14 +591,22 @@ void PairChoiceAnswer::preprocess(string answer) {
             continue;
         }
         if (ch == '+' && plus){
-            pair.insert(stoi(number));
+            try {
+                pair.insert(stoi(number));
+            } catch (invalid_argument & e){
+                pair.insert(0);
+            }
             number = "";
             second = true;
             plus = false;
             continue;
         }
         if (ch == ',' && comma){
-            pair.insert(stoi(number));
+            try {
+                pair.insert(stoi(number));
+            } catch (invalid_argument & e){
+                pair.insert(0);
+            }
             number = "";
             correctAnswer.insert(pair);
             pair.clear();
@@ -582,7 +616,11 @@ void PairChoiceAnswer::preprocess(string answer) {
         }
         break;
     }
-    pair.insert(stoi(number));
+    try {
+        pair.insert(stoi(number));
+    } catch (invalid_argument & e){
+        pair.insert(0);
+    }
     number = "";
     correctAnswer.insert(pair);
     pair.clear();
@@ -605,7 +643,11 @@ PairChoiceAnswer::PairChoiceAnswer(string answerId) {
                 istringstream iss(line);
                 set<int> pair;
                 for(string s; iss >> s; ){
-                    pair.insert(stoi(s));
+                    try {
+                        pair.insert(stoi(s));
+                    } catch (invalid_argument & e){
+                        throw "Incompatible file type: expected 'pchA'";
+                    }
                     if (pair.size() == 2){
                         correctAnswer.insert(pair);
                         pair.clear();

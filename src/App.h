@@ -34,6 +34,11 @@ public:
 
     /** Sets variable username */
     void setUsername(const string &username);
+
+    /** Copies passed file names into App's file structure. If file is not compatible, function does nothing.
+     * @param[in] argv represents number of arguments of program (including its name and parameter '--import')
+     * @param[in] args represents fileNames to be imported */
+    static void import(int argv, char ** args);
 };
 
 #endif //QUIZ_APP_H

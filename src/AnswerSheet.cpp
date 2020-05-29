@@ -180,9 +180,9 @@ void AnswerSheet::renderEvaluation(int sheetIndex, int answerIndex) {
         wprintw(evalWin, sym.c_str());
     }
 
-    //if (quiz.sheets[sheetIndex].answers[answerIndex].get().)
+    // if (quiz.sheets[sheetIndex].answers[answerIndex].get()->correctAnswer.empty())
     mvwprintw(evalWin, ++rows, 5, (answers[sheetIndex][answerIndex].get()->equal(quiz.sheets[sheetIndex].answers[answerIndex]) ? "Auto Evaluated: 1" : "Auto Evaluated: 0"));
-    mvwprintw(evalWin, ++rows, 5, "Score for this answer (number; e.g. 0/1)");  // TODO
+    mvwprintw(evalWin, ++rows, 5, "Score for this answer (number; e.g. 0/1)");
     mvwprintw(evalWin, ++rows, 3, "> ");
     wrefresh(evalWin);
     char name2[100];

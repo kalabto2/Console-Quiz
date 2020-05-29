@@ -82,6 +82,8 @@ void QuizFactory::addSheetDialog() {
     const int ADD_SHEET_DIALOG_WIDTH = 60;
 
     while (true)  {
+        clear();
+        refresh();
         WINDOW * addSheetWin = newwin(ADD_SHEET_DIALOG_HEIGHT, ADD_SHEET_DIALOG_WIDTH, screenHeight / 2 - ADD_SHEET_DIALOG_HEIGHT / 2, screenWidth / 2 - ADD_SHEET_DIALOG_WIDTH / 2); // fce newwin vytvori okno
         box(addSheetWin, 0, 0); // vytvori hranice okolo okna
         mvwprintw(addSheetWin, 2, 6, "NEW SHEET");
