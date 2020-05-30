@@ -7,19 +7,26 @@
 
 #include "Quiz.h"
 
+/** Helping class to quiz. Manages quiz creating. */
 class  QuizFactory {
 public:
+    /** Cleans screen, set-ups variables. */
     QuizFactory ();
+
+    /** Represents setting of name of the quiz. Renders window, handles input and sets name. */
     void setName ();
+
+    /** Manages creating of quiz */
     void createQuiz ();
+
+    /** Renders 'Add Sheet' window, handles input and manages creating of sheet. */
     void addSheetDialog ();
-    //string selectQuiz (bool findQuiz = true);
-    //string selectAnswersheet ();
 
 protected:
+    /** Represents created quiz. */
     Quiz quiz;
-    int screenHeight;
-    int screenWidth;
+    /** Holds dimension of screen. */
+    int screenHeight ,screenWidth;
 };
 
 #endif //QUIZ_QUIZFACTORY_H

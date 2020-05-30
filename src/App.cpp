@@ -38,7 +38,7 @@ App::App() {
 }
 
 App::~App() {
-    endwin(); // dealokuje pamet a ukonci ncurses
+    endwin();
 }
 
 void App::run(bool studentMode) {
@@ -96,7 +96,7 @@ void App::run(bool studentMode) {
                     exports.Export(menuAction);
                     break;
                 }
-                case MainMenu::NONE: { // TODO ?
+                case MainMenu::NONE: {
                     break;
                 }
                 case MainMenu::EXIT:
