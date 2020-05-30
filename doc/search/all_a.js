@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['username_26',['username',['../classApp.html#add695d71a4e17f7fac9050ce97f30903',1,'App']]]
+  ['textanswer_39',['TextAnswer',['../classTextAnswer.html',1,'']]],
+  ['textquestion_40',['TextQuestion',['../classTextQuestion.html',1,'']]]
 ];

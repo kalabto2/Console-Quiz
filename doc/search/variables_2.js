@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['username_59',['username',['../classApp.html#add695d71a4e17f7fac9050ce97f30903',1,'App']]]
+  ['quiz_88',['quiz',['../classQuizFactory.html#a55e953f0aebde8598b0d223d077b26bd',1,'QuizFactory']]]
 ];

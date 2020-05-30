@@ -84,11 +84,17 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aea8b4f9fc1ef6d6b3f170f06e700bc4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08360e35cdf95709528223d259864fe0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp.html#a08360e35cdf95709528223d259864fe0">setUsername</a> (const string &amp;<a class="el" href="classApp.html#add695d71a4e17f7fac9050ce97f30903">username</a>)</td></tr>
 <tr class="separator:a08360e35cdf95709528223d259864fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a800c6551c824bbaa4a9c050d21406ef9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp.html#a800c6551c824bbaa4a9c050d21406ef9">setPassword</a> ()</td></tr>
+<tr class="separator:a800c6551c824bbaa4a9c050d21406ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a74f0a1d65abc3ea087a81152077aca9b"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp.html#a74f0a1d65abc3ea087a81152077aca9b">getInfo</a> ()</td></tr>
 <tr class="separator:a74f0a1d65abc3ea087a81152077aca9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee69f1c01de658b51c81d64cddeaa509"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp.html#aee69f1c01de658b51c81d64cddeaa509">import</a> (int argv, char **args)</td></tr>
+<tr class="separator:aee69f1c01de658b51c81d64cddeaa509"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab16f2535ea0af1e1542e804db39d4e7c"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classApp.html#ab16f2535ea0af1e1542e804db39d4e7c">getPassword</a> ()</td></tr>
+<tr class="separator:ab16f2535ea0af1e1542e804db39d4e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -166,6 +172,75 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>screenHeight</b></td><
 
 </div>
 </div>
+<a id="ab16f2535ea0af1e1542e804db39d4e7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab16f2535ea0af1e1542e804db39d4e7c">&#9670;&nbsp;</a></span>getPassword()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string App::getPassword </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Loads password from file. If file not opened, password set to 'password' </p><dl class="section return"><dt>Returns</dt><dd>password </dd></dl>
+
+</div>
+</div>
+<a id="aee69f1c01de658b51c81d64cddeaa509"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee69f1c01de658b51c81d64cddeaa509">&#9670;&nbsp;</a></span>import()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void App::import </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argv</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Copies passed file names into <a class="el" href="classApp.html">App</a>'s file structure. If file is not compatible, function does nothing. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">argv</td><td>represents number of arguments of program (including its name and parameter '&ndash;import') </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">args</td><td>represents fileNames to be imported </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aea8b4f9fc1ef6d6b3f170f06e700bc4e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aea8b4f9fc1ef6d6b3f170f06e700bc4e">&#9670;&nbsp;</a></span>run()</h2>
 
@@ -188,6 +263,24 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>screenHeight</b></td><
   </dd>
 </dl>
 <p>Makes certain action</p>
+
+</div>
+</div>
+<a id="a800c6551c824bbaa4a9c050d21406ef9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a800c6551c824bbaa4a9c050d21406ef9">&#9670;&nbsp;</a></span>setPassword()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void App::setPassword </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Renders window for setting password, handles input and save password to file </p>
 
 </div>
 </div>

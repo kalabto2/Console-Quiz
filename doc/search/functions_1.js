@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['extendedwindow_48',['extendedWindow',['../classMainMenu.html#a87b43c41eed058a770a61032ef8e07c4',1,'MainMenu']]]
+  ['createquiz_65',['createQuiz',['../classQuizFactory.html#aa5a89ad293e9e8a7208a46eab5849770',1,'QuizFactory']]]
 ];

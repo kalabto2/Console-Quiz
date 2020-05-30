@@ -1,18 +1,24 @@
-nejaky kecy sadsds ds d ds a       aaaaaaaaaaaaaaaaaaaaaaa s ssssssssssssssssssssssssssssssssssssssSSSSSSSSSSSSS SSSSSSSDds ds ds dsdafekfe SdDDDDDDDDDDSSSSSSSSSSSSSS dsad         sssssss
-dsad 
-dsaohduwdhwndifds dh d neu dqwodipwudw whdqwdjfdknfse wadhid w oi apodos do
-sdasfbdodawd 
- wdwaf 
- 
-wd
+-- START QUIZ --
+Allows you to complete a quiz. In the student mode, the name of the author of the quiz is displayed according to
+the username. When filling in the questions themselves, the answer will be overwritten every time the Answer Window opens.
 
- dwaw
-		 defesfedqwded
+-- CREATE QUIZ --
+Allows you to create quizzes. The quiz consists of individual "sheets" and they contain paired questions + answers.Every
+kind of question, has a certain kind of answers allowed. Each Answer can be automatically, when creator of questions
+will enter the correct answer. This function is especially suitable for answers with options (multiple choice -
+the application evaluates options regardless of the order, if the correct format is entered). Once a question has been
+ created and saved, the question can no longer be edited.
 
-efsefsedibdiuaehdejal
-Hra Dancig Monkey je je takova blbost pro odreagovani. Lze tvorit ruzne mapy. Hra ma vytvorene zakladni LEVELY.
+-- EVALUATE QUIZ --
+The quiz evaluation environment works similarly to completing quizzes. The application will suggest a score per answer
+(0/1) if the correct answer was entered when creating the quiz. The evaluator can always change the score. If no
+self-assessment is set, the application sets the score for the answer to 0 and it is necessary to rate it manually.
+Rated quizzes can always be corrected again.
 
-Ovladani :
- Pohyb v menu		sipkami nebo w,s,a,d
- pohyb behem hry	sipkami nebo w,s,a,d
- Pauza			ESC
+-- EXPORT / IMPORT --
+Allows you to select different types of exports (only quiz questions 'xy', author's answers 'xy' to quiz 'z', ...).
+Exported quiz are saving to folder './files/exports/'.
+
+-- SETTINGS --
+Allows you to adjust application settings. Only the "Change Password" option is now in the settings. Changes
+the password for entering the application in Teacher mode.
