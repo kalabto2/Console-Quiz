@@ -45,10 +45,10 @@ AnswerSheet::AnswerSheet(Quiz quiz1) {
     }
 }
 
-AnswerSheet::AnswerSheet(Quiz quiz1, string id) {
+AnswerSheet::AnswerSheet(Quiz quiz1, const string& filePath) {
     quiz = quiz1;
-    ifstream inFile(id);
-    this->id = id.substr(ANSWERSHEET_FILE_PATH.size() + 2);
+    ifstream inFile(filePath);
+    this->id = filePath.substr(ANSWERSHEET_FILE_PATH.size() + 2);
 
     if (inFile.is_open()) {
         string line;
@@ -110,9 +110,9 @@ void AnswerSheet::save() {
     }
 }
 
-vector<string> AnswerSheet::preview(const string& id) {
+vector<string> AnswerSheet::preview(const string& filePath) {
     vector <string> res;
-    ifstream inFile(id);
+    ifstream inFile(filePath);
 
     if (inFile.is_open()){
         string line;
@@ -135,25 +135,6 @@ vector<string> AnswerSheet::preview(const string& id) {
 
     return res;
 }
-
-/*tuple<vector<string>, vector<vector<int> > > AnswerSheet::getPrintedSheets(bool printQuestion, bool printAnswer) {
-    //vector<vector<string> > qa = quiz.getPrintSheets();
-    vector<string> printedResult;
-    vector<vector<int> > questionPointer;
-
-    int i = 1;
-    for (auto & sheet : quiz.sheets) {
-        auto lineInfo = sheet.getLines(printQuestion, printAnswer, false);
-        questionPointer.push_back(lineInfo);
-        printedResult.push_back(
-        "------------------------------------------------------------------------------------------------------------------------"
-        "\nSheet no. " + to_string(i) + "\n"
-        "------------------------------------------------------------------------------------------------------------------------"
-        "\n" + sheet.print(printQuestion, false, false)) ;
-        i++;
-    }
-    return make_tuple(printedResult, questionPointer);
-}*/
 
 void AnswerSheet::renderInput(int sheetIndex, int answerIndex) {
     answers[sheetIndex][answerIndex].get()->construct(false);
@@ -205,6 +186,10 @@ void AnswerSheet::setEvaluated(bool) {
     evaluated = true;
 }
 
+void AnswerSheet::setAuthor(const string &author) {
+    AnswerSheet::author = author;
+}
+
 string AnswerSheet::print(bool printQuestions) {
     string result;
 
@@ -229,13 +214,13 @@ string AnswerSheet::print(bool printQuestions) {
     result += "\n\tQuiz name: " + quiz.name + "\n\tCreated " + id + "\t\tAuthor: " + author + "\n\tFINAL SCORE: " +
             to_string(finalScore) + "\t" + (evaluated? "evaluated" : "not evaluated") + "\n";
 
-    for (int shNum = 0; shNum < answers.size(); shNum ++){
+    for (size_t shNum = 0; shNum < answers.size(); shNum ++){
         result +=
         "------------------------------------------------------------------------------------------------------------------------"
         "\nSheet no. " + to_string(shNum + 1) + "\n"
         "------------------------------------------------------------------------------------------------------------------------"
         "\n";
-        for (int qaNum = 0; qaNum < answers[shNum].size(); qaNum ++){
+        for (size_t qaNum = 0; qaNum < answers[shNum].size(); qaNum ++){
             result += "----------------------------------------------------\n";
             if (printQuestions){
                 result += "\tQ no. " + to_string(qaNum + 1) + "\n";
@@ -248,8 +233,4 @@ string AnswerSheet::print(bool printQuestions) {
     }
 
     return result;
-}
-
-void AnswerSheet::setAuthor(const string &author) {
-    AnswerSheet::author = author;
 }
