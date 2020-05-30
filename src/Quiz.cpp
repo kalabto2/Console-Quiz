@@ -5,10 +5,6 @@
 #include "Quiz.h"
 #include <fstream>
 
-void Quiz::setName(string name) {
-    this->name = name;
-}
-
 Quiz::Quiz() {
     time_t rawtime;
     struct tm * timeinfo;
@@ -22,47 +18,9 @@ Quiz::Quiz() {
     id = str;
 }
 
-void Quiz::addSheet(Sheet sheet) {
-    sheets.push_back(sheet);
-}
-
-void Quiz::save() {
-    ofstream outFile(QUIZ_FILE_PATH + id);
-    if (outFile.is_open())
-    {
-        outFile << "quiz" << endl << name << endl;
-
-        for (auto & sheet : sheets){
-            outFile << sheet.getId() << endl;
-        }
-
-        outFile.close();
-    }
-}
-
-vector<string> Quiz::preview(const string& id) {
-    vector <string> res;
-    ifstream inFile(id);
-
-    if (inFile.is_open()){
-        string line;
-        int i = 0;
-
-        while ( getline (inFile,line) )
-        {
-            if (i == 2) break;
-            res.push_back(line);
-            i++;
-        }
-        inFile.close();
-    }
-
-    return res;
-}
-
-Quiz::Quiz(const string& fileName) {
-    ifstream inFile(fileName);
-    id = fileName.substr(fileName.size() - 17);
+Quiz::Quiz(const string& filePath) {
+    ifstream inFile(filePath);
+    id = filePath.substr(filePath.size() - 17);
 
     if (inFile.is_open()) {
         string line;
@@ -80,6 +38,42 @@ Quiz::Quiz(const string& fileName) {
 
         inFile.close();
     }
+}
+
+void Quiz::addSheet(const Sheet& sheet) {
+    sheets.push_back(sheet);
+}
+
+void Quiz::save() {
+    ofstream outFile(QUIZ_FILE_PATH + id);
+    if (outFile.is_open())
+    {
+        outFile << "quiz" << endl << name << endl;
+        for (auto & sheet : sheets){
+            outFile << sheet.getId() << endl;
+        }
+        outFile.close();
+    }
+}
+
+vector<string> Quiz::preview(const string& filePath) {
+    vector <string> res;
+    ifstream inFile(filePath);
+
+    if (inFile.is_open()){
+        string line;
+        int i = 0;
+
+        while ( getline (inFile,line) )
+        {
+            if (i == 2) break;
+            res.push_back(line);
+            i++;
+        }
+        inFile.close();
+    }
+
+    return res;
 }
 
 string Quiz::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
@@ -121,6 +115,10 @@ string Quiz::getId() {
     return id;
 }
 
+void Quiz::setName(const string & name) {
+    this->name = name;
+}
+
 tuple < vector<string>, vector< vector<int> > > Quiz::getPrintedSheets(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
     vector<string> printedResult;
     vector< vector<int> > questionPointer;
@@ -128,8 +126,6 @@ tuple < vector<string>, vector< vector<int> > > Quiz::getPrintedSheets(bool prin
     int i = 1;
     for (auto & sheet : sheets) {
         auto lineInfo = sheet.getLines(printQuestion, printAnswer, printSpaceAnswer);
-        //for (auto & lf: lineInfo)
-        //    lf += 3;
         questionPointer.push_back(lineInfo);
         printedResult.push_back(
          "------------------------------------------------------------------------------------------------------------------------"
@@ -141,7 +137,7 @@ tuple < vector<string>, vector< vector<int> > > Quiz::getPrintedSheets(bool prin
 
     return make_tuple(printedResult, questionPointer);
 }
-
+/*
 void Quiz::renderInput(int sheetIndex, int answerIndex) {
     sheets[sheetIndex].renderInput(answerIndex);
 }
@@ -158,4 +154,4 @@ vector<int> Quiz::getNumberOfQuestions() {
     for (auto &sheet: sheets)
         result.push_back(sheet.getNumberofQuestions());
     return result;
-}
+}*/
