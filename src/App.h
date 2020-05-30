@@ -39,6 +39,13 @@ public:
      * @param[in] argv represents number of arguments of program (including its name and parameter '--import')
      * @param[in] args represents fileNames to be imported */
     static void import(int argv, char ** args);
+
+    /** Renders window for setting password, handles input and save password to file */
+    void setPassword ();
+
+    /** Loads password from file. If file not opened, password set to 'password'
+     * @return password*/
+    static string getPassword ();
 };
 
 #endif //QUIZ_APP_H

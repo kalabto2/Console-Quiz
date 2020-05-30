@@ -101,6 +101,10 @@ void App::run(bool studentMode) {
                 }
                 case MainMenu::EXIT:
                     return;
+                case MainMenu::CHANGE_PSWD:{
+                    setPassword();
+                    break;
+                }
             }
         } catch (const char * err){
             clear();
@@ -111,6 +115,30 @@ void App::run(bool studentMode) {
             refresh();
             getch();
         }
+    }
+}
+
+void App::setPassword() {
+    const int DIALOG_HEIGHT = 7, DIALOG_WIDTH = 80;
+    clear();
+    refresh();
+    WINDOW * dialog = newwin(DIALOG_HEIGHT, DIALOG_WIDTH, 10, screenWidth/2 - DIALOG_WIDTH/2);
+    box(dialog, 0,0);
+    mvwprintw(dialog, 2, 2, "Enter new password!");
+    mvwprintw(dialog, 3, 2, "> ");
+    curs_set(1);
+    wmove(dialog, 3, 4);
+    wrefresh(dialog);
+
+    char name2[100];
+    echo();
+    wgetnstr(dialog, name2, 99);
+    noecho();
+    curs_set(0);
+
+    ofstream outFile("files/password");
+    if (outFile.is_open()) {
+        outFile << name2;
     }
 }
 
@@ -151,5 +179,15 @@ void App::import(int argv, char **args) {
         ofstream dst(importPath + args[i]);
         dst << inFile.rdbuf();
     }
+}
+
+string App::getPassword() {
+    string pswd = "password";
+    ifstream inFile("files/password");
+
+    if (inFile.is_open()) {
+        getline(inFile, pswd);
+    }
+    return pswd;
 }
 

@@ -35,7 +35,7 @@ public:
     /** describes action from main menu */
     enum MENU_ACTION {
         EXIT, START_QUIZ, CREATE_QUIZ, EVALUATE_QUIZ, EXPORT_TO_TXT_QA, EXPORT_TO_TXT_Q,
-        EXPORT_TO_TXT_AS, NONE, EXPORT_TO_TXT_QS, EXPORT_TO_TXT_QAS
+        EXPORT_TO_TXT_AS, NONE, EXPORT_TO_TXT_QS, EXPORT_TO_TXT_QAS, CHANGE_PSWD
     };
 
     /** Renders init screen including QUIZ banner and main menu options

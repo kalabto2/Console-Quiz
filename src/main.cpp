@@ -4,7 +4,6 @@
 using namespace std;
 
 int main (int argv, char ** args) {
-    const string PASSWORD = "password";
     if (argv <= 1){
         cout << App::getInfo();
     }
@@ -20,9 +19,11 @@ int main (int argv, char ** args) {
             theGame.run(true);
         } else if (string(args[1]) == "TEACHER"){
             string code;
-            cout << "Enter TEACHER's password:" << endl;
-            cin >> code;
-            if (code != PASSWORD){
+            if (!App::getPassword().empty()) {
+                cout << "Enter TEACHER's password:" << endl;
+                cin >> code;
+            }
+            if (code != App::getPassword()){
                 cout << "Bad password!" << endl;
                 return 1;
             }
@@ -37,6 +38,15 @@ int main (int argv, char ** args) {
     }
     else if (argv > 2){
         if (string(args[1]) == "--import"){
+            string code;
+            if (!App::getPassword().empty()) {
+                cout << "Enter TEACHER's password:" << endl;
+                cin >> code;
+            }
+            if (code != App::getPassword()){
+                cout << "Bad password!" << endl;
+                return 1;
+            }
             App::import(argv,args);
         }
         else {

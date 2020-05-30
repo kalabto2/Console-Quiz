@@ -233,8 +233,14 @@ MainMenu::MENU_ACTION MainMenu::run(bool studentMode) {
                     }
                     break;
                 }
-                case 4:
-                    return NONE;    // TODO?
+                case 4:{
+                    mvwprintw(extendedWin, 3, 2, "=>");
+                    wrefresh(extendedWin);
+                    int c = getch();
+                    if (c == 'y' || c == KEY_RIGHT)
+                        return CHANGE_PSWD;
+                    break;
+                }
                 case 5:
                     return NONE;
                 case 6:{
