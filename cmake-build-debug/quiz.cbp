@@ -96,6 +96,12 @@
 		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/MainMenu.h">
 			<Option target="quiz"/>
 		</Unit>
+		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/ShowRoom.cpp">
+			<Option target="quiz"/>
+		</Unit>
+		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/ShowRoom.h">
+			<Option target="quiz"/>
+		</Unit>
 		<Unit filename="/home/tom/FIT/PA2/semestralka/quiz/src/main.cpp">
 			<Option target="quiz"/>
 		</Unit>

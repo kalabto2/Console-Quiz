@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/tom/FIT/PA2/semestralka/quiz/src/App.cpp" "/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles/quiz.dir/src/App.cpp.o"
   "/home/tom/FIT/PA2/semestralka/quiz/src/MainMenu.cpp" "/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles/quiz.dir/src/MainMenu.cpp.o"
+  "/home/tom/FIT/PA2/semestralka/quiz/src/ShowRoom.cpp" "/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles/quiz.dir/src/ShowRoom.cpp.o"
   "/home/tom/FIT/PA2/semestralka/quiz/src/main.cpp" "/home/tom/FIT/PA2/semestralka/quiz/cmake-build-debug/CMakeFiles/quiz.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

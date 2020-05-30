@@ -46,23 +46,18 @@ void ShowRoom::Export(MainMenu::MENU_ACTION action) {
     noecho();
     curs_set(0);
 
-    //bool printQuestion = true, printAnswer = true, printAnswerSpace = false;
     string output;
     if (action == MainMenu::EXPORT_TO_TXT_QA){
         output = quiz.print(true, true, false);
     } else if (action == MainMenu::EXPORT_TO_TXT_Q){
-        //printAnswer = false;
         output = quiz.print(true, false, false);
     } else if (action == MainMenu::EXPORT_TO_TXT_QS){
-        //printAnswer = false;
-        //printAnswerSpace = true;
         output = quiz.print(true, false, true);
-    } else if (action == MainMenu::EXPORT_TO_TXT_QAS){  // TODO
+    } else if (action == MainMenu::EXPORT_TO_TXT_QAS){
         output = answerSheet.print(true);
-    } else if (action == MainMenu::EXPORT_TO_TXT_AS){   // TODO
+    } else if (action == MainMenu::EXPORT_TO_TXT_AS){
         output = answerSheet.print(false);
     }
-    //string output = quiz.print(printQuestion,printAnswer, printAnswerSpace);
 
     ofstream outFile(EXPORTS_FILE_PATH + string(name2));
     if (outFile.is_open())
@@ -186,7 +181,7 @@ void ShowRoom::scrollWin(WINDOW *window, string content, int scrolledLines) {
     showWinScroll += scrolledLines;
 }
 
-string ShowRoom::selectAnswersheet(string quizId) {
+string ShowRoom::selectAnswersheet(const string& quizId) {
     return selectFile(false, quizId);
 }
 
@@ -194,7 +189,7 @@ string ShowRoom::selectQuiz() {
     return selectFile();
 }
 
-string ShowRoom::selectFile(bool findQuiz, string quizId) {
+string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
     int screenWidth, screenHeight;
     getmaxyx(stdscr, screenHeight, screenWidth);
     wclear(stdscr);
@@ -217,8 +212,8 @@ string ShowRoom::selectFile(bool findQuiz, string quizId) {
         }
     }
 
-    WINDOW * showWin = newwin(screenHeight - 5, screenWidth, 6, 0); // fce newwin vytvori okno
-    box(showWin, 0,0); // vytvori hranice okolo okna
+    WINDOW * showWin = newwin(screenHeight - 5, screenWidth, 6, 0);
+    box(showWin, 0,0);
 
     if (fileNames.empty()){
         mvwprintw(showWin, 2, 10, (findQuiz ? "NO QUIZ FOUND" : ("NO ANSWERSHEET TO " + quizId + " FOUND").c_str()));

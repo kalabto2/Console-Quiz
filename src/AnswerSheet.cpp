@@ -80,7 +80,11 @@ AnswerSheet::AnswerSheet(Quiz quiz1, string id) {
                 iss >> tmp;
                 sheet.push_back(Answer::getAnswer(tmp));
                 iss >> tmp;
-                scoreOfSheet.push_back(stoi(tmp));
+                try {
+                    scoreOfSheet.push_back(stoi(tmp));
+                } catch (invalid_argument & e) {
+                    scoreOfSheet.push_back(0);
+                }
             }
         }
 
@@ -152,9 +156,6 @@ vector<string> AnswerSheet::preview(const string& id) {
 }*/
 
 void AnswerSheet::renderInput(int sheetIndex, int answerIndex) {
-    /*mvprintw(0, 0, (to_string(answers[0].size()) + " " + to_string(answers.size()) + " " + to_string(sheetIndex) + " " + to_string(answerIndex)).c_str());
-    refresh();
-    getch();*/
     answers[sheetIndex][answerIndex].get()->construct(false);
 }
 
@@ -180,7 +181,6 @@ void AnswerSheet::renderEvaluation(int sheetIndex, int answerIndex) {
         wprintw(evalWin, sym.c_str());
     }
 
-    // if (quiz.sheets[sheetIndex].answers[answerIndex].get()->correctAnswer.empty())
     mvwprintw(evalWin, ++rows, 5, (answers[sheetIndex][answerIndex].get()->equal(quiz.sheets[sheetIndex].answers[answerIndex]) ? "Auto Evaluated: 1" : "Auto Evaluated: 0"));
     mvwprintw(evalWin, ++rows, 5, "Score for this answer (number; e.g. 0/1)");
     mvwprintw(evalWin, ++rows, 3, "> ");
@@ -191,7 +191,12 @@ void AnswerSheet::renderEvaluation(int sheetIndex, int answerIndex) {
     wgetstr(evalWin, name2);
     noecho();
     curs_set(0);
-    score[sheetIndex][answerIndex] = stoi(string(name2));
+    try {
+        score[sheetIndex][answerIndex] = stoi(string(name2));
+    } catch (invalid_argument & e){
+        score[sheetIndex][answerIndex] = 0;
+    }
+
     wclear(evalWin);
     wrefresh(evalWin);
 }

@@ -50,7 +50,7 @@ Všechny tyto data se budou ukládata do konfiguračních souburů.
 
 Druhy otázek a jejich možných odpovědí:
 	OTÁZKY							ODPOVĚDI
-	- Otázka s řazením  				- Řadící odpověď
+	- Otázka s řazením  				- Textová odpověď
 
 	- Otázka s výběrem					- Single choice odpověď
 								        - Multiple choice odpověď
@@ -87,3 +87,63 @@ Popis navrhnutých tříd:
     * QuizShowroom      -- zobrazuje kvízy v ncurses, exportuje je do textového dokumentu
     * AnswerSheet       -- udrzuje odpovedi ke kvizum
     * helpers           -- drží pomocné funkce, pro celou aplikaci - např. načítání vstupu přes ncurses
+
+---------------------
+|     Spouštění     |
+---------------------
+
+Příkazy:    ./kalabto2 TEACHER
+                -- spustí aplikaci v režimu učitele. Následně je učitel vyzván na vložení hesla - defaultně je "password"
+            ./kalabto2 STUDENT
+                -- spustí aplikaci v omezeném režimu studenta. Po spuštění je nutno zadat uživatelské jméno
+            ./kalabto2 --help
+                -- vypíše manuál ke spuštění
+            ./kalabto2 --import [cesta/k/souboru_pro_import]*
+                -- importuje soubory kompatibilní s aplikací do filesystému aplikace.
+                -- Např. pro importování celého kvízu je tedy třeba importovat všechny soubory rekurzivně! Tedy
+                    importovat kvíz včetně všech listů kvízu, všech otázek kvízu a odpovědí ...
+                -- pokud soubor aplikace nepozná, daný soubor se neimportuje, ostatní ano
+
+Ovládání:       Aplikace se převázně ovládá intuitivně, přes klávesnici. Vybírání v menu se potvrzuje šipkou DOPRAVA
+            (případně ENTER nebo 'y'). Potvrzení uživatelkého vstupu pomocí ENTER (případně šipka DOPRAVA nebo ESCAPE)
+
+---------------------
+|    HLAVNÍ MENU    |
+---------------------
+
+    * START QUIZ
+    * CREATE QUIZ
+    * EVALUATE QUIZ
+    * EXPORT / IMPORT
+    * SETTINGS
+    * HELP
+    * EXIT
+
+-- START QUIZ --
+Umožňuje vyplnění kvízu. V modu student se zobrazuje jmeno autora kvízu podle uživatelského jména, který vyplnil
+při vstupu do aplikace. Při vyplňování samotných otázek se odpověď přepíše pokaždé, jakmile se otevře okno pro odpověď.
+
+-- CREATE QUIZ --
+Umožňuje vytváření kvízů. Kvíz se sestává z jednotlivých "listů" a ty obsahují spárované otázky + odpovědi. Každý druh
+otázek má pouzr určitý druh odpovědi, s kterou jde spáropvat. Každá odpověď může být automaticky ohodnocena, když tvůrce
+otázky zadá správnou odpověď. Tato funkce se hodí zejména na odpovědi s možnostmi (multiple choice - aplikace vyhodnotí
+možnosti nezávisle na pořadí, pokud se zadá správný formát). Po vytvoření a uložení otázky již nejde otázku upravovat.
+
+-- EVALUATE QUIZ --
+Prostředí vyhodnocování kvízů funguje podobně jako při jejich vyplňování. Aplikace navrhne skóre za odpověď (0/1), pokud
+byla při vytváření kvízu zadaná správná odpověď. Hodnotitel může skóre vždy změnit. Pokud neni nastavené autoohodnocení,
+aplikace nastaví skóre za odpověď na 0 a je trěba ohodnotit ručně. Ohodnocené kvízy je možné vždy znovu  opravovat.
+
+-- EXPORT / IMPORT --
+Umožňuje vybrat růžné druhy exportů (pouze otázky kvízu 'xy', odpovědi autora 'xy' na kvíz 'z'). Vyexportovaný kvíz se
+uloží do složky './files/exports/'.
+
+-- SETTINGS --
+Umožňuje upravit nastavení aplikace. V nastavení je nyní pouze možnost "Změnit heslo". Změní heslo pro vstup do aplikace
+v modu Učitele.
+
+-- HELP --
+Vypíše popis fungování aplikace
+
+-- EXIT --
+Ukončí aplikaci

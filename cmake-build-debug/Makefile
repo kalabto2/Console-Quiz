@@ -177,6 +177,33 @@ src/MainMenu.cpp.s:
 	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/MainMenu.cpp.s
 .PHONY : src/MainMenu.cpp.s
 
+src/ShowRoom.o: src/ShowRoom.cpp.o
+
+.PHONY : src/ShowRoom.o
+
+# target to build an object file
+src/ShowRoom.cpp.o:
+	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/ShowRoom.cpp.o
+.PHONY : src/ShowRoom.cpp.o
+
+src/ShowRoom.i: src/ShowRoom.cpp.i
+
+.PHONY : src/ShowRoom.i
+
+# target to preprocess a source file
+src/ShowRoom.cpp.i:
+	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/ShowRoom.cpp.i
+.PHONY : src/ShowRoom.cpp.i
+
+src/ShowRoom.s: src/ShowRoom.cpp.s
+
+.PHONY : src/ShowRoom.s
+
+# target to generate assembly for a file
+src/ShowRoom.cpp.s:
+	$(MAKE) -f CMakeFiles/quiz.dir/build.make CMakeFiles/quiz.dir/src/ShowRoom.cpp.s
+.PHONY : src/ShowRoom.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -219,6 +246,9 @@ help:
 	@echo "... src/MainMenu.o"
 	@echo "... src/MainMenu.i"
 	@echo "... src/MainMenu.s"
+	@echo "... src/ShowRoom.o"
+	@echo "... src/ShowRoom.i"
+	@echo "... src/ShowRoom.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

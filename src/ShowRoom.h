@@ -26,8 +26,8 @@ public:
     void Export (MainMenu::MENU_ACTION action);
     void StartQuiz (bool fillMode = true);
     static string selectQuiz ();
-    static string selectAnswersheet (string quizId);
-    static string selectFile (bool findQuiz = true, string quizId = "");
+    static string selectAnswersheet (const string& quizId);
+    static string selectFile (bool findQuiz = true, const string& quizId = "");
 };
 
 #endif //QUIZ_SHOWROOM_H
