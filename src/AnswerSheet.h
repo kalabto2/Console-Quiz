@@ -43,7 +43,7 @@ public:
      * @param answerIndex Index of answer. */
     void renderInput (int sheetIndex, int answerIndex);
 
-    /** Renders, handles input and sets score of answer in this answerSheet
+    /** Renders, handles input and sets score of answer in this answerSheet.
      * @param sheetIndex Index of sheet.
      * @param answerIndex Index of answer. */
     void renderEvaluation (int sheetIndex, int answerIndex);

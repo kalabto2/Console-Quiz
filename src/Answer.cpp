@@ -3,7 +3,6 @@
 //
 
 #include "Answer.h"
-//#include "helpers.cpp"
 
 #include <string>
 #include <utility>
@@ -48,13 +47,7 @@ void Answer::save() {
     Answer::save();
 }
 
-void Answer::construct(bool creatingMode) {
-
-}
-
-string Answer::getId() {
-    return  id;
-}
+void Answer::construct(bool creatingMode) {}
 
 bool Answer::autoEval(WINDOW *win, string info) {
     box(win, 0, 0); // vytvori hranice okolo okna
@@ -76,7 +69,15 @@ bool Answer::autoEval(WINDOW *win, string info) {
     return autoEv;
 }
 
-shared_ptr<Answer> Answer::getAnswer(string answerId) {
+string Answer::print(bool printCorrectAnswer) {
+    return "Error :: vypsala se supperclass - data byla ztracena";
+}
+
+bool Answer::equal(shared_ptr<Answer> &a) {
+    return false;
+}
+
+shared_ptr<Answer> Answer::getAnswer(const string& answerId) {
     ifstream inFile("files/answers/" + answerId);
     string line;
 
@@ -99,12 +100,8 @@ shared_ptr<Answer> Answer::getAnswer(string answerId) {
     throw "Incompatible file type: expected 'txtA', 'valA', 'schA', 'mchA' or 'pchA' ";
 }
 
-string Answer::print(bool printCorrectAnswer) {
-    return "Error :: vypsala se supperclass - data byla ztracena";
-}
-
-bool Answer::equal(shared_ptr<Answer> &a) {
-    return false;
+string Answer::getId() {
+    return  id;
 }
 
 
@@ -112,6 +109,27 @@ bool Answer::equal(shared_ptr<Answer> &a) {
 
 
 TextAnswer::TextAnswer() : Answer() {}
+
+TextAnswer::TextAnswer(const string& answerId) {
+    getmaxyx(stdscr,screenHeight, screenWidth);
+    id = answerId;
+
+    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    string line;
+
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "txtA")
+                    throw "Incompatible file type: expected 'txtA'";
+            }
+            else {
+                correctAnswer += line + '\n';
+            }
+        }
+        inFile.close();
+    }
+}
 
 void TextAnswer::save() {
     Answer::save();
@@ -150,27 +168,6 @@ void TextAnswer::construct(bool creatingMode) {
     if (!creatingMode) {
         wclear(inputWin);
         wrefresh(inputWin);
-    }
-}
-
-TextAnswer::TextAnswer(string answerId) {
-    getmaxyx(stdscr,screenHeight, screenWidth);
-    id = answerId;
-
-    ifstream inFile(ANSWER_FILE_PATH + answerId);
-    string line;
-
-    if (inFile.is_open()){
-        for (int i = 0; getline(inFile, line); i++){
-            if (i == 0) {
-                if (line != "txtA")
-                    throw "Incompatible file type: expected 'txtA'";
-            }
-            else {
-                correctAnswer += line + '\n';
-            }
-        }
-        inFile.close();
     }
 }
 
@@ -240,7 +237,7 @@ void ValueAnswer::construct(bool creatingMode) {
     }
 }
 
-ValueAnswer::ValueAnswer(string answerId) {
+ValueAnswer::ValueAnswer(const string& answerId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = answerId;
 
@@ -324,7 +321,7 @@ void SingleChoiceAnswer::construct(bool creatingMode) {
     }
 }
 
-void SingleChoiceAnswer::preprocess(string answer) {
+void SingleChoiceAnswer::preprocess(const string& answer) {
     string number;
     bool ws = true;
 
@@ -346,7 +343,7 @@ void SingleChoiceAnswer::preprocess(string answer) {
     }
 }
 
-SingleChoiceAnswer::SingleChoiceAnswer(string answerId) {
+SingleChoiceAnswer::SingleChoiceAnswer(const string& answerId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = answerId;
 
@@ -440,7 +437,7 @@ void MultipleChoiceAnswer::construct(bool creatingMode) {
     }
 }
 
-void MultipleChoiceAnswer::preprocess(string answer) {
+void MultipleChoiceAnswer::preprocess(const string& answer) {
     string number;
     bool comma = false;
 
@@ -472,7 +469,7 @@ void MultipleChoiceAnswer::preprocess(string answer) {
     number = "";
 }
 
-MultipleChoiceAnswer::MultipleChoiceAnswer(string answerId) {
+MultipleChoiceAnswer::MultipleChoiceAnswer(const string& answerId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = answerId;
 
@@ -538,7 +535,6 @@ void PairChoiceAnswer::save() {
             for (auto & k : choice){
                 outFile << k << " ";
             }
-            //outFile << *choice.begin() << " " << *choice.end() << choice.;
             i++;
         }
         outFile.close();
@@ -626,7 +622,7 @@ void PairChoiceAnswer::preprocess(string answer) {
     pair.clear();
 }
 
-PairChoiceAnswer::PairChoiceAnswer(string answerId) {
+PairChoiceAnswer::PairChoiceAnswer(const string& answerId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = answerId;
 
@@ -680,87 +676,3 @@ string PairChoiceAnswer::print(bool printCorrectAnswer) {
 bool PairChoiceAnswer::equal(shared_ptr<Answer> &a) {
     return dynamic_cast<PairChoiceAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
-
-/* ------------------------------------------------------------------------------------------------------------------ */
-/*
-SortingAnswer::SortingAnswer() : Answer() {}
-
-bool SortingAnswer::equal(shared_ptr<Answer> &a) {
-    return dynamic_cast<SortingAnswer*>(a.get())->correctAnswer == correctAnswer;
-}
-
-void SortingAnswer::save() {
-
-}
-
-void SortingAnswer::construct(bool creatingMode) {
-    int winStartY = (creatingMode ? (screenHeight - 5) / 2 : (screenHeight - 15));
-    int winStartX = (creatingMode ? screenWidth - 60 : 0);
-    int winHeight = (creatingMode ? 5 + ((screenHeight - 5) / 2) : 15);
-    int winWidth  = (creatingMode ? 5 + 60 : screenWidth);
-    WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
-    box(inputWin, 0, 0);
-    bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
-
-    if (autoEv || !creatingMode){
-        mvwprintw(inputWin, 2, 4, "SORTING ANSWER");
-        mvwprintw(inputWin, 4, 4, "Enter paired number of correct choices (e.g. '2 + 3, 4 + 6, 1 + 5' -- separated by comma, paired with plus and in any order):");
-        mvwprintw(inputWin, 5, 2, "> ");
-        curs_set(1);
-        wrefresh(inputWin);
-        char tmp[100];
-        echo();
-        wgetstr(inputWin, tmp);
-        noecho();
-        curs_set(0);
-        preprocess(string(tmp));
-    }
-    if (!creatingMode) {
-        wclear(inputWin);
-        wrefresh(inputWin);
-    }
-}
-
-void SortingAnswer::preprocess(string answer) {
-    string number;
-    bool comma = false;
-
-    for (auto & ch : answer){
-        if (iswspace(ch))
-            continue;
-        if (ch == ',' && comma){
-            correctAnswer.push_back(stoi(number));
-            number = "";
-            comma = false;
-            continue;
-        }
-        if (isdigit(ch)){
-            number += ch;
-            comma = true;
-            continue;
-        }
-        break;
-    }
-    correctAnswer.push_back(stoi(number));
-    number = "";
-}
-
-string SortingAnswer::print(bool printCorrectAnswer) {
-    string res;
-
-    if (printCorrectAnswer){
-        for (auto & i : correctAnswer){
-            res += (i == *(correctAnswer.rbegin()) ? to_string(i) : to_string(i) + ", ");
-        }
-    }
-    else {
-        res +=
-                "> ______________________________________________________________________________________________________________\n";
-    }
-    return res + "\n";
-}
-
-SortingAnswer::SortingAnswer(string answerId) {
-
-}
-*/
