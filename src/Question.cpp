@@ -93,10 +93,6 @@ TextQuestion::TextQuestion(const string& questionId) {
 
 TextQuestion::TextQuestion() : Question() {}
 
-void TextQuestion::setQuestion(string question){
-    this->question = std::move(question);
-}
-
 void TextQuestion::construct() {
     WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60);
     box(inputWin, 0, 0);
@@ -371,10 +367,10 @@ void SortingQuestion::construct() {
     question = res;
 
     wclear(inputWin);
-    box(inputWin, 0, 0); // vytvori hranice okolo okna
+    box(inputWin, 0, 0);
     mvwprintw(inputWin, 2, 2, "Enter text to be sorted: (press KEY ENTER to confirm)");
     mvwprintw(inputWin, 3, 4, "1.  >");
-    wmove(inputWin, 3, 10);    // presune kurzor do okna na x, y pozici
+    wmove(inputWin, 3, 10);
     wrefresh(inputWin);
 
     for (int i = 0; i < 20; i++){

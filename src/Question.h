@@ -16,22 +16,57 @@
 
 using namespace std;
 
+
+/** Represents Base class of question. */
 class Question {
 public:
+    /** Creates new question - new id, and loads screen info. */
     Question();
+
+    /** Pure virtual method. Saves object to file. */
     virtual void save();
+
+    /** Pure virtual method. Renders construction window, handles input and sets data. */
     virtual void construct();
+
+    /** Pure virtual method. Renders type of answer, that are compatible with this question.
+     * @param window window, where types of answer are printed. */
     virtual void renderAnswers(WINDOW * window);
+
+    /** Pure virtual method.
+     * @param i index determining type of answer.
+     * @return new instance of answer of type set by @param i. */
     virtual shared_ptr<Answer> getTypeAnswer(int i);
-    string getId ();
+
+    /** Pure virtual method. Gets number of compatible answers.
+     * @return number of compatible answers. */
     virtual int getNumOfAnsw ();
-    static shared_ptr<Question> getQuestion (string questionId);
+
+    /** Pure virtual method. Prints decorated question.
+     * @return printed question. */
     virtual string print ();
+
+    /** Destructor to Base class question. */
     virtual ~Question();
+
+    /** Gets questions unique id.
+     * @return id. */
+    string getId ();
+
+    /** Determines and gets, what questions is in file.
+     * @param questionId id of file.
+     * @return instance of questions.
+     * @throw string exception, if file type is incompatible. */
+    static shared_ptr<Question> getQuestion (string questionId);
+
 protected:
+    /** Variables holds size of dimensions of screen. */
     int screenHeight, screenWidth;
+
+    /** Unique id of Question. Set by current date/time. */
     string id;
 
+    /** Path to files with Questions files. */
     const string QUESTION_FILE_PATH = "files/questions/";
 };
 
@@ -39,19 +74,44 @@ protected:
 /* ------------------------------------------------------------------------------------------------------------------ */
 
 
+/** Derived question represents Question with text field. */
 class TextQuestion : public Question {
 public:
+    /** Loads question of file.
+     * @param questionId name of file.
+     * @throw string exception, if file is incompatible. */
     TextQuestion(const string& questionId);
+
+    /** Creates new instance of question. */
     TextQuestion();
-    void setQuestion(string question);
+
+    /** Renders construction window, handles input and sets data. */
     void construct() override;
+
+    /** Saves object to file. */
     void save() override;
+
+    /** Renders type of answer, that are compatible with this question.
+     * @param window window, where types of answer are printed. */
     void renderAnswers(WINDOW * window) override ;
-    shared_ptr<Answer> getTypeAnswer(int i) override ;
-    int getNumOfAnsw () override ;
+
+    /** Prints decorated question.
+     * @return printed question. */
     string print() override;
+
+    /** gets type of answer compatible with this question.
+     * @param i index determining type of answer.
+     * @return new instance of answer of type set by @param i. */
+    shared_ptr<Answer> getTypeAnswer(int i) override ;
+
+    /** gets type of answer compatible with this question.
+     * @return number of answers compatible to this question. */
+    int getNumOfAnsw () override ;
+
+    /** Destructs object. */
     ~TextQuestion() override;
 protected:
+    /** Answer to question, that user writes. */
     string question;
 
 };
@@ -60,19 +120,47 @@ protected:
 /* ------------------------------------------------------------------------------------------------------------------ */
 
 
+/** Derived class represents questions with several questions. */
 class ChoiceQuestion : public Question {
 public:
+    /** Loads question of file.
+     * @param questionId name of file.
+     * @throw string exception, if file is incompatible. */
     ChoiceQuestion (string questionId);
+
+    /** Creates new instance of question. */
     ChoiceQuestion ();
+
+    /** Renders construction window, handles input and sets data. */
     void construct () override;
+
+    /** Saves object to file. */
     void save() override;
+
+    /** Renders type of answer, that are compatible with this question.
+     * @param window window, where types of answer are printed. */
     void renderAnswers(WINDOW * window) override;
-    shared_ptr<Answer> getTypeAnswer(int i) override;
-    int getNumOfAnsw () override ;
+
+    /** Prints decorated question.
+     * @return printed question. */
     string print() override ;
+
+    /** gets type of answer compatible with this question.
+     * @param i index determining type of answer.
+     * @return new instance of answer of type set by @param i. */
+    shared_ptr<Answer> getTypeAnswer(int i) override;
+
+    /** gets type of answer compatible with this question.
+     * @return number of answers compatible to this question. */
+    int getNumOfAnsw () override ;
+
+    /** Destructs object. */
     ~ChoiceQuestion() override;
+
 protected:
+    /** Answer to question, that user writes. */
     string question;
+    /** Choices to choice question. */
     vector<string> choices;
 };
 
@@ -80,19 +168,47 @@ protected:
 /* ------------------------------------------------------------------------------------------------------------------ */
 
 
+/** Derived class representating questions with choices to sort. */
 class SortingQuestion : public Question {
 public:
+    /** Loads question of file.
+     * @param questionId name of file.
+     * @throw string exception, if file is incompatible. */
     SortingQuestion (string questionId);
+
+    /** Creates new instance of question. */
     SortingQuestion ();
+
+    /** Renders construction window, handles input and sets data. */
     void construct () override;
+
+    /** Saves object to file. */
     void save() override;
+
+    /** Renders type of answer, that are compatible with this question.
+     * @param window window, where types of answer are printed. */
     void renderAnswers(WINDOW * window) override;
+
+    /** gets type of answer compatible with this question.
+     * @param i index determining type of answer.
+     * @return new instance of answer of type set by @param i. */
     shared_ptr<Answer> getTypeAnswer(int i) override;
+
+    /** gets type of answer compatible with this question.
+     * @return number of answers compatible to this question. */
     int getNumOfAnsw () override ;
+
+    /** Prints decorated question.
+     * @return printed question. */
     string print() override ;
+
+    /** Destructs object. */
     ~SortingQuestion() override;
+
 protected:
+    /** Answer to question, that user writes. */
     string question;
+    /** Choices to sort question to be sorted. */
     vector<string> choices;
 };
 
