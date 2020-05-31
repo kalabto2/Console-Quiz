@@ -36,7 +36,7 @@ void Sheet::createSheet() {
     box(upperWin, 0,0); // vytvori hranice okolo okna
     mvwprintw(upperWin, 2, screenWidth/2 - 6, "SHEET FACTORY");
     wrefresh(upperWin);
-
+    delwin(upperWin);
     while (true){
         if (choosePanel() == FINISH_SHEET)
             break;
@@ -158,7 +158,7 @@ Sheet::SHEET_OPTION Sheet::choosePanel() {
             pointerPos -= (pointerPos > (screenHeight - 5 - 5) ? 2 : 0);
         }
     }
-
+    delwin(sideWin);
     return (pointerPos == screenHeight - 10 ? ADD_QUESTION : FINISH_SHEET);
 }
 

@@ -65,6 +65,8 @@ string Question::print() {
     return std::string("Vytisknula se superclass :(. Data ztracena ...");
 }
 
+Question::~Question() = default;
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -123,6 +125,7 @@ void TextQuestion::construct() {
         wrefresh(inputWin);
     }
 
+    delwin(inputWin);
     question = res;
     curs_set(0);
 }
@@ -160,6 +163,8 @@ int TextQuestion::getNumOfAnsw() {
 string TextQuestion::print() {
     return question;
 }
+
+TextQuestion::~TextQuestion() = default;
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -228,6 +233,7 @@ void ChoiceQuestion::construct() {
         wrefresh(inputWin);
     }
     wclear(inputWin);
+    delwin(inputWin);
 }
 
 void ChoiceQuestion::save() {
@@ -302,6 +308,8 @@ string ChoiceQuestion::print() {
     }
     return question + "\n\tChoose from following:" + res + "\n";
 }
+
+ChoiceQuestion::~ChoiceQuestion() = default;
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -395,7 +403,9 @@ void SortingQuestion::construct() {
         curs_set(1);
         wrefresh(inputWin);
     }
-    wclear(inputWin);}
+    wclear(inputWin);
+    delwin(inputWin);
+}
 
 void SortingQuestion::save() {
     ofstream outFile(QUESTION_FILE_PATH + id);
@@ -437,5 +447,7 @@ string SortingQuestion::print() {
     }
     return question + "\n\tSort following:" + res + "\n";
 }
+
+SortingQuestion::~SortingQuestion() = default;
 
 

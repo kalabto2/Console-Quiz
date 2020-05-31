@@ -27,6 +27,7 @@ public:
     virtual int getNumOfAnsw ();
     static shared_ptr<Question> getQuestion (string questionId);
     virtual string print ();
+    virtual ~Question();
 protected:
     int screenHeight, screenWidth;
     string id;
@@ -49,6 +50,7 @@ public:
     shared_ptr<Answer> getTypeAnswer(int i) override ;
     int getNumOfAnsw () override ;
     string print() override;
+    ~TextQuestion() override;
 protected:
     string question;
 
@@ -68,6 +70,7 @@ public:
     shared_ptr<Answer> getTypeAnswer(int i) override;
     int getNumOfAnsw () override ;
     string print() override ;
+    ~ChoiceQuestion() override;
 protected:
     string question;
     vector<string> choices;
@@ -87,6 +90,7 @@ public:
     shared_ptr<Answer> getTypeAnswer(int i) override;
     int getNumOfAnsw () override ;
     string print() override ;
+    ~SortingQuestion() override;
 protected:
     string question;
     vector<string> choices;

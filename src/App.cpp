@@ -140,6 +140,7 @@ void App::setPassword() {
     if (outFile.is_open()) {
         outFile << name2;
     }
+    delwin(dialog);
 }
 
 string App::getInfo() {

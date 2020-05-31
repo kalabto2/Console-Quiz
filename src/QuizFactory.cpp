@@ -31,6 +31,8 @@ void QuizFactory::setName() {
     noecho();
     curs_set(0);
     quiz.setName(string(name));
+
+    delwin(dialog);
 }
 
 void QuizFactory::createQuiz() {
@@ -49,6 +51,7 @@ void QuizFactory::addSheetDialog() {
         box(upperWin, 0,0);
         mvwprintw(upperWin, 2, screenWidth/2 - 6, "QUIZ FACTORY");
         wrefresh(upperWin);
+        delwin(upperWin);
         WINDOW * addSheetWin = newwin(ADD_SHEET_DIALOG_HEIGHT, ADD_SHEET_DIALOG_WIDTH, screenHeight / 2 - ADD_SHEET_DIALOG_HEIGHT / 2, screenWidth / 2 - ADD_SHEET_DIALOG_WIDTH / 2); // fce newwin vytvori okno
         box(addSheetWin, 0, 0);
         mvwprintw(addSheetWin, 2, 6, "NEW SHEET");
@@ -73,6 +76,7 @@ void QuizFactory::addSheetDialog() {
             }
             mvwprintw(addSheetWin, pointerPos, 3, "=>");
             wrefresh(addSheetWin);
+            delwin(addSheetWin);
         }
 
         if (pointerPos == 2) {

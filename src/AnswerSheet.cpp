@@ -180,6 +180,7 @@ void AnswerSheet::renderEvaluation(int sheetIndex, int answerIndex) {
 
     wclear(evalWin);
     wrefresh(evalWin);
+    delwin(evalWin);
 }
 
 void AnswerSheet::setEvaluated(bool) {

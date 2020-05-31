@@ -104,6 +104,8 @@ string Answer::getId() {
     return  id;
 }
 
+Answer::~Answer() = default;
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -169,6 +171,7 @@ void TextAnswer::construct(bool creatingMode) {
         wclear(inputWin);
         wrefresh(inputWin);
     }
+    delwin(inputWin);
 }
 
 string TextAnswer::print(bool printCorrectAnswer) {
@@ -190,6 +193,8 @@ string TextAnswer::print(bool printCorrectAnswer) {
 bool TextAnswer::equal(shared_ptr<Answer> &a) {
     return dynamic_cast<TextAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
+
+TextAnswer::~TextAnswer() = default;
 
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -235,6 +240,7 @@ void ValueAnswer::construct(bool creatingMode) {
         wclear(inputWin);
         wrefresh(inputWin);
     }
+    delwin(inputWin);
 }
 
 ValueAnswer::ValueAnswer(const string& answerId) {
@@ -274,6 +280,8 @@ string ValueAnswer::print(bool printCorrectAnswer) {
 bool ValueAnswer::equal(shared_ptr<Answer> &a) {
     return dynamic_cast<ValueAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
+
+ValueAnswer::~ValueAnswer() = default;
 
 
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -319,6 +327,7 @@ void SingleChoiceAnswer::construct(bool creatingMode) {
         wclear(inputWin);
         wrefresh(inputWin);
     }
+    delwin(inputWin);
 }
 
 void SingleChoiceAnswer::preprocess(const string& answer) {
@@ -385,6 +394,8 @@ bool SingleChoiceAnswer::equal(shared_ptr<Answer> &a) {
     return dynamic_cast<SingleChoiceAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
 
+SingleChoiceAnswer::~SingleChoiceAnswer() = default;
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -435,6 +446,7 @@ void MultipleChoiceAnswer::construct(bool creatingMode) {
         wclear(inputWin);
         wrefresh(inputWin);
     }
+    delwin(inputWin);
 }
 
 void MultipleChoiceAnswer::preprocess(const string& answer) {
@@ -516,6 +528,8 @@ bool MultipleChoiceAnswer::equal(shared_ptr<Answer> &a) {
     return dynamic_cast<MultipleChoiceAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
 
+MultipleChoiceAnswer::~MultipleChoiceAnswer() = default;
+
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
@@ -568,6 +582,7 @@ void PairChoiceAnswer::construct(bool creatingMode) {
         wclear(inputWin);
         wrefresh(inputWin);
     }
+    delwin(inputWin);
 }
 
 void PairChoiceAnswer::preprocess(string answer) {
@@ -676,3 +691,5 @@ string PairChoiceAnswer::print(bool printCorrectAnswer) {
 bool PairChoiceAnswer::equal(shared_ptr<Answer> &a) {
     return dynamic_cast<PairChoiceAnswer*>(a.get())->correctAnswer == correctAnswer;
 }
+
+PairChoiceAnswer::~PairChoiceAnswer() = default;

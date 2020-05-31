@@ -31,6 +31,7 @@ void ShowRoom::Export(MainMenu::MENU_ACTION action) {
     box(upperWin, 0,0); // vytvori hranice okolo okna
     mvwprintw(upperWin, 2, screenWidth/2 - 6, "QUIZ EXPORTER");
     wrefresh(upperWin);
+    delwin(upperWin);
 
     WINDOW * dialog = newwin(QUIZ_FACTORY_DIALOG_HEIGHT, QUIZ_FACTORY_DIALOG_WIDTH, 10, screenWidth/2 - QUIZ_FACTORY_DIALOG_WIDTH/2); // fce newwin vytvori okno
     box(dialog, 0,0); // vytvori hranice okolo okna
@@ -45,6 +46,7 @@ void ShowRoom::Export(MainMenu::MENU_ACTION action) {
     wgetstr(dialog, name2);
     noecho();
     curs_set(0);
+    delwin(dialog);
 
     string output;
     if (action == MainMenu::EXPORT_TO_TXT_QA){
@@ -76,6 +78,7 @@ void ShowRoom::StartQuiz(bool fillMode) {
     mvwprintw(upperWin, 2, 7, ("Quiz - " + quiz.getName()).c_str());
     mvwprintw(upperWin, 2, screenWidth - 7 - 20, ("id: " + quiz.getId()).c_str());
     wrefresh(upperWin);
+    delwin(upperWin);
 
     vector <vector <int> > sheetCursorHeight;
     vector <string> sheets;
@@ -144,6 +147,7 @@ void ShowRoom::StartQuiz(bool fillMode) {
             j -= 2;
             continue;
         }
+        delwin(showWin);
     }
     if (!fillMode)
         answerSheet.setEvaluated(true);
@@ -198,6 +202,7 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
     box(upperWin, 0,0); // vytvori hranice okolo okna
     mvwprintw(upperWin, 2, screenWidth/2 - 7, (findQuiz ? "QUIZ SELECTOR" : "ANSWERSHEET SELECTOR"));
     wrefresh(upperWin);
+    delwin(upperWin);
 
     vector<string> fileNames;
     vector< vector<string> > fileData;
@@ -252,10 +257,10 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
         mvwprintw(showWin, pointerPos, 3, "=>");
         wrefresh(showWin);
     }
-
+    delwin(showWin);
     return fileNames[pointerPos / 2 - 1];
 }
 
-void ShowRoom::setAuthor(string author) {
+void ShowRoom::setAuthor(const string& author) {
     answerSheet.setAuthor(author);
 }

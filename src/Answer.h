@@ -32,6 +32,9 @@ public:
     /** Pure virtual method. Returns true, if this answer is equal to @param a. */
     virtual bool equal (shared_ptr<Answer> & a);
 
+    /** Destructor to base class. */
+    virtual ~Answer();
+
     /** @param answerId id of answer-file.
      * @return subclass according to file type.
      * @throw string exception, if loaded file is incompatible */
@@ -91,6 +94,9 @@ public:
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;
 
+    /** Destructor to derived class. */
+    ~TextAnswer() override ;
+
 protected:
     /** Represents answer of STUDENT or sample answer of TEACHER.
      * If is sample answer, empty value means no auto evaluation. */
@@ -131,6 +137,9 @@ public:
      * @param a another object to compare.
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;
+
+    /** Destructor to derived class. */
+    ~ValueAnswer() override ;
 
 protected:
     /** Represents answer of STUDENT or sample answer of TEACHER.
@@ -177,6 +186,9 @@ public:
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;
 
+    /** Destructor to derived class. */
+    ~SingleChoiceAnswer() override ;
+
 protected:
     /** Represents answer of STUDENT or sample answer of TEACHER.
      * If is sample answer, empty value means no auto evaluation. */
@@ -221,6 +233,9 @@ public:
      * @param a another object to compare.
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;
+
+    /** Destructor to derived class. */
+    ~MultipleChoiceAnswer() override ;
 
 protected:
     /** Represents answer of STUDENT or sample answer of TEACHER.
@@ -267,6 +282,9 @@ public:
      * @param a another object to compare.
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;
+
+    /** Destructor to derived class. */
+    ~PairChoiceAnswer() override ;
 
 protected:
     /** Represents answer of STUDENT or sample answer of TEACHER.
