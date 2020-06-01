@@ -5,13 +5,15 @@
 #include <ncurses.h>
 #include <numeric>
 #include <algorithm>
-#include <filesystem>
+#include <dirent.h>
+//#include <experimental/filesystem>
 
 #include "ShowRoom.h"
 
 const int QUIZ_FACTORY_DIALOG_HEIGHT = 10;
 const int QUIZ_FACTORY_DIALOG_WIDTH = 50;
 
+//namespace fs = std::experimental::filesystem;
 
 ShowRoom::ShowRoom(const string& quizFilePath) : quiz(quizFilePath), answerSheet(quiz){
     getmaxyx(stdscr, screenHeight, screenWidth);
@@ -203,16 +205,39 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
 
     vector<string> fileNames;
     vector< vector<string> > fileData;
-    namespace fs = std::filesystem;
 
-    string path = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/");
+    //namespace fs = std::filesystem;
+
+    /*string path = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/");
     for (const auto & entry : fs::directory_iterator(path)) {
         vector<string> a = (findQuiz ? Quiz::preview(entry.path()) : AnswerSheet::preview(entry.path()));
         if (findQuiz || a[3] == quizId.substr(string("./files/quizzes/").size())) {
             fileData.push_back(a);
             fileNames.push_back(entry.path());
         }
+    }*/
+
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir ((findQuiz ? "./files/quizzes/" : "./files/answerSheets/"))) != nullptr) {
+        while ((ent = readdir (dir)) != nullptr) {
+            if (string(ent->d_name).size() < 17)
+                continue;
+            string filePath = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/") + string(ent->d_name);
+            printw(filePath.c_str());
+            refresh();
+            getch();
+            vector<string> a = (findQuiz ? Quiz::preview(filePath) : AnswerSheet::preview(filePath));
+            if (findQuiz || a[3] == quizId.substr(string("./files/quizzes/").size())) {
+                fileData.push_back(a);
+                fileNames.push_back(filePath);
+            }
+        }
+        closedir (dir);
+    } else {
+        throw "Couldn't find or open directory";
     }
+    getch();
 
     WINDOW * showWin = newwin(screenHeight - 5, screenWidth, 6, 0);
     box(showWin, 0,0);

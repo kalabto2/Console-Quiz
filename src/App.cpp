@@ -80,7 +80,6 @@ void App::run(bool studentMode) {
                 case MainMenu::EXPORT_TO_TXT_QS: {
                     string quizId = ShowRoom::selectQuiz();
                     if (quizId.empty()) break;
-                    //Quiz quiz(quizId);
                     ShowRoom exports(quizId);
                     exports.Export(menuAction);
                     break;

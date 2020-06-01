@@ -2,8 +2,8 @@
 
 PROGRAM=kalabto2
 CC=g++
-CFLAGS=-std=c++17 -Wall -pedantic -lncurses -lpthread #-Wextra -g -Wno-long-long -O0 -ggdb
-DIRNAME=files2/answers files2/answerSheets files2/exports files2/questions files2/quizzes files2/sheets
+CFLAGS=-std=c++14 -Wall -pedantic -lncurses # -Wextra -g -Wno-long-long -O0 -ggdb
+#DIRNAME=files2/answers files2/answerSheets files2/exports files2/questions files2/quizzes files2/sheets
 
 ## Spuštění programu 'all'
 .PHONY: all
@@ -19,7 +19,7 @@ compile: $(PROGRAM)
 
 ## Spuštění
 run: compile
-	./$(PROGRAM)
+	./$(PROGRAM) TEACHER
 
 ## Spuštění programu 'main'
 main: build/main
