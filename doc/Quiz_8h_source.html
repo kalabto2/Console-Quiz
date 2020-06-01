@@ -96,7 +96,7 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">string</span> print (<span class="keywordtype">bool</span> printQuestion = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printAnswer = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printSpaceAnswer = <span class="keyword">true</span>);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    tuple &lt; vector&lt;string&gt;, vector&lt; vector&lt;int&gt; &gt; &gt; getPrintedSheets (<span class="keywordtype">bool</span> printQuestion = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printAnswer = <span class="keyword">false</span>, <span class="keywordtype">bool</span> PrintSpaceAnswer = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    tuple &lt; vector&lt;string&gt;, vector&lt; vector&lt;int&gt; &gt; &gt; getPrintedSheets (<span class="keywordtype">bool</span> printQuestion = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printAnswer = <span class="keyword">false</span>, <span class="keywordtype">bool</span> printSpaceAnswer = <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">string</span> getName ();</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
@@ -110,10 +110,8 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="classQuiz.html#a02b83a494e0a6aad6c08d309759f414f">   65</a></span>&#160;    vector&lt;Sheet&gt; <a class="code" href="classQuiz.html#a02b83a494e0a6aad6c08d309759f414f">sheets</a>;</div>
 <div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="classQuiz.html#ae296f77f9c8cb270064b9c29d63b00aa">   67</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classQuiz.html#ae296f77f9c8cb270064b9c29d63b00aa">id</a>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">/* Holds name of quiz */</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">string</span> name;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">/* file path to storage of quizzes files*/</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">string</span> QUIZ_FILE_PATH = <span class="stringliteral">&quot;files/quizzes/&quot;</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classQuiz.html#a88d6c88f9969b8c9b1475e8f093e2a2e">   69</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classQuiz.html#a88d6c88f9969b8c9b1475e8f093e2a2e">name</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classQuiz.html#aa3065e819ee62211e6b07c666f2d396e">   71</a></span>&#160;    <span class="keywordtype">string</span> QUIZ_FILE_PATH = <span class="stringliteral">&quot;files/quizzes/&quot;</span>;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classAnswerSheet.html">AnswerSheet</a>;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;};</div>
@@ -121,9 +119,10 @@ $(function() {
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif //QUIZ_QUIZ_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassQuiz_html"><div class="ttname"><a href="classQuiz.html">Quiz</a></div><div class="ttdef"><b>Definition:</b> Quiz.h:14</div></div>
-<div class="ttc" id="aclassSheet_html"><div class="ttname"><a href="classSheet.html">Sheet</a></div><div class="ttdef"><b>Definition:</b> Sheet.h:16</div></div>
-<div class="ttc" id="aclassAnswerSheet_html"><div class="ttname"><a href="classAnswerSheet.html">AnswerSheet</a></div><div class="ttdef"><b>Definition:</b> AnswerSheet.h:14</div></div>
+<div class="ttc" id="aclassSheet_html"><div class="ttname"><a href="classSheet.html">Sheet</a></div><div class="ttdef"><b>Definition:</b> Sheet.h:18</div></div>
+<div class="ttc" id="aclassAnswerSheet_html"><div class="ttname"><a href="classAnswerSheet.html">AnswerSheet</a></div><div class="ttdef"><b>Definition:</b> AnswerSheet.h:15</div></div>
 <div class="ttc" id="aclassQuiz_html_a02b83a494e0a6aad6c08d309759f414f"><div class="ttname"><a href="classQuiz.html#a02b83a494e0a6aad6c08d309759f414f">Quiz::sheets</a></div><div class="ttdeci">vector&lt; Sheet &gt; sheets</div><div class="ttdef"><b>Definition:</b> Quiz.h:65</div></div>
+<div class="ttc" id="aclassQuiz_html_a88d6c88f9969b8c9b1475e8f093e2a2e"><div class="ttname"><a href="classQuiz.html#a88d6c88f9969b8c9b1475e8f093e2a2e">Quiz::name</a></div><div class="ttdeci">string name</div><div class="ttdef"><b>Definition:</b> Quiz.h:69</div></div>
 <div class="ttc" id="aclassQuiz_html_ae296f77f9c8cb270064b9c29d63b00aa"><div class="ttname"><a href="classQuiz.html#ae296f77f9c8cb270064b9c29d63b00aa">Quiz::id</a></div><div class="ttdeci">string id</div><div class="ttdef"><b>Definition:</b> Quiz.h:67</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

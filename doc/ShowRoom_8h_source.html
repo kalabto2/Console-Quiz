@@ -81,33 +81,50 @@ $(function() {
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;MainMenu.h&quot;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;AnswerSheet.h&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classShowRoom.html">   12</a></span>&#160;<span class="keyword">class </span><a class="code" href="classShowRoom.html">ShowRoom</a> {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classQuiz.html">Quiz</a> quiz;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="classAnswerSheet.html">AnswerSheet</a> answerSheet;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">int</span> screenWidth, screenHeight, showWinScroll = 0;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">void</span> scrollWin (WINDOW * window, <span class="keywordtype">string</span> content, <span class="keywordtype">int</span> scrolledLines);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">string</span> EXPORTS_FILE_PATH = <span class="stringliteral">&quot;files/exports/&quot;</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="classShowRoom.html">ShowRoom</a> (<a class="code" href="classQuiz.html">Quiz</a> quiz);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="classShowRoom.html">ShowRoom</a> (<span class="keywordtype">string</span> quizId);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classShowRoom.html">ShowRoom</a> (<span class="keywordtype">string</span> quizId, <span class="keywordtype">string</span> answerSheetId);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> setAuthor (<span class="keywordtype">string</span> author);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> Export (<a class="code" href="classMainMenu.html#aa187aa9e7ddde30187d8400e7eeef0b7">MainMenu::MENU_ACTION</a> action);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> StartQuiz (<span class="keywordtype">bool</span> fillMode = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">string</span> selectQuiz ();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">string</span> selectAnswersheet (<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; quizId);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">string</span> selectFile (<span class="keywordtype">bool</span> findQuiz = <span class="keyword">true</span>, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; quizId = <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;};</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif //QUIZ_SHOWROOM_H</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="classShowRoom.html">   14</a></span>&#160;<span class="keyword">class </span><a class="code" href="classShowRoom.html">ShowRoom</a> {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="classQuiz.html">Quiz</a> quiz;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classAnswerSheet.html">AnswerSheet</a> answerSheet;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">int</span> screenHeight;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">int</span> screenWidth;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">int</span> showWinScroll = 0;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">string</span> EXPORTS_FILE_PATH = <span class="stringliteral">&quot;files/exports/&quot;</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> scrollWin (WINDOW * window, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; content, <span class="keywordtype">int</span> scrolledLines);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classShowRoom.html#a34a6024cd964d156db68393a4978d688">ShowRoom</a> (<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; quizFilePath);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classShowRoom.html#a34a6024cd964d156db68393a4978d688">ShowRoom</a> (<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; quizFilePath, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; answerSheetFilePath);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classShowRoom.html#a8d34bd0967484d50922f70ff0ab24477">Export</a> (<a class="code" href="classMainMenu.html#aa187aa9e7ddde30187d8400e7eeef0b7">MainMenu::MENU_ACTION</a> action);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classShowRoom.html#a5176448519f25f0fee24148ce2f7d738">StartQuiz</a> (<span class="keywordtype">bool</span> fillMode = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classShowRoom.html#ad5c993e13b9b2f241af17e8bb388e44d">setAuthor</a> (<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; author);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">string</span> <a class="code" href="classShowRoom.html#a6388fd99d5d37731303751d8bea284cb">selectQuiz</a> ();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">string</span> <a class="code" href="classShowRoom.html#a1686e526a7d076f528df4315f3249cd6">selectAnswersheet</a> (<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; quizId);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">string</span> <a class="code" href="classShowRoom.html#a10562890c7759869fde4ed9e0970d28d">selectFile</a> (<span class="keywordtype">bool</span> findQuiz = <span class="keyword">true</span>, <span class="keyword">const</span> <span class="keywordtype">string</span>&amp; quizId = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif //QUIZ_SHOWROOM_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclassShowRoom_html_a8d34bd0967484d50922f70ff0ab24477"><div class="ttname"><a href="classShowRoom.html#a8d34bd0967484d50922f70ff0ab24477">ShowRoom::Export</a></div><div class="ttdeci">void Export(MainMenu::MENU_ACTION action)</div><div class="ttdef"><b>Definition:</b> ShowRoom.cpp:24</div></div>
+<div class="ttc" id="aclassShowRoom_html_ad5c993e13b9b2f241af17e8bb388e44d"><div class="ttname"><a href="classShowRoom.html#ad5c993e13b9b2f241af17e8bb388e44d">ShowRoom::setAuthor</a></div><div class="ttdeci">void setAuthor(const string &amp;author)</div><div class="ttdef"><b>Definition:</b> ShowRoom.cpp:261</div></div>
 <div class="ttc" id="aclassQuiz_html"><div class="ttname"><a href="classQuiz.html">Quiz</a></div><div class="ttdef"><b>Definition:</b> Quiz.h:14</div></div>
-<div class="ttc" id="aclassShowRoom_html"><div class="ttname"><a href="classShowRoom.html">ShowRoom</a></div><div class="ttdef"><b>Definition:</b> ShowRoom.h:12</div></div>
-<div class="ttc" id="aclassMainMenu_html_aa187aa9e7ddde30187d8400e7eeef0b7"><div class="ttname"><a href="classMainMenu.html#aa187aa9e7ddde30187d8400e7eeef0b7">MainMenu::MENU_ACTION</a></div><div class="ttdeci">MENU_ACTION</div><div class="ttdef"><b>Definition:</b> MainMenu.h:36</div></div>
-<div class="ttc" id="aclassAnswerSheet_html"><div class="ttname"><a href="classAnswerSheet.html">AnswerSheet</a></div><div class="ttdef"><b>Definition:</b> AnswerSheet.h:14</div></div>
+<div class="ttc" id="aclassShowRoom_html"><div class="ttname"><a href="classShowRoom.html">ShowRoom</a></div><div class="ttdef"><b>Definition:</b> ShowRoom.h:14</div></div>
+<div class="ttc" id="aclassMainMenu_html_aa187aa9e7ddde30187d8400e7eeef0b7"><div class="ttname"><a href="classMainMenu.html#aa187aa9e7ddde30187d8400e7eeef0b7">MainMenu::MENU_ACTION</a></div><div class="ttdeci">MENU_ACTION</div><div class="ttdef"><b>Definition:</b> MainMenu.h:40</div></div>
+<div class="ttc" id="aclassAnswerSheet_html"><div class="ttname"><a href="classAnswerSheet.html">AnswerSheet</a></div><div class="ttdef"><b>Definition:</b> AnswerSheet.h:15</div></div>
+<div class="ttc" id="aclassShowRoom_html_a10562890c7759869fde4ed9e0970d28d"><div class="ttname"><a href="classShowRoom.html#a10562890c7759869fde4ed9e0970d28d">ShowRoom::selectFile</a></div><div class="ttdeci">static string selectFile(bool findQuiz=true, const string &amp;quizId=&quot;&quot;)</div><div class="ttdef"><b>Definition:</b> ShowRoom.cpp:193</div></div>
+<div class="ttc" id="aclassShowRoom_html_a1686e526a7d076f528df4315f3249cd6"><div class="ttname"><a href="classShowRoom.html#a1686e526a7d076f528df4315f3249cd6">ShowRoom::selectAnswersheet</a></div><div class="ttdeci">static string selectAnswersheet(const string &amp;quizId)</div><div class="ttdef"><b>Definition:</b> ShowRoom.cpp:185</div></div>
+<div class="ttc" id="aclassShowRoom_html_a34a6024cd964d156db68393a4978d688"><div class="ttname"><a href="classShowRoom.html#a34a6024cd964d156db68393a4978d688">ShowRoom::ShowRoom</a></div><div class="ttdeci">ShowRoom(const string &amp;quizFilePath)</div><div class="ttdef"><b>Definition:</b> ShowRoom.cpp:16</div></div>
+<div class="ttc" id="aclassShowRoom_html_a6388fd99d5d37731303751d8bea284cb"><div class="ttname"><a href="classShowRoom.html#a6388fd99d5d37731303751d8bea284cb">ShowRoom::selectQuiz</a></div><div class="ttdeci">static string selectQuiz()</div><div class="ttdef"><b>Definition:</b> ShowRoom.cpp:189</div></div>
+<div class="ttc" id="aclassShowRoom_html_a5176448519f25f0fee24148ce2f7d738"><div class="ttname"><a href="classShowRoom.html#a5176448519f25f0fee24148ce2f7d738">ShowRoom::StartQuiz</a></div><div class="ttdeci">void StartQuiz(bool fillMode=true)</div><div class="ttdef"><b>Definition:</b> ShowRoom.cpp:69</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

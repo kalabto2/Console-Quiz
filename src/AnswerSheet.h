@@ -28,11 +28,11 @@ private:
     bool evaluated = false;
 
 public:
-    /** Creates new blank answerSheet for quiz @param q.
+    /** Creates new blank answerSheet for quiz.
      * @param q represents quiz for answerSheet. */
     AnswerSheet (Quiz q);
 
-    /** Loads answerSheet from file @param filePath and assign it to @param q.
+    /** Loads answerSheet from file filePath and assign it to q.
      * @param q represents quiz.
      * @param filePath represents path to file with answerSheet.
      * @throw string exception, when file is not compatible. */

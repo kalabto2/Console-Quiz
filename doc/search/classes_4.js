@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['question_52',['Question',['../classQuestion.html',1,'']]],
-  ['quiz_53',['Quiz',['../classQuiz.html',1,'']]],
-  ['quizfactory_54',['QuizFactory',['../classQuizFactory.html',1,'']]]
+  ['question_98',['Question',['../classQuestion.html',1,'']]],
+  ['quiz_99',['Quiz',['../classQuiz.html',1,'']]],
+  ['quizfactory_100',['QuizFactory',['../classQuizFactory.html',1,'']]]
 ];

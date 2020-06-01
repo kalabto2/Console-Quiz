@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['_7eapp_84',['~App',['../classApp.html#a34f1f253b1cef5f4ecbac66eaf6964ec',1,'App']]],
-  ['_7emainmenu_85',['~MainMenu',['../classMainMenu.html#a0a19ddba3ac52bf39c09b579171c98f2',1,'MainMenu']]]
+  ['textanswer_164',['TextAnswer',['../classTextAnswer.html#ac809b741524b9683dae90cf049d006a4',1,'TextAnswer::TextAnswer()'],['../classTextAnswer.html#ab451791b611049b7c8107c9fe655ced7',1,'TextAnswer::TextAnswer(const string &amp;answerId)']]],
+  ['textquestion_165',['TextQuestion',['../classTextQuestion.html#a8327367aa9b4bef2ddf778adc1e537a9',1,'TextQuestion::TextQuestion(const string &amp;questionId)'],['../classTextQuestion.html#a6505f144dd5771fb55b81ad3e957dc66',1,'TextQuestion::TextQuestion()']]]
 ];

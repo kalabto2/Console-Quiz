@@ -137,21 +137,3 @@ tuple < vector<string>, vector< vector<int> > > Quiz::getPrintedSheets(bool prin
 
     return make_tuple(printedResult, questionPointer);
 }
-/*
-void Quiz::renderInput(int sheetIndex, int answerIndex) {
-    sheets[sheetIndex].renderInput(answerIndex);
-}
-
-vector<vector<string> > Quiz::getPrintSheets(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
-    vector<vector<string> > result;
-    for (auto &sheet: sheets)
-        result.push_back(sheet.getPrintedQA(printQuestion, printAnswer, printSpaceAnswer));
-    return  result;
-}
-
-vector<int> Quiz::getNumberOfQuestions() {
-    vector<int> result;
-    for (auto &sheet: sheets)
-        result.push_back(sheet.getNumberofQuestions());
-    return result;
-}*/

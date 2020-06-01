@@ -37,7 +37,7 @@ public:
      * @param printQuestion when true, prints every question.
      * @param printAnswer when true, prints also correct answer to question (if there is any).
      * @param printSpaceAnswer when true, prints space for filling under each question.
-     * @return printed quiz*/
+     * @return printed quiz */
     string print (bool printQuestion = true, bool printAnswer = true, bool printSpaceAnswer = true);
 
     /** Gets printed sheets divided by sheets and number of lines, where questions starts.
@@ -45,7 +45,7 @@ public:
      * @param printAnswer when true, prints also correct answer to question (if there is any).
      * @param printSpaceAnswer when true, prints space for filling under each question.
      * @return printed sheets divided by sheets and number of lines, where questions starts. */
-    tuple < vector<string>, vector< vector<int> > > getPrintedSheets (bool printQuestion = true, bool printAnswer = false, bool PrintSpaceAnswer = false);
+    tuple < vector<string>, vector< vector<int> > > getPrintedSheets (bool printQuestion = true, bool printAnswer = false, bool printSpaceAnswer = false);
 
     /** @return name of object */
     string getName ();
@@ -65,9 +65,9 @@ protected:
     vector<Sheet> sheets;
     /** Holds id of quiz created from creating time */
     string id;
-    /* Holds name of quiz */
+    /** Holds name of quiz. */
     string name;
-    /* file path to storage of quizzes files*/
+    /** file path to storage of quizzes files. */
     string QUIZ_FILE_PATH = "files/quizzes/";
 
     friend class AnswerSheet;

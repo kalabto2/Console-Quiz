@@ -12,8 +12,10 @@ using namespace std;
 /** Class represents application starting with ncurses initialization */
 class App {
 protected:
-    /** variables holds size of screen */
-    int screenWidth, screenHeight;
+    /** variables holds number of columns of screen */
+    int screenWidth;
+    /** variables holds number of rows of screen */
+    int screenHeight;
     /** variable holds username of student or teacher */
     string username;
 

@@ -25,8 +25,10 @@ public:
 protected:
     /** Represents created quiz. */
     Quiz quiz;
-    /** Holds dimension of screen. */
-    int screenHeight ,screenWidth;
+    /** Holds height dimension of screen. */
+    int screenHeight;
+    /** Holds width dimension of screen. */
+    int screenWidth;
 };
 
 #endif //QUIZ_QUIZFACTORY_H

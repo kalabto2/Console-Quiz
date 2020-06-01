@@ -12,33 +12,30 @@
 const int QUIZ_FACTORY_DIALOG_HEIGHT = 10;
 const int QUIZ_FACTORY_DIALOG_WIDTH = 50;
 
-ShowRoom::ShowRoom(Quiz quiz) : quiz(quiz), answerSheet(quiz){
+
+ShowRoom::ShowRoom(const string& quizFilePath) : quiz(quizFilePath), answerSheet(quiz){
     getmaxyx(stdscr, screenHeight, screenWidth);
 }
 
-ShowRoom::ShowRoom(string quizId) : quiz(quizId), answerSheet(quiz){
-    getmaxyx(stdscr, screenHeight, screenWidth);
-}
-
-ShowRoom::ShowRoom(string quizId, string answerSheetId) : quiz(quizId), answerSheet(quiz, answerSheetId){
+ShowRoom::ShowRoom(const string& quizFilePath, const string& answerSheetFilePath) : quiz(quizFilePath), answerSheet(quiz, answerSheetFilePath){
     getmaxyx(stdscr, screenHeight, screenWidth);
 }
 
 void ShowRoom::Export(MainMenu::MENU_ACTION action) {
     wclear(stdscr);
     refresh();
-    WINDOW * upperWin = newwin(5, screenWidth, 0, 0); // fce newwin vytvori okno
-    box(upperWin, 0,0); // vytvori hranice okolo okna
+    WINDOW * upperWin = newwin(5, screenWidth, 0, 0);
+    box(upperWin, 0,0);
     mvwprintw(upperWin, 2, screenWidth/2 - 6, "QUIZ EXPORTER");
     wrefresh(upperWin);
     delwin(upperWin);
 
     WINDOW * dialog = newwin(QUIZ_FACTORY_DIALOG_HEIGHT, QUIZ_FACTORY_DIALOG_WIDTH, 10, screenWidth/2 - QUIZ_FACTORY_DIALOG_WIDTH/2); // fce newwin vytvori okno
-    box(dialog, 0,0); // vytvori hranice okolo okna
+    box(dialog, 0,0);
     mvwprintw(dialog, 2, 2, "Enter name of the exported file!");
     mvwprintw(dialog, 3, 2, "> ");
-    curs_set(1);    // zviditelni kurzor
-    wmove(dialog, 3, 4);    // presune kurzor do okna na x, y pozici
+    curs_set(1);
+    wmove(dialog, 3, 4);
     wrefresh(dialog);
 
     char name2[100];
@@ -82,7 +79,7 @@ void ShowRoom::StartQuiz(bool fillMode) {
 
     vector <vector <int> > sheetCursorHeight;
     vector <string> sheets;
-    tie(sheets, sheetCursorHeight) = quiz.getPrintedSheets(true, false);//todo here
+    tie(sheets, sheetCursorHeight) = quiz.getPrintedSheets(true, false);
 
     for (auto &i: sheetCursorHeight) {
         i[i.size() - 1] += 2;
@@ -97,7 +94,7 @@ void ShowRoom::StartQuiz(bool fillMode) {
 
         string output = sheets[j];
         int numberOfOptions = sheetCursorHeight[j].size();
-        scrollWin(showWin, output, 0);  // for first rendering
+        scrollWin(showWin, output, 0);  // for first rendering of content
 
         bool previous = false;
         int c, selection = 0;
@@ -156,7 +153,7 @@ void ShowRoom::StartQuiz(bool fillMode) {
     /* TODO tady udelat oznameni po kvizu  + vyhodnoceni/ veci pro evaluation */
 }
 
-void ShowRoom::scrollWin(WINDOW *window, string content, int scrolledLines) {
+void ShowRoom::scrollWin(WINDOW *window, const string& content, int scrolledLines) {
     mvwprintw(window, 5, 2, "  ");
     if (scrolledLines > 0)
         wscrl(window, scrolledLines);
@@ -208,7 +205,7 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
     vector< vector<string> > fileData;
     namespace fs = std::filesystem;
 
-    std::string path = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/");
+    string path = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/");
     for (const auto & entry : fs::directory_iterator(path)) {
         vector<string> a = (findQuiz ? Quiz::preview(entry.path()) : AnswerSheet::preview(entry.path()));
         if (findQuiz || a[3] == quizId.substr(string("./files/quizzes/").size())) {
@@ -249,7 +246,7 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
 
         if (a == KEY_DOWN || a == 's') {
             mvwprintw(showWin, pointerPos, 3, "  ");
-            pointerPos += (pointerPos < 2 * fileNames.size() ? 2 : 0);
+            pointerPos += (static_cast<size_t >(pointerPos) < 2 * fileNames.size() ? 2 : 0);
         } else if (a == KEY_UP || a == 'w') {
             mvwprintw(showWin, pointerPos, 3, "  ");
             pointerPos -= (pointerPos > 2 ? 2 : 0);

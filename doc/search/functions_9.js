@@ -1,7 +1,17 @@
 var searchData=
 [
-  ['save_80',['save',['../classQuiz.html#a2a30f1d27f8a873dedbf4a19c4143f31',1,'Quiz']]],
-  ['setname_81',['setName',['../classQuiz.html#a34c259203eb4a06c0488e94867b80408',1,'Quiz::setName()'],['../classQuizFactory.html#a603369f9d46a3fb7de95dd65671cf00d',1,'QuizFactory::setName()']]],
-  ['setpassword_82',['setPassword',['../classApp.html#a800c6551c824bbaa4a9c050d21406ef9',1,'App']]],
-  ['setusername_83',['setUsername',['../classApp.html#a08360e35cdf95709528223d259864fe0',1,'App']]]
+  ['save_150',['save',['../classAnswer.html#a7af815c8fd561506d74cab035fddb85b',1,'Answer::save()'],['../classTextAnswer.html#a700082815c27c362e3d8467020ca4815',1,'TextAnswer::save()'],['../classValueAnswer.html#abba5e831bbfae67a9c12638e41e21576',1,'ValueAnswer::save()'],['../classSingleChoiceAnswer.html#aca6e63f8a5bf4fcb005a485bd2727b39',1,'SingleChoiceAnswer::save()'],['../classMultipleChoiceAnswer.html#a0c1470feaee4bd0fefbb3eab30fcae5f',1,'MultipleChoiceAnswer::save()'],['../classPairChoiceAnswer.html#a08a73a01805cd49531295f6ed5a87b11',1,'PairChoiceAnswer::save()'],['../classAnswerSheet.html#ad1dc8713e08dee9e4d102f26cb9cdfb2',1,'AnswerSheet::save()'],['../classQuestion.html#a09a9c05f9905c22065baf0b2dcc1657f',1,'Question::save()'],['../classTextQuestion.html#a866294f7d4ad40223724a60c0ae85244',1,'TextQuestion::save()'],['../classChoiceQuestion.html#a640032c7b077db90de064eea4dd5280d',1,'ChoiceQuestion::save()'],['../classSortingQuestion.html#a249143e26fd6b443ebf7829ce569a35b',1,'SortingQuestion::save()'],['../classQuiz.html#a2a30f1d27f8a873dedbf4a19c4143f31',1,'Quiz::save()'],['../classSheet.html#a88c80967ba2d80e5be10442d0a572f6f',1,'Sheet::save()']]],
+  ['selectanswersheet_151',['selectAnswersheet',['../classShowRoom.html#a1686e526a7d076f528df4315f3249cd6',1,'ShowRoom']]],
+  ['selectfile_152',['selectFile',['../classShowRoom.html#a10562890c7759869fde4ed9e0970d28d',1,'ShowRoom']]],
+  ['selectquiz_153',['selectQuiz',['../classShowRoom.html#a6388fd99d5d37731303751d8bea284cb',1,'ShowRoom']]],
+  ['setauthor_154',['setAuthor',['../classAnswerSheet.html#ae9a56813e4cd8a059b6065e53d769909',1,'AnswerSheet::setAuthor()'],['../classShowRoom.html#ad5c993e13b9b2f241af17e8bb388e44d',1,'ShowRoom::setAuthor()']]],
+  ['setevaluated_155',['setEvaluated',['../classAnswerSheet.html#a5aaa240c07a2b996774873ef351443c5',1,'AnswerSheet']]],
+  ['setname_156',['setName',['../classQuiz.html#a34c259203eb4a06c0488e94867b80408',1,'Quiz::setName()'],['../classQuizFactory.html#a603369f9d46a3fb7de95dd65671cf00d',1,'QuizFactory::setName()']]],
+  ['setpassword_157',['setPassword',['../classApp.html#a800c6551c824bbaa4a9c050d21406ef9',1,'App']]],
+  ['setusername_158',['setUsername',['../classApp.html#a08360e35cdf95709528223d259864fe0',1,'App']]],
+  ['sheet_159',['Sheet',['../classSheet.html#a1bb2e221a1728256968dfd778d2f50f4',1,'Sheet::Sheet()'],['../classSheet.html#aa7b669277fa6be014e1774917a0f46b6',1,'Sheet::Sheet(const string &amp;id)']]],
+  ['showroom_160',['ShowRoom',['../classShowRoom.html#a34a6024cd964d156db68393a4978d688',1,'ShowRoom::ShowRoom(const string &amp;quizFilePath)'],['../classShowRoom.html#a03a1b4e37a957438785f782f1bb76e3e',1,'ShowRoom::ShowRoom(const string &amp;quizFilePath, const string &amp;answerSheetFilePath)']]],
+  ['singlechoiceanswer_161',['SingleChoiceAnswer',['../classSingleChoiceAnswer.html#adcfcd3b2820705e71ad34dd0a05f33fe',1,'SingleChoiceAnswer::SingleChoiceAnswer()'],['../classSingleChoiceAnswer.html#a6ca572f6eeeb5473edb2fe85fed0ec87',1,'SingleChoiceAnswer::SingleChoiceAnswer(const string &amp;answerId)']]],
+  ['sortingquestion_162',['SortingQuestion',['../classSortingQuestion.html#ae0cbc3fbb6b343de7d91238e6a49fa5b',1,'SortingQuestion::SortingQuestion(string questionId)'],['../classSortingQuestion.html#a4e2d1ffe0d8a882a9561e131507a6f26',1,'SortingQuestion::SortingQuestion()']]],
+  ['startquiz_163',['StartQuiz',['../classShowRoom.html#a5176448519f25f0fee24148ce2f7d738',1,'ShowRoom']]]
 ];

@@ -35,7 +35,7 @@ public:
 
     /** Pure virtual method.
      * @param i index determining type of answer.
-     * @return new instance of answer of type set by @param i. */
+     * @return new instance of answer of type set by i. */
     virtual shared_ptr<Answer> getTypeAnswer(int i);
 
     /** Pure virtual method. Gets number of compatible answers.
@@ -60,8 +60,10 @@ public:
     static shared_ptr<Question> getQuestion (string questionId);
 
 protected:
-    /** Variables holds size of dimensions of screen. */
-    int screenHeight, screenWidth;
+    /** Variables holds height dimension of screen. */
+    int screenHeight;
+    /** Variables holds width dimension of screen. */
+    int screenWidth;
 
     /** Unique id of Question. Set by current date/time. */
     string id;
@@ -101,7 +103,7 @@ public:
 
     /** gets type of answer compatible with this question.
      * @param i index determining type of answer.
-     * @return new instance of answer of type set by @param i. */
+     * @return new instance of answer of type set by i. */
     shared_ptr<Answer> getTypeAnswer(int i) override ;
 
     /** gets type of answer compatible with this question.
@@ -147,7 +149,7 @@ public:
 
     /** gets type of answer compatible with this question.
      * @param i index determining type of answer.
-     * @return new instance of answer of type set by @param i. */
+     * @return new instance of answer of type set by i. */
     shared_ptr<Answer> getTypeAnswer(int i) override;
 
     /** gets type of answer compatible with this question.
@@ -191,7 +193,7 @@ public:
 
     /** gets type of answer compatible with this question.
      * @param i index determining type of answer.
-     * @return new instance of answer of type set by @param i. */
+     * @return new instance of answer of type set by i. */
     shared_ptr<Answer> getTypeAnswer(int i) override;
 
     /** gets type of answer compatible with this question.
@@ -211,7 +213,6 @@ protected:
     /** Choices to sort question to be sorted. */
     vector<string> choices;
 };
-
 
 
 #endif //QUIZ_QUESTION_H

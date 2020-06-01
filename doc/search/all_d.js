@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_7eapp_43',['~App',['../classApp.html#a34f1f253b1cef5f4ecbac66eaf6964ec',1,'App']]],
-  ['_7emainmenu_44',['~MainMenu',['../classMainMenu.html#a0a19ddba3ac52bf39c09b579171c98f2',1,'MainMenu']]]
+  ['valueanswer_78',['ValueAnswer',['../classValueAnswer.html',1,'ValueAnswer'],['../classValueAnswer.html#aab350b305b64789dd5f995c8a643bdcf',1,'ValueAnswer::ValueAnswer()'],['../classValueAnswer.html#aab9ec3ce15aa75165da71ebb42354ef7',1,'ValueAnswer::ValueAnswer(const string &amp;answerId)']]]
 ];

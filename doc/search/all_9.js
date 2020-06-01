@@ -1,14 +1,8 @@
 var searchData=
 [
-  ['save_28',['save',['../classQuiz.html#a2a30f1d27f8a873dedbf4a19c4143f31',1,'Quiz']]],
-  ['screenheight_29',['screenHeight',['../classMainMenu.html#a8d08a9f8942a6e993705c0dca8f1dd1c',1,'MainMenu::screenHeight()'],['../classQuizFactory.html#a15042516a8c63136336c9912d14fea86',1,'QuizFactory::screenHeight()']]],
-  ['screenwidth_30',['screenWidth',['../classApp.html#a3fdcbb40692ec5157cb728bb5169886b',1,'App']]],
-  ['setname_31',['setName',['../classQuiz.html#a34c259203eb4a06c0488e94867b80408',1,'Quiz::setName()'],['../classQuizFactory.html#a603369f9d46a3fb7de95dd65671cf00d',1,'QuizFactory::setName()']]],
-  ['setpassword_32',['setPassword',['../classApp.html#a800c6551c824bbaa4a9c050d21406ef9',1,'App']]],
-  ['setusername_33',['setUsername',['../classApp.html#a08360e35cdf95709528223d259864fe0',1,'App']]],
-  ['sheet_34',['Sheet',['../classSheet.html',1,'']]],
-  ['sheets_35',['sheets',['../classQuiz.html#a02b83a494e0a6aad6c08d309759f414f',1,'Quiz']]],
-  ['showroom_36',['ShowRoom',['../classShowRoom.html',1,'']]],
-  ['singlechoiceanswer_37',['SingleChoiceAnswer',['../classSingleChoiceAnswer.html',1,'']]],
-  ['sortingquestion_38',['SortingQuestion',['../classSortingQuestion.html',1,'']]]
+  ['refresh_51',['refresh',['../classMainMenu.html#a95e74dcafd25cc961a89909221e7a521',1,'MainMenu']]],
+  ['renderanswers_52',['renderAnswers',['../classQuestion.html#a206b908f60efb57444b30cbb234812ec',1,'Question::renderAnswers()'],['../classTextQuestion.html#a7167995f626c98a244d79747d69862a4',1,'TextQuestion::renderAnswers()'],['../classChoiceQuestion.html#a4c1f547bf6969dfea0d6010a272e0dcd',1,'ChoiceQuestion::renderAnswers()'],['../classSortingQuestion.html#ad057089b59ee9f44de11107e78f177fc',1,'SortingQuestion::renderAnswers()']]],
+  ['renderevaluation_53',['renderEvaluation',['../classAnswerSheet.html#a8b24772ca724444ffe603bc004ec930a',1,'AnswerSheet']]],
+  ['renderinput_54',['renderInput',['../classAnswerSheet.html#ac8ea64500f685aca7d0dcdae1080549e',1,'AnswerSheet']]],
+  ['run_55',['run',['../classApp.html#aea8b4f9fc1ef6d6b3f170f06e700bc4e',1,'App::run()'],['../classMainMenu.html#a6182e2dac7adbb3105a5d7301370515f',1,'MainMenu::run()']]]
 ];

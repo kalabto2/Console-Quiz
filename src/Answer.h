@@ -29,7 +29,7 @@ public:
      * @return answer */
     virtual string print (bool printCorrectAnswer = true);
 
-    /** Pure virtual method. Returns true, if this answer is equal to @param a. */
+    /** Pure virtual method. Returns true, if this answer is equal to @param a . */
     virtual bool equal (shared_ptr<Answer> & a);
 
     /** Destructor to base class. */
@@ -46,13 +46,15 @@ public:
 protected:
     /** holds id of answer */
     string id;
-    /** holds dimensions of screen */
-    int screenHeight, screenWidth;
+    /** holds height dimension of screen */
+    int screenHeight;
+    /** holds width dimension of screen */
+    int screenWidth;
 
     /** relative path to answer-files */
     const string ANSWER_FILE_PATH = "files/answers/";
 
-    /** Renders and handles auto-evaluation question to @param win
+    /** Renders and handles auto-evaluation question to window.
      * @param win Window, where question should be printed.
      * @param info additional text info to window.
      * @return true, if auto evaluation is needed. */
@@ -82,14 +84,14 @@ public:
     void construct (bool creatingMode = true) override;
 
     /** Prints answer.
-     * @param printCorrectAnswer when true, @param correctAnswer is printed. Else space for answer is printed.
+     * @param printCorrectAnswer when true, 'correctAnswer' is printed. Else space for answer is printed.
      * @return printed and decorated TextAnswer. */
     string print(bool printCorrectAnswer = true) override ;
 
     /** Saves answer to file. */
     void save () override;
 
-    /** Determines, if this object and object @param a are equal in subclasses variables.
+    /** Determines, if this object and object 'a' are equal in subclasses variables.
      * @param a another object to compare.
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;
@@ -126,14 +128,14 @@ public:
     void construct (bool creatingMode = true) override;
 
     /** Prints answer.
-     * @param printCorrectAnswer when true, @param correctAnswer is printed. Else space for answer is printed.
+     * @param printCorrectAnswer when true, 'correctAnswer' is printed. Else space for answer is printed.
      * @return printed and decorated TextAnswer. */
     string print (bool printCorrectAnswer = true) override ;
 
     /** Saves answer to file. */
     void save () override;
 
-    /** Determines, if this object and object @param a are equal in subclasses variables.
+    /** Determines, if this object and object 'a' are equal in subclasses variables.
      * @param a another object to compare.
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;
@@ -170,18 +172,18 @@ public:
     void construct (bool creatingMode = true) override;
 
     /** Prints answer.
-     * @param printCorrectAnswer when true, @param correctAnswer is printed. Else space for answer is printed.
+     * @param printCorrectAnswer when true, 'correctAnswer' is printed. Else space for answer is printed.
      * @return printed and decorated TextAnswer. */
     string print(bool printCorrectAnswer = true) override ;
 
     /** Saves answer to file. */
     void save () override;
 
-    /** Transforms @param answer to integer and saves it. If it cannot be done, saves as 0
-     * @param answer answer to preprocess*/
+    /** Transforms 'answer' to integer and saves it. If it cannot be done, saves as 0
+     * @param answer answer to preprocess. */
     void preprocess (const string& answer);
 
-    /** Determines, if this object and object @param a are equal in subclasses variables.
+    /** Determines, if this object and object 'a' are equal in subclasses variables.
      * @param a another object to compare.
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;
@@ -218,18 +220,18 @@ public:
     void construct (bool creatingMode = true) override;
 
     /** Prints answer.
-     * @param printCorrectAnswer when true, @param correctAnswer is printed. Else space for answer is printed.
+     * @param printCorrectAnswer when true, 'correctAnswer' is printed. Else space for answer is printed.
      * @return printed and decorated TextAnswer. */
     string print(bool printCorrectAnswer = true) override ;
 
     /** Saves answer to file. */
     void save () override;
 
-    /** Transforms @param answer into set of integers and saves it. If it cannot be done, saves as empty set
+    /** Transforms answer into set of integers and saves it. If it cannot be done, saves as empty set
      * @param answer answer to preprocess*/
     void preprocess (const string& answer);
 
-    /** Determines, if this object and object @param a are equal in subclasses variables.
+    /** Determines, if this object and object 'a' are equal in subclasses variables.
      * @param a another object to compare.
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;
@@ -267,18 +269,18 @@ public:
     void construct (bool creatingMode = true) override;
 
     /** Prints answer.
-     * @param printCorrectAnswer when true, @param correctAnswer is printed. Else space for answer is printed.
+     * @param printCorrectAnswer when true, 'correctAnswer' is printed. Else space for answer is printed.
      * @return printed and decorated TextAnswer. */
     string print(bool printCorrectAnswer = true) override ;
 
     /** Saves answer to file. */
     void save () override;
 
-    /** Transforms @param answer into set of sets of integers and saves it. If it cannot be done, saves as empty set.
+    /** Transforms 'answer' into set of sets of integers and saves it. If it cannot be done, saves as empty set.
      * @param answer answer to preprocess. */
     void preprocess (string answer);
 
-    /** Determines, if this object and object @param a are equal in subclasses variables.
+    /** Determines, if this object and object 'a' are equal in subclasses variables.
      * @param a another object to compare.
      * @return true, when equation is true ... */
     bool equal (shared_ptr<Answer> & a) override ;

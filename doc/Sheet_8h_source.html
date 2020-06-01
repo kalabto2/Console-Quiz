@@ -85,40 +85,57 @@ $(function() {
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="classSheet.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="classSheet.html">Sheet</a> {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="classSheet.html">Sheet</a> ();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="classSheet.html">Sheet</a> (<span class="keywordtype">string</span> <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> addQuestion (<span class="keyword">const</span> shared_ptr&lt;Question&gt;&amp; question);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> addAnswer (shared_ptr&lt;Answer&gt; answer);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> createSheet ();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> save();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">string</span> getId();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">string</span> print (<span class="keywordtype">bool</span> printQuestion = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printAnswer = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printSpaceAnswer = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    vector&lt;string&gt; getPrintedQA (<span class="keywordtype">bool</span> printQuestion = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printAnswer = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printSpaceAnswer = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    vector&lt;int&gt; getLines (<span class="keywordtype">bool</span> printQuestion = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printAnswer = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printSpaceAnswer = <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> renderInput (<span class="keywordtype">int</span> answerIndex);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">int</span> getNumberofQuestions();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">enum</span> SHEET_OPTION {FINISH_SHEET, ADD_QUESTION};</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">string</span> SHEET_FILE_PATH = <span class="stringliteral">&quot;files/sheets/&quot;</span>;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">string</span> id;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">int</span> screenWidth, screenHeight;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    vector&lt;shared_ptr&lt;Question&gt; &gt; questions;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    vector&lt;shared_ptr&lt;Answer&gt; &gt;     answers;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="classSheet.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="classSheet.html">Sheet</a> {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classSheet.html">Sheet</a> ();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classSheet.html">Sheet</a> (<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> addQuestion (<span class="keyword">const</span> shared_ptr&lt;Question&gt;&amp; question);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> addAnswer (<span class="keyword">const</span> shared_ptr&lt;Answer&gt;&amp; answer);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> createSheet ();</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    SHEET_OPTION choosePanel ();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classQuiz.html">Quiz</a>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classAnswerSheet.html">AnswerSheet</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif //QUIZ_SHEET_H</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> save();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">string</span> print (<span class="keywordtype">bool</span> printQuestion = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printAnswer = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printSpaceAnswer = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">string</span> getId();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    vector&lt;string&gt; getPrintedQA (<span class="keywordtype">bool</span> printQuestion = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printAnswer = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printSpaceAnswer = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    vector&lt;int&gt; getLines (<span class="keywordtype">bool</span> printQuestion = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printAnswer = <span class="keyword">true</span>, <span class="keywordtype">bool</span> printSpaceAnswer = <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="classSheet.html#a82ac02b25378824497f10ff6bbfc7a9c">   69</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="classSheet.html#a82ac02b25378824497f10ff6bbfc7a9c">SHEET_OPTION</a> {FINISH_SHEET, ADD_QUESTION};</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="classSheet.html#ae120aec65db88ec2c346327357ef39cb">   71</a></span>&#160;    <span class="keywordtype">string</span> SHEET_FILE_PATH = <span class="stringliteral">&quot;files/sheets/&quot;</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classSheet.html#ab7f9aedaf56457f23889e112930ae2da">   74</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="classSheet.html#ab7f9aedaf56457f23889e112930ae2da">id</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classSheet.html#abbcc875d71ef058cae9b11707c0cb5e1">   76</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classSheet.html#abbcc875d71ef058cae9b11707c0cb5e1">screenHeight</a>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="classSheet.html#a80712fd9fdade1312e80dd0bed09f940">   78</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classSheet.html#a80712fd9fdade1312e80dd0bed09f940">screenWidth</a>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classSheet.html#a570d44202199ea0ddc1723a1f373e764">   80</a></span>&#160;    vector&lt;shared_ptr&lt;Question&gt; &gt; <a class="code" href="classSheet.html#a570d44202199ea0ddc1723a1f373e764">questions</a>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="classSheet.html#a7aa56a5ddcbafb1267fc686e9ae1c76b">   82</a></span>&#160;    vector&lt;shared_ptr&lt;Answer&gt; &gt;     <a class="code" href="classSheet.html#a7aa56a5ddcbafb1267fc686e9ae1c76b">answers</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <a class="code" href="classSheet.html#a82ac02b25378824497f10ff6bbfc7a9c">SHEET_OPTION</a> choosePanel ();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classQuiz.html">Quiz</a>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classAnswerSheet.html">AnswerSheet</a>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif //QUIZ_SHEET_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclassSheet_html_ab7f9aedaf56457f23889e112930ae2da"><div class="ttname"><a href="classSheet.html#ab7f9aedaf56457f23889e112930ae2da">Sheet::id</a></div><div class="ttdeci">string id</div><div class="ttdef"><b>Definition:</b> Sheet.h:74</div></div>
 <div class="ttc" id="aclassQuiz_html"><div class="ttname"><a href="classQuiz.html">Quiz</a></div><div class="ttdef"><b>Definition:</b> Quiz.h:14</div></div>
-<div class="ttc" id="aclassSheet_html"><div class="ttname"><a href="classSheet.html">Sheet</a></div><div class="ttdef"><b>Definition:</b> Sheet.h:16</div></div>
-<div class="ttc" id="aclassAnswerSheet_html"><div class="ttname"><a href="classAnswerSheet.html">AnswerSheet</a></div><div class="ttdef"><b>Definition:</b> AnswerSheet.h:14</div></div>
+<div class="ttc" id="aclassSheet_html"><div class="ttname"><a href="classSheet.html">Sheet</a></div><div class="ttdef"><b>Definition:</b> Sheet.h:18</div></div>
+<div class="ttc" id="aclassAnswerSheet_html"><div class="ttname"><a href="classAnswerSheet.html">AnswerSheet</a></div><div class="ttdef"><b>Definition:</b> AnswerSheet.h:15</div></div>
+<div class="ttc" id="aclassSheet_html_a82ac02b25378824497f10ff6bbfc7a9c"><div class="ttname"><a href="classSheet.html#a82ac02b25378824497f10ff6bbfc7a9c">Sheet::SHEET_OPTION</a></div><div class="ttdeci">SHEET_OPTION</div><div class="ttdef"><b>Definition:</b> Sheet.h:69</div></div>
+<div class="ttc" id="aclassSheet_html_a7aa56a5ddcbafb1267fc686e9ae1c76b"><div class="ttname"><a href="classSheet.html#a7aa56a5ddcbafb1267fc686e9ae1c76b">Sheet::answers</a></div><div class="ttdeci">vector&lt; shared_ptr&lt; Answer &gt; &gt; answers</div><div class="ttdef"><b>Definition:</b> Sheet.h:82</div></div>
+<div class="ttc" id="aclassSheet_html_a80712fd9fdade1312e80dd0bed09f940"><div class="ttname"><a href="classSheet.html#a80712fd9fdade1312e80dd0bed09f940">Sheet::screenWidth</a></div><div class="ttdeci">int screenWidth</div><div class="ttdef"><b>Definition:</b> Sheet.h:78</div></div>
+<div class="ttc" id="aclassSheet_html_abbcc875d71ef058cae9b11707c0cb5e1"><div class="ttname"><a href="classSheet.html#abbcc875d71ef058cae9b11707c0cb5e1">Sheet::screenHeight</a></div><div class="ttdeci">int screenHeight</div><div class="ttdef"><b>Definition:</b> Sheet.h:76</div></div>
+<div class="ttc" id="aclassSheet_html_a570d44202199ea0ddc1723a1f373e764"><div class="ttname"><a href="classSheet.html#a570d44202199ea0ddc1723a1f373e764">Sheet::questions</a></div><div class="ttdeci">vector&lt; shared_ptr&lt; Question &gt; &gt; questions</div><div class="ttdef"><b>Definition:</b> Sheet.h:80</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

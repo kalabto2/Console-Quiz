@@ -24,10 +24,14 @@ using namespace std;
 /** Class represents main menu in App. Renders it to screen and decides, which action will be done */
 class MainMenu {
 protected:
-    /** variables holds size of screen */
-    int screenHeight,screenWidth;
-    /** represents main window and detailed window, which is changing according to main menu selection */
-    WINDOW * mainWin, * extendedWin;
+    /** variables holds height of screen */
+    int screenHeight;
+    /** variables holds width of screen */
+    int screenWidth;
+    /** represents main window */
+    WINDOW * mainWin;
+    /** Represents detailed window, which is changing according to main menu selection. */
+    WINDOW * extendedWin;
     /** describes type of file to be loaded */
     enum EXTENDED_MENU_TYPE { INTERACTIVE, QUESTION };
 

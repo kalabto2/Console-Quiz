@@ -21,19 +21,49 @@ Sheet::Sheet() {
     id = str;
 }
 
+Sheet::Sheet(const string& id) {
+    this->id = id;
+    getmaxyx(stdscr,screenHeight,screenWidth);
+
+    ifstream inFile (SHEET_FILE_PATH + id);
+    string line;
+    if (inFile.is_open()){
+        for (int i = 0; getline(inFile, line); i++){
+            if (i == 0) {
+                if (line != "sheet")
+                    throw "Incompatible file type: expected 'sheet'";
+            }
+            else{
+                string questionId = line.substr(0, 17);
+                string answerId = line.substr(18, 17);
+
+                shared_ptr<Question> question;
+                shared_ptr<Answer> answer;
+
+                question = Question::getQuestion(questionId);
+                answer = Answer::getAnswer(answerId);
+
+                questions.push_back(question);
+                answers.push_back(answer);
+            }
+        }
+        inFile.close();
+    }
+}
+
 void Sheet::addQuestion(const shared_ptr<Question>& question) {
     questions.push_back(question);
 }
 
-void Sheet::addAnswer(shared_ptr<Answer> answer) {
+void Sheet::addAnswer(const shared_ptr<Answer>& answer) {
     answers.push_back(answer);
 }
 
 void Sheet::createSheet() {
     wclear(stdscr);
     refresh();
-    WINDOW * upperWin = newwin(5, screenWidth, 0, 0); // fce newwin vytvori okno
-    box(upperWin, 0,0); // vytvori hranice okolo okna
+    WINDOW * upperWin = newwin(5, screenWidth, 0, 0);
+    box(upperWin, 0,0);
     mvwprintw(upperWin, 2, screenWidth/2 - 6, "SHEET FACTORY");
     wrefresh(upperWin);
     delwin(upperWin);
@@ -48,8 +78,8 @@ void Sheet::createSheet() {
 Sheet::SHEET_OPTION Sheet::choosePanel() {
     clear();
     refresh();
-    WINDOW * sideWin = newwin(screenHeight - 5, 60, 5, 0); // fce newwin vytvori okno
-    box(sideWin, 0, 0); // vytvori hranice okolo okna
+    WINDOW * sideWin = newwin(screenHeight - 5, 60, 5, 0);
+    box(sideWin, 0, 0);
 
     mvwprintw(sideWin, 0, 60/2-5, "SIDE PANEL");
     mvwprintw(sideWin, 2, 4, "QUESTION");
@@ -59,7 +89,6 @@ Sheet::SHEET_OPTION Sheet::choosePanel() {
     mvwprintw(sideWin, 4, 3, "=>");
 
     mvwprintw(sideWin, (screenHeight - 5) / 2, 4, "ANSWER");
-    //mvwprintw(sideWin, (screenHeight - 5) / 2 + 2, 6 , "* Text Answer");
 
     mvwprintw(sideWin, (screenHeight - 5) - 5, 4, "SAVE & ADD QUESTION");
     mvwprintw(sideWin, (screenHeight - 5) - 3, 4, "SAVE & FINISH SHEET");
@@ -180,39 +209,6 @@ string Sheet::getId() {
     return id;
 }
 
-Sheet::Sheet(string id) {
-    this->id = id;
-    getmaxyx(stdscr,screenHeight,screenWidth);
-
-    ifstream inFile (SHEET_FILE_PATH + id);
-    string line;
-    if (inFile.is_open()){
-        for (int i = 0; getline(inFile, line); i++){
-            if (i == 0) {
-                if (line != "sheet")
-                    throw "Incompatible file type: expected 'sheet'";
-            }
-            else{
-                // questions.push_back() TODO
-                string questionId = line.substr(0, 17);
-                string answerId = line.substr(18, 17);
-
-                shared_ptr<Question> question;
-                shared_ptr<Answer> answer;
-
-                question = Question::getQuestion(questionId);
-                answer = Answer::getAnswer(answerId);
-
-                questions.push_back(question);
-                answers.push_back(answer);
-            }
-
-        }
-        inFile.close();
-    }
-
-}
-
 string Sheet::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
     string result;
 
@@ -266,12 +262,4 @@ vector<int> Sheet::getLines(bool printQuestion, bool printAnswer, bool printSpac
     }
 
     return result;
-}
-
-void Sheet::renderInput(int answerIndex) {
-    answers[answerIndex].get()->construct();
-}
-
-int Sheet::getNumberofQuestions() {
-    return questions.size();
 }
