@@ -27,17 +27,25 @@ Quiz::Quiz(const string& filePath) {
 
         for (int i = 0; getline (inFile,line); i++){
             if (i == 0) {
-                if (line != "quiz")
+                if (line != "quiz") {
+                    inFile.close();
                     throw "Incompatible file type: expected 'quiz'";
+                }
             }
             else if (i == 1)
                 name = line;
-            else
-                sheets.push_back(Sheet(line));
+            else {
+                try {
+                    sheets.push_back(Sheet(line));
+                } catch (const char * err){
+                    inFile.close();
+                    throw err;
+                }
+            }
         }
-
         inFile.close();
-    }
+    } else
+        throw "Couldn't open, or find quiz file";
 }
 
 void Quiz::addSheet(const Sheet& sheet) {

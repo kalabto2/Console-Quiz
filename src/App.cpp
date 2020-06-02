@@ -57,12 +57,12 @@ void App::run(bool studentMode) {
                     showRoom.StartQuiz(false);
                     break;
                 }
-                case MainMenu::EXPORT_TO_TXT_QA: {  // FIXME ?
+                case MainMenu::EXPORT_TO_TXT_QA: {
                 }
-                case MainMenu::EXPORT_TO_TXT_Q: {   // FIXME ?
+                case MainMenu::EXPORT_TO_TXT_Q: {
                 }
-                case MainMenu::EXPORT_TO_TXT_QS: {  // FIXME ?
-                    string quizId = ShowRoom::selectQuiz();
+                case MainMenu::EXPORT_TO_TXT_QS: {  // May throw exceptions
+                    string quizId = ShowRoom::selectQuiz();     // May throw exceptions
                     if (quizId.empty()) break;
                     ShowRoom exports(quizId);
                     exports.Export(menuAction);

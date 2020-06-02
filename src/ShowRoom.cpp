@@ -102,7 +102,7 @@ void ShowRoom::StartQuiz(bool fillMode) {
 
         string output = sheets[j];
         int numberOfOptions = sheetCursorHeight[j].size();
-        scrollWin(showWin, output, 0);  // for first rendering of content
+        scrollWin(showWin, output, 0);
 
         bool previous = false;
         int c, selection = 0;
@@ -203,25 +203,14 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
     getmaxyx(stdscr, screenHeight, screenWidth);
     wclear(stdscr);
     refresh();
-    WINDOW * upperWin = newwin(5, screenWidth, 0, 0); // fce newwin vytvori okno
-    box(upperWin, 0,0); // vytvori hranice okolo okna
+    WINDOW * upperWin = newwin(5, screenWidth, 0, 0);
+    box(upperWin, 0,0);
     mvwprintw(upperWin, 2, screenWidth/2 - 7, (findQuiz ? "QUIZ SELECTOR" : "ANSWERSHEET SELECTOR"));
     wrefresh(upperWin);
     delwin(upperWin);
 
     vector<string> fileNames;
     vector< vector<string> > fileData;
-
-    //namespace fs = std::filesystem;
-
-    /*string path = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/");
-    for (const auto & entry : fs::directory_iterator(path)) {
-        vector<string> a = (findQuiz ? Quiz::preview(entry.path()) : AnswerSheet::preview(entry.path()));
-        if (findQuiz || a[3] == quizId.substr(string("./files/quizzes/").size())) {
-            fileData.push_back(a);
-            fileNames.push_back(entry.path());
-        }
-    }*/
 
     DIR *dir;
     struct dirent *ent;
@@ -230,7 +219,13 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
             if (string(ent->d_name).size() < 17)
                 continue;
             string filePath = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/") + string(ent->d_name);
-            vector<string> a = (findQuiz ? Quiz::preview(filePath) : AnswerSheet::preview(filePath));
+            vector<string> a;
+            try {
+                a = (findQuiz ? Quiz::preview(filePath) : AnswerSheet::preview(filePath));  // May throw exception
+            } catch (const char * err){
+                closedir(dir);
+                throw err;
+            }
             if (findQuiz || a[3] == quizId.substr(string("./files/quizzes/").size())) {
                 fileData.push_back(a);
                 fileNames.push_back(filePath);

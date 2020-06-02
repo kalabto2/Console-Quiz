@@ -30,25 +30,37 @@ Sheet::Sheet(const string& id) {
     if (inFile.is_open()){
         for (int i = 0; getline(inFile, line); i++){
             if (i == 0) {
-                if (line != "sheet")
+                if (line != "sheet") {
+                    inFile.close();
                     throw "Incompatible file type: expected 'sheet'";
+                }
             }
             else{
-                string questionId = line.substr(0, 17);
-                string answerId = line.substr(18, 17);
+                string questionId, answerId;
+                try {
+                    questionId = line.substr(0, 17);
+                    answerId = line.substr(18, 17);
+                } catch (exception & e){
+                    inFile.close();
+                    throw "Incompatible file type: expected 'sheet': Wrong question/answer name.";
+                }
 
                 shared_ptr<Question> question;
                 shared_ptr<Answer> answer;
-
-                question = Question::getQuestion(questionId);
-                answer = Answer::getAnswer(answerId);
-
+                try{
+                    question = Question::getQuestion(questionId);
+                    answer = Answer::getAnswer(answerId);
+                }catch (const char * err){
+                    inFile.close();
+                    throw err;
+                }
                 questions.push_back(question);
                 answers.push_back(answer);
             }
         }
         inFile.close();
-    }
+    } else
+        throw "Couldn't open sheet file.";
 }
 
 void Sheet::addQuestion(const shared_ptr<Question>& question) {

@@ -69,7 +69,7 @@ public:
      * @param findQuiz when true, runs on quiz selection mode.
      * @param quizId name of quizFile, to whom is answerSheet paired with.
      * @return name of file.
-     * @throw string exception, if couldn't find directory with files. */
+     * @throw string exception, if couldn't find directory with files or quiz/answerSheet file is invalid. */
     static string selectFile (bool findQuiz = true, const string& quizId = "");
 };
 
