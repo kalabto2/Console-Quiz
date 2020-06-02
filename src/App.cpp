@@ -8,33 +8,17 @@
 #include "QuizFactory.h"
 #include "ShowRoom.h"
 
+const string App::PASSWORD_FILE = "files/password";
+
 App::App() {
-    initscr(); // inicializuje screen, nastavi pamet
-    cbreak(); // skonci program na CTRL+C
-    noecho(); // nevypisjue se input
-    keypad(stdscr, true); // zapne sipky ... (pri false je vypne)
-    curs_set(0); // zneviditelni kurzor. 2. parametr bud 0/1/2 resp. neviditelny/normal/hodne_viditelny
+    initscr(); // initialize screen, sets memory
+    cbreak(); // ends app on CTRL+C
+    noecho(); // no echo on input
+    keypad(stdscr, true); // turns on arrow keys
+    curs_set(0); // Hides cursor. Parameter - 0/1/2 resp. hide/normal/very visible
 
-    getmaxyx(stdscr, screenHeight, screenWidth);   // ziska rozmery obrazovky
-    start_color(); // nastavi barvy ...
-
-    /*if (!has_colors()){
-         printw("Doesnt support colors");
-         getch();
-         return;
-     }
-
-    start_color(); // nastavi barvy ...
-
-    init_pair(1,COLOR_RED,COLOR_WHITE); // vytvori barevny par podklad, barva pisma
-
-    attron(COLOR_PAIR(1)); // zapne vlastnost
-    attron(A_BOLD);
-    attron(A_BLINK);
-    printw("Let's move!"); // vytiskne na screen
-    attroff(COLOR_PAIR(1)); // vypne vlastnost
-    attroff(A_BOLD);
-    attroff(A_BLINK);*/
+    getmaxyx(stdscr, screenHeight, screenWidth);   // gets dimensions of screen
+    start_color(); // sets colours
 }
 
 App::~App() {
@@ -50,7 +34,7 @@ void App::run(bool studentMode) {
         try {
             /// Makes certain action
             switch (menuAction) {
-                case MainMenu::START_QUIZ: {
+                case MainMenu::START_QUIZ: {        // FIXME ?
                     string quizId = ShowRoom::selectQuiz();
                     if (quizId.empty()) break;
                     ShowRoom showRoom(quizId);
@@ -64,7 +48,7 @@ void App::run(bool studentMode) {
                     quizFactory.createQuiz();
                     break;
                 }
-                case MainMenu::EVALUATE_QUIZ: {
+                case MainMenu::EVALUATE_QUIZ: {     // FIXME ?
                     string quizId = ShowRoom::selectQuiz();
                     if (quizId.empty()) break;
                     string answerSheetId = ShowRoom::selectAnswersheet(quizId);
@@ -73,20 +57,20 @@ void App::run(bool studentMode) {
                     showRoom.StartQuiz(false);
                     break;
                 }
-                case MainMenu::EXPORT_TO_TXT_QA: {
+                case MainMenu::EXPORT_TO_TXT_QA: {  // FIXME ?
                 }
-                case MainMenu::EXPORT_TO_TXT_Q: {
+                case MainMenu::EXPORT_TO_TXT_Q: {   // FIXME ?
                 }
-                case MainMenu::EXPORT_TO_TXT_QS: {
+                case MainMenu::EXPORT_TO_TXT_QS: {  // FIXME ?
                     string quizId = ShowRoom::selectQuiz();
                     if (quizId.empty()) break;
                     ShowRoom exports(quizId);
                     exports.Export(menuAction);
                     break;
                 }
-                case MainMenu::EXPORT_TO_TXT_QAS: {
+                case MainMenu::EXPORT_TO_TXT_QAS: { // FIXME ?
                 }
-                case MainMenu::EXPORT_TO_TXT_AS: {
+                case MainMenu::EXPORT_TO_TXT_AS: {  // FIXME ?
                     string quizId = ShowRoom::selectQuiz();
                     if (quizId.empty()) break;
                     string answerSheetId = ShowRoom::selectAnswersheet(quizId);
@@ -100,7 +84,7 @@ void App::run(bool studentMode) {
                 }
                 case MainMenu::EXIT:
                     return;
-                case MainMenu::CHANGE_PSWD:{
+                case MainMenu::CHANGE_PSWD:{        /// May throw exception
                     setPassword();
                     break;
                 }
@@ -135,11 +119,14 @@ void App::setPassword() {
     noecho();
     curs_set(0);
 
-    ofstream outFile("files/password");
+    delwin(dialog);
+
+    ofstream outFile(App::PASSWORD_FILE);
     if (outFile.is_open()) {
         outFile << name2;
-    }
-    delwin(dialog);
+        outFile.close();
+    } else
+        throw "Password couldn't be set. File couldn't be opened.";
 }
 
 string App::getInfo() {
@@ -183,11 +170,10 @@ void App::import(int argv, char **args) {
 
 string App::getPassword() {
     string pswd = "password";
-    ifstream inFile("files/password");
+    ifstream inFile(App::PASSWORD_FILE);
 
     if (inFile.is_open()) {
         getline(inFile, pswd);
     }
     return pswd;
 }
-

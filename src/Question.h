@@ -57,7 +57,7 @@ public:
      * @param questionId id of file.
      * @return instance of questions.
      * @throw string exception, if file type is incompatible. */
-    static shared_ptr<Question> getQuestion (string questionId);
+    static shared_ptr<Question> getQuestion (const string& questionId);
 
 protected:
     /** Variables holds height dimension of screen. */
@@ -69,7 +69,7 @@ protected:
     string id;
 
     /** Path to files with Questions files. */
-    const string QUESTION_FILE_PATH = "files/questions/";
+    static const string QUESTION_FILE_PATH;
 };
 
 
@@ -128,7 +128,7 @@ public:
     /** Loads question of file.
      * @param questionId name of file.
      * @throw string exception, if file is incompatible. */
-    ChoiceQuestion (string questionId);
+    ChoiceQuestion (const string& questionId);
 
     /** Creates new instance of question. */
     ChoiceQuestion ();
@@ -176,7 +176,7 @@ public:
     /** Loads question of file.
      * @param questionId name of file.
      * @throw string exception, if file is incompatible. */
-    SortingQuestion (string questionId);
+    SortingQuestion (const string& questionId);
 
     /** Creates new instance of question. */
     SortingQuestion ();

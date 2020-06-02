@@ -5,15 +5,13 @@
 #include <ncurses.h>
 #include <numeric>
 #include <algorithm>
-#include <dirent.h>
-//#include <experimental/filesystem>
+#include <dirent.h>         // for search in directories
 
 #include "ShowRoom.h"
 
 const int QUIZ_FACTORY_DIALOG_HEIGHT = 10;
 const int QUIZ_FACTORY_DIALOG_WIDTH = 50;
 
-//namespace fs = std::experimental::filesystem;
 
 ShowRoom::ShowRoom(const string& quizFilePath) : quiz(quizFilePath), answerSheet(quiz){
     getmaxyx(stdscr, screenHeight, screenWidth);
@@ -36,15 +34,22 @@ void ShowRoom::Export(MainMenu::MENU_ACTION action) {
     box(dialog, 0,0);
     mvwprintw(dialog, 2, 2, "Enter name of the exported file!");
     mvwprintw(dialog, 3, 2, "> ");
-    curs_set(1);
     wmove(dialog, 3, 4);
     wrefresh(dialog);
 
     char name2[100];
-    echo();
-    wgetstr(dialog, name2);
-    noecho();
-    curs_set(0);
+    while (true) {
+        curs_set(1);
+        echo();
+        wgetnstr(dialog, name2, 99);
+        noecho();
+        curs_set(0);
+        if (!string(name2).empty())
+            break;
+        mvwprintw(dialog, 4, 2, "You entered empty name - at least 1 character.");
+        wmove(dialog, 3, 4);
+        wrefresh(dialog);
+    }
     delwin(dialog);
 
     string output;
@@ -65,7 +70,8 @@ void ShowRoom::Export(MainMenu::MENU_ACTION action) {
     {
         outFile << output;
         outFile.close();
-    }
+    } else
+        throw "File couldn't be opened and saved.";
 }
 
 void ShowRoom::StartQuiz(bool fillMode) {
@@ -224,9 +230,6 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
             if (string(ent->d_name).size() < 17)
                 continue;
             string filePath = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/") + string(ent->d_name);
-            printw(filePath.c_str());
-            refresh();
-            getch();
             vector<string> a = (findQuiz ? Quiz::preview(filePath) : AnswerSheet::preview(filePath));
             if (findQuiz || a[3] == quizId.substr(string("./files/quizzes/").size())) {
                 fileData.push_back(a);
@@ -235,9 +238,11 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
         }
         closedir (dir);
     } else {
-        throw "Couldn't find or open directory";
+        if (findQuiz)
+            throw "Couldn't find, or open directory 'files/quizzes/'";
+        else
+            throw "Couldn't find, or open directory 'files/answerSheets/'";
     }
-    getch();
 
     WINDOW * showWin = newwin(screenHeight - 5, screenWidth, 6, 0);
     box(showWin, 0,0);

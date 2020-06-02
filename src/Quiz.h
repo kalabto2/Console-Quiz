@@ -30,6 +30,7 @@ public:
 
     /** Returns name and file type of quiz
      * @param filePath filepath to quiz file
+     * @throw string exception, when quiz directory contains incompatible file - that is not of type quiz.
      * @return first 2 lines of quiz file */
     static vector<string> preview (const string& filePath);
 

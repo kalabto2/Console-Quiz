@@ -4,10 +4,11 @@
 
 #include "Question.h"
 
-#include <utility>
 #include <ncurses.h>
 #include <fstream>
 #include <ctime>
+
+const string Question::QUESTION_FILE_PATH = "files/questions/";
 
 Question::Question() {
     getmaxyx(stdscr,screenHeight, screenWidth);
@@ -42,8 +43,8 @@ int Question::getNumOfAnsw() {
     return 0;
 }
 
-shared_ptr<Question> Question::getQuestion(string questionId) {
-    ifstream inFile("files/questions/" + questionId);
+shared_ptr<Question> Question::getQuestion(const string& questionId) {
+    ifstream inFile(Question::QUESTION_FILE_PATH + questionId);
     string line;
 
     if (inFile.is_open()){
@@ -70,6 +71,7 @@ Question::~Question() = default;
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
+
 TextQuestion::TextQuestion(const string& questionId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = questionId;
@@ -94,7 +96,8 @@ TextQuestion::TextQuestion(const string& questionId) {
 TextQuestion::TextQuestion() : Question() {}
 
 void TextQuestion::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60);
+    const int SIDE_WIN_WIDTH = 60;
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - SIDE_WIN_WIDTH, 5, SIDE_WIN_WIDTH);
     box(inputWin, 0, 0);
     mvwprintw(inputWin, 2, 2, "Enter text of the question. (e.g. 'Which city is capital of Czech Republic')");
     curs_set(1);
@@ -110,13 +113,13 @@ void TextQuestion::construct() {
         res += (i == 0 ? "" : "\n") + string(input);
         int y,x;
         getyx(inputWin, y, x);
-        mvwprintw(inputWin, y, 2, "To save & exit pres KEY ESCAPE");
+        mvwprintw(inputWin, y, 2, "To save & exit press KEY ESCAPE");
         wrefresh(inputWin);
         int c = getch();
-        if (c == 27)
+        if (c == 27)    // KEY ESC
             break;
 
-        mvwprintw(inputWin, y, 2, "                              ");
+        mvwprintw(inputWin, y, 2, "                               ");
         wmove(inputWin, y, 2);
         wrefresh(inputWin);
     }
@@ -167,7 +170,8 @@ TextQuestion::~TextQuestion() = default;
 ChoiceQuestion::ChoiceQuestion() : Question() {}
 
 void ChoiceQuestion::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60);
+    const int SIDE_WIN_WIDTH = 60;
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - SIDE_WIN_WIDTH, 5, SIDE_WIN_WIDTH);
     box(inputWin, 0, 0);
     mvwprintw(inputWin, 2, 2, "Enter question to choices: (e.g. 'Which of following is true?')");
     curs_set(1);
@@ -189,7 +193,7 @@ void ChoiceQuestion::construct() {
         if (c == 27)
             break;
 
-        mvwprintw(inputWin, y, 2, "                              ");
+        mvwprintw(inputWin, y, 2, "                                       ");
         wmove(inputWin, y, 2);
         wrefresh(inputWin);
     }
@@ -268,7 +272,7 @@ int ChoiceQuestion::getNumOfAnsw() {
     return 3;
 }
 
-ChoiceQuestion::ChoiceQuestion(string questionId) {
+ChoiceQuestion::ChoiceQuestion(const string& questionId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = questionId;
 
@@ -309,7 +313,7 @@ ChoiceQuestion::~ChoiceQuestion() = default;
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 
-SortingQuestion::SortingQuestion(string questionId) {
+SortingQuestion::SortingQuestion(const string& questionId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = questionId;
 
@@ -338,11 +342,12 @@ SortingQuestion::SortingQuestion(string questionId) {
 SortingQuestion::SortingQuestion() : Question() {}
 
 void SortingQuestion::construct() {
-    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - 60, 5, 60); // fce newwin vytvori okno
-    box(inputWin, 0, 0); // vytvori hranice okolo okna
+    const int SIDE_WIN_WIDTH = 60;
+    WINDOW * inputWin = newwin((screenHeight - 5) / 2, screenWidth - SIDE_WIN_WIDTH, 5, SIDE_WIN_WIDTH);
+    box(inputWin, 0, 0);
     mvwprintw(inputWin, 2, 2, "Enter description to following sorting : (e.g. 'Sort by oldest ...')");
-    curs_set(1);    // zviditelni kurzor
-    wmove(inputWin, 3, 2);    // presune kurzor do okna na x, y pozici
+    curs_set(1);
+    wmove(inputWin, 3, 2);
     wrefresh(inputWin);
 
     string res;
@@ -354,13 +359,13 @@ void SortingQuestion::construct() {
         res += (i == 0 ? "" : "\n") + string(input);
         int y,x;
         getyx(inputWin, y, x);
-        mvwprintw(inputWin, y, 2, "To save & exit pres KEY ESCAPE");
+        mvwprintw(inputWin, y, 2, "To save & exit press KEY ESCAPE");
         wrefresh(inputWin);
         int c = getch();
         if (c == 27)
             break;
 
-        mvwprintw(inputWin, y, 2, "                              ");
+        mvwprintw(inputWin, y, 2, "                               ");
         wmove(inputWin, y, 2);
         wrefresh(inputWin);
     }

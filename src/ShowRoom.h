@@ -43,7 +43,7 @@ public:
      * @param answerSheetFilePath relative filePath to file with answerSheet. */
     ShowRoom (const string& quizFilePath, const string& answerSheetFilePath);
 
-    /** Exports quiz/answerSheet according to 'action'.
+    /** Exports quiz/answerSheet according to 'action'. If entered file name, that already exists, file is overwritten.
      * @param action Sets, what kind of export will be made. */
     void Export (MainMenu::MENU_ACTION action);
 
@@ -56,17 +56,20 @@ public:
     void setAuthor (const string& author);
 
     /** Renders window of quiz selection and handles input.
+     * @throw string exception, if couldn't find directory with files.
      * @return name of file. */
     static string selectQuiz ();
 
     /** Renders window of answerSheet selection and handles input.
+     * @throw string exception, if couldn't find directory with files.
      * @return name of file. */
     static string selectAnswersheet (const string& quizId);
 
     /** Renders window of quiz, or answerSheet selection and handles input.
      * @param findQuiz when true, runs on quiz selection mode.
      * @param quizId name of quizFile, to whom is answerSheet paired with.
-     * @return name of file. */
+     * @return name of file.
+     * @throw string exception, if couldn't find directory with files. */
     static string selectFile (bool findQuiz = true, const string& quizId = "");
 };
 

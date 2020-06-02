@@ -72,16 +72,16 @@ void Sheet::createSheet() {
             break;
     }
     save();
-
 }
 
 Sheet::SHEET_OPTION Sheet::choosePanel() {
     clear();
     refresh();
-    WINDOW * sideWin = newwin(screenHeight - 5, 60, 5, 0);
+    const int SIDE_WIN_WIDTH = 60;
+    WINDOW * sideWin = newwin(screenHeight - 5, SIDE_WIN_WIDTH, 5, 0);
     box(sideWin, 0, 0);
 
-    mvwprintw(sideWin, 0, 60/2-5, "SIDE PANEL");
+    mvwprintw(sideWin, 0, SIDE_WIN_WIDTH/2-5, "SIDE PANEL");
     mvwprintw(sideWin, 2, 4, "QUESTION");
     mvwprintw(sideWin, 4, 6, "* Text Question");
     mvwprintw(sideWin, 6, 6, "* Choice Question");
@@ -196,11 +196,9 @@ void Sheet::save() {
     if (outFile.is_open())
     {
         outFile << "sheet" << endl;
-
         for (size_t i = 0; i < questions.size(); i++){
             outFile << questions[i].get()->getId() << " " << answers[i].get()->getId() << endl;
         }
-
         outFile.close();
     }
 }
@@ -212,16 +210,6 @@ string Sheet::getId() {
 string Sheet::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
     string result;
 
-    /*for (size_t i = 0; i < questions.size(); i++){
-        result += "----------------------------------------------------\n";
-        if (printQuestion){
-            result += "\tQ no. " + to_string(i + 1) + ".\n\t\t" + questions[i].get()->print();
-        }
-        if (printAnswer || printSpaceAnswer){
-            result += "\n\tA no. " + to_string(i + 1) + ".\n\t\t" + answers[i].get()->print(printAnswer);
-        }
-        result += "----------------------------------------------------\n\n";
-    }*/
     for (auto & QA : getPrintedQA(printQuestion, printAnswer, printSpaceAnswer)){
         result += QA;
     }

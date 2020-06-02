@@ -70,8 +70,11 @@ vector<string> Quiz::preview(const string& filePath) {
             res.push_back(line);
             i++;
         }
+        if (i < 2)
+            throw "Incompatible file type in quiz directory. Expected 'quiz' type";
         inFile.close();
-    }
+    } else
+        throw "Could not open file of type 'quiz'";
 
     return res;
 }

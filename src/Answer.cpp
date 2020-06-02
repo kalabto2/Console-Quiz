@@ -5,22 +5,17 @@
 #include "Answer.h"
 
 #include <string>
-#include <utility>
 #include <vector>
 #include <memory>
 #include <fstream>
 #include <algorithm>
 #include <sstream>
 #include <sys/stat.h>
-//#include <filesystem>
 
 
 using namespace std;
 
-/*inline bool exists_test0 (const std::string& name) {
-    ifstream f(name.c_str());
-    return f.good();
-}*/
+const string Answer::ANSWER_FILE_PATH =  "files/answers/";
 
 inline bool exists_test1 (const std::string& name) {
     if (FILE *file = fopen(name.c_str(), "r")) {
@@ -58,9 +53,9 @@ void Answer::save() {
     }
     else return;
     Answer::save();*/
-    if (exists_test1(ANSWER_FILE_PATH + id) && id.size() == 17)
+    if (exists_test1(Answer::ANSWER_FILE_PATH + id) && id.size() == 17)
         id += "-1";
-    else if(exists_test1(ANSWER_FILE_PATH + id) && id.size() > 17){
+    else if(exists_test1(Answer::ANSWER_FILE_PATH + id) && id.size() > 17){
         string base = id.substr(0, 17);
         string postfix = id.substr(18, id.size() - base.size() - 1);
         int x = stoi(postfix) + 1;
@@ -102,7 +97,7 @@ bool Answer::equal(shared_ptr<Answer> &a) {
 }
 
 shared_ptr<Answer> Answer::getAnswer(const string& answerId) {
-    ifstream inFile("files/answers/" + answerId);
+    ifstream inFile(Answer::ANSWER_FILE_PATH + answerId);
     string line;
 
     if (inFile.is_open()){
@@ -140,7 +135,7 @@ TextAnswer::TextAnswer(const string& answerId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = answerId;
 
-    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    ifstream inFile(Answer::ANSWER_FILE_PATH + answerId);
     string line;
 
     if (inFile.is_open()){
@@ -159,7 +154,7 @@ TextAnswer::TextAnswer(const string& answerId) {
 
 void TextAnswer::save() {
     Answer::save();
-    ofstream outFile(ANSWER_FILE_PATH + id);
+    ofstream outFile(Answer::ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
         outFile << "txtA" << endl;
@@ -169,10 +164,11 @@ void TextAnswer::save() {
 }
 
 void TextAnswer::construct(bool creatingMode) {
+    const int SIDE_WIN_WIDTH = 60;
     int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
-    int winStartX = (creatingMode ? 60 : 0);
+    int winStartX = (creatingMode ? SIDE_WIN_WIDTH : 0);
     int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
-    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
+    int winWidth  = (creatingMode ? screenWidth - SIDE_WIN_WIDTH : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
@@ -186,7 +182,7 @@ void TextAnswer::construct(bool creatingMode) {
         wrefresh(inputWin);
         char tmp[100];
         echo();
-        wgetstr(inputWin, tmp);
+        wgetnstr(inputWin, tmp, 99);
         noecho();
         curs_set(0);
         correctAnswer = string(tmp);
@@ -228,7 +224,7 @@ ValueAnswer::ValueAnswer() : Answer() {}
 
 void ValueAnswer::save() {
     Answer::save();
-    ofstream outFile(ANSWER_FILE_PATH + id);
+    ofstream outFile(Answer::ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
         outFile << "valA" << endl;
@@ -238,10 +234,11 @@ void ValueAnswer::save() {
 }
 
 void ValueAnswer::construct(bool creatingMode) {
+    const int SIDE_WIN_WIDTH = 60;
     int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
-    int winStartX = (creatingMode ? 60 : 0);
+    int winStartX = (creatingMode ? SIDE_WIN_WIDTH : 0);
     int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
-    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
+    int winWidth  = (creatingMode ? screenWidth - SIDE_WIN_WIDTH : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
@@ -255,7 +252,7 @@ void ValueAnswer::construct(bool creatingMode) {
         wrefresh(inputWin);
         char tmp[100];
         echo();
-        wgetstr(inputWin, tmp);
+        wgetnstr(inputWin, tmp, 99);
         noecho();
         curs_set(0);
         correctAnswer = string(tmp);
@@ -271,7 +268,7 @@ ValueAnswer::ValueAnswer(const string& answerId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = answerId;
 
-    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    ifstream inFile(Answer::ANSWER_FILE_PATH + answerId);
     string line;
 
     if (inFile.is_open()){
@@ -315,7 +312,7 @@ SingleChoiceAnswer::SingleChoiceAnswer() : Answer(), correctAnswer(0) {}
 
 void SingleChoiceAnswer::save() {
     Answer::save();
-    ofstream outFile(ANSWER_FILE_PATH + id);
+    ofstream outFile(Answer::ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
         outFile << "schA" << endl;
@@ -325,10 +322,11 @@ void SingleChoiceAnswer::save() {
 }
 
 void SingleChoiceAnswer::construct(bool creatingMode) {
+    const int SIDE_WIN_WIDTH = 60;
     int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
-    int winStartX = (creatingMode ? 60 : 0);
+    int winStartX = (creatingMode ? SIDE_WIN_WIDTH : 0);
     int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
-    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
+    int winWidth  = (creatingMode ? screenWidth - SIDE_WIN_WIDTH : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
@@ -342,7 +340,7 @@ void SingleChoiceAnswer::construct(bool creatingMode) {
         wrefresh(inputWin);
         char tmp[100];
         echo();
-        wgetstr(inputWin, tmp);
+        wgetnstr(inputWin, tmp, 99);
         noecho();
         curs_set(0);
         preprocess(string(tmp));
@@ -380,7 +378,7 @@ SingleChoiceAnswer::SingleChoiceAnswer(const string& answerId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = answerId;
 
-    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    ifstream inFile(Answer::ANSWER_FILE_PATH + answerId);
     string line;
 
     if (inFile.is_open()){
@@ -428,7 +426,7 @@ MultipleChoiceAnswer::MultipleChoiceAnswer() : Answer() {}
 
 void MultipleChoiceAnswer::save() {
     Answer::save();
-    ofstream outFile(ANSWER_FILE_PATH + id);
+    ofstream outFile(Answer::ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
         outFile << "mchA" << endl;
@@ -444,10 +442,11 @@ void MultipleChoiceAnswer::save() {
 }
 
 void MultipleChoiceAnswer::construct(bool creatingMode) {
+    const int SIDE_WIN_WIDTH = 60;
     int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
-    int winStartX = (creatingMode ? 60 : 0);
+    int winStartX = (creatingMode ? SIDE_WIN_WIDTH : 0);
     int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
-    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
+    int winWidth  = (creatingMode ? screenWidth - SIDE_WIN_WIDTH : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
@@ -461,7 +460,7 @@ void MultipleChoiceAnswer::construct(bool creatingMode) {
         wrefresh(inputWin);
         char tmp[100];
         echo();
-        wgetstr(inputWin, tmp);
+        wgetnstr(inputWin, tmp, 99);
         noecho();
         curs_set(0);
         preprocess(string(tmp));
@@ -509,7 +508,7 @@ MultipleChoiceAnswer::MultipleChoiceAnswer(const string& answerId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = answerId;
 
-    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    ifstream inFile(Answer::ANSWER_FILE_PATH + answerId);
     string line;
 
     if (inFile.is_open()){
@@ -562,7 +561,7 @@ PairChoiceAnswer::PairChoiceAnswer() : Answer() {}
 
 void PairChoiceAnswer::save() {
     Answer::save();
-    ofstream outFile(ANSWER_FILE_PATH + id);
+    ofstream outFile(Answer::ANSWER_FILE_PATH + id);
     if (outFile.is_open())
     {
         outFile << "pchA" << endl;
@@ -580,10 +579,11 @@ void PairChoiceAnswer::save() {
 }
 
 void PairChoiceAnswer::construct(bool creatingMode) {
+    const int SIDE_WIN_WIDTH = 60;
     int winStartY = (creatingMode ? 5 + ((screenHeight - 5) / 2) : (screenHeight - 15));
-    int winStartX = (creatingMode ? 60 : 0);
+    int winStartX = (creatingMode ? SIDE_WIN_WIDTH : 0);
     int winHeight = (creatingMode ? (screenHeight - 5) / 2 : 15);
-    int winWidth  = (creatingMode ? screenWidth - 60 : screenWidth);
+    int winWidth  = (creatingMode ? screenWidth - SIDE_WIN_WIDTH : screenWidth);
     WINDOW * inputWin = newwin(winHeight, winWidth, winStartY, winStartX);
     box(inputWin, 0, 0);
     bool autoEv = (creatingMode ? autoEval(inputWin, "") : false);
@@ -597,7 +597,7 @@ void PairChoiceAnswer::construct(bool creatingMode) {
         wrefresh(inputWin);
         char tmp[100];
         echo();
-        wgetstr(inputWin, tmp);
+        wgetnstr(inputWin, tmp, 99);
         noecho();
         curs_set(0);
         preprocess(string(tmp));
@@ -665,7 +665,7 @@ PairChoiceAnswer::PairChoiceAnswer(const string& answerId) {
     getmaxyx(stdscr,screenHeight, screenWidth);
     id = answerId;
 
-    ifstream inFile(ANSWER_FILE_PATH + answerId);
+    ifstream inFile(Answer::ANSWER_FILE_PATH + answerId);
     string line;
 
     if (inFile.is_open()){

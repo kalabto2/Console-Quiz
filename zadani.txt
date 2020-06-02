@@ -40,9 +40,10 @@ Mod Učitel bude umožňovat:
 Mod Student bude umožňovat:
     * Vyplnění kvízu
 
-Kvíz bude umožňovat vytvářet různé kombinace odpovědí a otázek. Ty bude možno vytvořit přes rozhraní.
-Jednotlivé páry otázka + odpověd budou tvořit list, které reprezentují list papíru. Vytvořený kvíz bude možno exportovat
-do textového souboru (připravný na tisk), vyplnit. Vyplněný kvíz poté bude přes rozhraní možno ohodnotit, nebude-li nastavena autokorekce.
+Kvíz bude umožňovat vytvářet různé kombinace odpovědí a otázek (viz. níže). Otázky a odpověďi jsou uloženy na tzv.
+listech, a z listů je tvořen kvíz. Mezi listy bude možno se pohybovat (při vyplňování a ohodnocování). Kvíz bude možno
+vytvořit přes rozhraní. Vytvořený kvíz bude možno exportovat do textového souboru (připravný na tisk), v uživatelském
+rozhraní lze kvíz vyplnit. Vyplněný kvíz poté bude přes rozhraní možno ohodnotit.
 
 Jednotlivé kvízy, data o vyplnění kvízů, ... bude možno nahrávat i po znovu otevření aplikace.
 Všechny tyto data se budou ukládata do konfiguračních souburů.
@@ -86,7 +87,28 @@ Popis navrhnutých tříd:
         * ValueAnswer
     * QuizShowroom      -- zobrazuje kvízy v ncurses, exportuje je do textového dokumentu
     * AnswerSheet       -- udrzuje odpovedi ke kvizum
-    * helpers           -- drží pomocné funkce, pro celou aplikaci - např. načítání vstupu přes ncurses
+
+Navrhnuté virtuální metody pro třdu Question a její podtřídy:
+    * void save ()      -- ukládá otázku do souboru.
+    * void contruct ()  -- Stará se o konstrukci otázky.
+    * void renderAnswers (WINDOW * window)
+                        -- Vypise typy odpovědí kompatibilní s touto otázkou.
+    * shared_ptr<Answer> getTypeAnswer(int i)
+                        -- Vrátí odpověď danou parametrem.
+    * int getNumOfAnsw ()
+                        -- Vratí počet kompatibilních typů odpovědí k tomuto typu otázky
+    * string print ()   -- Vytiskne a odekoruje otázku
+    * destruktor ...
+
+Navrhnuté virtuální metody pro třídu Answer a její podtřídy:
+    * void save ()      -- ukládá odpověď do souboru.
+    * void construct (bool creatingMode = true)
+                        -- Stará se o konstrukci odpovědi
+    * string print (bool printCorrectAnswer = true)
+                        -- Vytiskne a odekoruje odpověď podle parametru
+    * bool equal (shared_ptr<Answer> & a)
+                        -- Zjistuje, zda se odpovědi rovnají (zda je odpověď správně)
+    * Destruktor ...
 
 ---------------------
 |     Spouštění     |
@@ -122,10 +144,12 @@ Ovládání:       Aplikace se převázně ovládá intuitivně, přes klávesni
 -- START QUIZ --
 Umožňuje vyplnění kvízu. V modu student se zobrazuje jmeno autora kvízu podle uživatelského jména, který vyplnil
 při vstupu do aplikace. Při vyplňování samotných otázek se odpověď přepíše pokaždé, jakmile se otevře okno pro odpověď.
+Otázky jsou členěny do listů, které se zobrazují odděleně, a lze mezi nimi "listovat" (přechod mezi stránkami sekvenčně
+a v závislosti na odpovědi)
 
 -- CREATE QUIZ --
 Umožňuje vytváření kvízů. Kvíz se sestává z jednotlivých "listů" a ty obsahují spárované otázky + odpovědi. Každý druh
-otázek má pouzr určitý druh odpovědi, s kterou jde spáropvat. Každá odpověď může být automaticky ohodnocena, když tvůrce
+otázek má pouze určitý druh odpovědi, s kterou jde spáropvat. Každá odpověď může být automaticky ohodnocena, když tvůrce
 otázky zadá správnou odpověď. Tato funkce se hodí zejména na odpovědi s možnostmi (multiple choice - aplikace vyhodnotí
 možnosti nezávisle na pořadí, pokud se zadá správný formát). Po vytvoření a uložení otázky již nejde otázku upravovat.
 

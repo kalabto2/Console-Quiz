@@ -14,13 +14,13 @@ void MainMenu::extendedWindow(int type) {
 
     switch(type){
         case 0:{
-            winHeight = MAIN_MENU_CONTINUE_HEIGHT;
-            file = "files/continue";
+            winHeight = MAIN_MENU_START_HEIGHT;
+            file = "files/start";
             windowType = QUESTION;
             break;
         } case 1:{
-            winHeight = MAIN_MENU_LOAD_GAME_HEIGHT;
-            file = "files/load_game";
+            winHeight = MAIN_MENU_CREATE_QUIZ_HEIGHT;
+            file = "files/create";
             windowType = QUESTION;
             break;
         } case 2:{
@@ -63,22 +63,22 @@ void MainMenu::extendedWindow(int type) {
     wrefresh(extendedWin);
 
     string line;
-    ifstream mapFile (file);
+    ifstream extendedWindowFile (file);
 
-    if (mapFile.is_open())
+    if (extendedWindowFile.is_open())
     {
         int i = 0;
 
         switch (windowType){
             case QUESTION:{
-                while ( getline (mapFile,line) ) {
+                while ( getline (extendedWindowFile, line) ) {
                     mvwprintw(extendedWin, 2 + i, 5, "%s", line.c_str());
                     i++;
                 }
                 break;
             }
             case INTERACTIVE:{
-                while ( getline (mapFile,line) ) {
+                while ( getline (extendedWindowFile, line) ) {
                     if(i > 1)
                         mvwprintw(extendedWin, 1 + (i - 2 )/2, 5 + ((i - 2 ) % 2)*(screenWidth - 10 - 2 * MAIN_MENU_WINDOW_WIDTH / 2)/2, "%s", line.c_str());
                     i++;
@@ -87,12 +87,12 @@ void MainMenu::extendedWindow(int type) {
             }
         }
         refresh();
-        mapFile.close();
+        extendedWindowFile.close();
     }
 }
 
 MainMenu::MainMenu(bool studentMode) {
-    getmaxyx(stdscr, screenHeight, screenWidth);   // ziska rozmery obrazovky
+    getmaxyx(stdscr, screenHeight, screenWidth);
     wclear(stdscr);
 
     string line;
@@ -102,14 +102,14 @@ MainMenu::MainMenu(bool studentMode) {
         int i = 0;
         while ( getline (bannerFile,line) )
         {
-            mvprintw(2 + i, 5, "%s\n", line.c_str());  // fce c_str() prevede string na char*
+            mvprintw(2 + i, 5, "%s\n", line.c_str());
             i++;
         }
         wrefresh(stdscr);
         bannerFile.close();
     }
 
-    extendedWin = newwin(MAIN_MENU_CONTINUE_HEIGHT, screenWidth - 10 - 3 * MAIN_MENU_WINDOW_WIDTH / 2, screenHeight/2 + MAIN_MENU_WINDOW_HEIGHT/2 - MAIN_MENU_CONTINUE_HEIGHT/2, MAIN_MENU_WINDOW_WIDTH * 3 / 2 + 5 );
+    extendedWin = newwin(MAIN_MENU_START_HEIGHT, screenWidth - 10 - 3 * MAIN_MENU_WINDOW_WIDTH / 2, screenHeight / 2 + MAIN_MENU_WINDOW_HEIGHT / 2 - MAIN_MENU_START_HEIGHT / 2, MAIN_MENU_WINDOW_WIDTH * 3 / 2 + 5 );
     mainWin = newwin(MAIN_MENU_WINDOW_HEIGHT, MAIN_MENU_WINDOW_WIDTH, screenHeight/2, MAIN_MENU_WINDOW_WIDTH/2); // fce newwin vytvori okno
     refresh();
     box(mainWin, 0,0);
@@ -127,7 +127,7 @@ MainMenu::MainMenu(bool studentMode) {
         mvwprintw(mainWin, 4, 4, "HELP");
         mvwprintw(mainWin, 6, 4, "EXIT");
     }
-    wrefresh(mainWin); // refreshne okno
+    wrefresh(mainWin);
 }
 
 void MainMenu::refresh() {

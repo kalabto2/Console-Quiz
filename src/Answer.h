@@ -52,7 +52,7 @@ protected:
     int screenWidth;
 
     /** relative path to answer-files */
-    const string ANSWER_FILE_PATH = "files/answers/";
+    static const string ANSWER_FILE_PATH;
 
     /** Renders and handles auto-evaluation question to window.
      * @param win Window, where question should be printed.

@@ -130,8 +130,11 @@ vector<string> AnswerSheet::preview(const string& filePath) {
                 res.push_back(line);
             i++;
         }
+        if (i < 3)
+            throw "Incompatible file type, expected 'answerSheet'";
         inFile.close();
-    }
+    } else
+        throw "Couldn't find or open file of type 'answerSheet'";
 
     return res;
 }
@@ -169,7 +172,7 @@ void AnswerSheet::renderEvaluation(int sheetIndex, int answerIndex) {
     char name2[100];
     curs_set(1);
     echo();
-    wgetstr(evalWin, name2);
+    wgetnstr(evalWin, name2, 99);
     noecho();
     curs_set(0);
     try {

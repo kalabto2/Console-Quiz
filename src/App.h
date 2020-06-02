@@ -42,12 +42,16 @@ public:
      * @param[in] args represents fileNames to be imported */
     static void import(int argv, char ** args);
 
-    /** Renders window for setting password, handles input and save password to file */
+    /** Renders window for setting password, handles input and save password to file
+     * @throw string exception, if password file cannot be opened. */
     void setPassword ();
 
     /** Loads password from file. If file not opened, password set to 'password'
      * @return password*/
     static string getPassword ();
+
+    /** Holds name of file with password. */
+    static const string PASSWORD_FILE;
 };
 
 #endif //QUIZ_APP_H
