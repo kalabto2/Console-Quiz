@@ -82,15 +82,18 @@ TextQuestion::TextQuestion(const string& questionId) {
     if (inFile.is_open()){
         for (int i = 0; getline(inFile, line); i++){
             if (i == 0) {
-                if (line != "txtQ")
+                if (line != "txtQ") {
+                    inFile.close();
                     throw "Incompatible file type: expected 'txtQ'";
+                }
             }
             else {
                 question += line + '\n';
             }
         }
         inFile.close();
-    }
+    } else
+        throw "Couldnt open or find file of type 'txtQ'";
 }
 
 TextQuestion::TextQuestion() : Question() {}
@@ -282,8 +285,10 @@ ChoiceQuestion::ChoiceQuestion(const string& questionId) {
     if (inFile.is_open()){
         for (int i = 0; getline(inFile, line); i++){
             if (i == 0) {
-                if (line != "chcQ")
+                if (line != "chcQ") {
+                    inFile.close();
                     throw "Incompatible file type: expected 'chcQ'";
+                }
             }
             else if (!line.empty()){
                 choices.push_back(line);
@@ -295,7 +300,8 @@ ChoiceQuestion::ChoiceQuestion(const string& questionId) {
             question += line + '\n';
         }
         inFile.close();
-    }
+    } else
+        throw "Couldn't find or open file of type 'chcQ'";
 }
 
 string ChoiceQuestion::print() {
@@ -336,7 +342,8 @@ SortingQuestion::SortingQuestion(const string& questionId) {
             question += line + '\n';
         }
         inFile.close();
-    }
+    } else
+        throw "Couldn't find or open file of type 'srtQ'";
 }
 
 SortingQuestion::SortingQuestion() : Question() {}

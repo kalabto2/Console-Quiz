@@ -141,15 +141,18 @@ TextAnswer::TextAnswer(const string& answerId) {
     if (inFile.is_open()){
         for (int i = 0; getline(inFile, line); i++){
             if (i == 0) {
-                if (line != "txtA")
+                if (line != "txtA") {
+                    inFile.close();
                     throw "Incompatible file type: expected 'txtA'";
+                }
             }
             else {
                 correctAnswer += line + '\n';
             }
         }
         inFile.close();
-    }
+    } else
+        throw "Couldn't find or open file of type 'txtA'";
 }
 
 void TextAnswer::save() {
@@ -274,15 +277,18 @@ ValueAnswer::ValueAnswer(const string& answerId) {
     if (inFile.is_open()){
         for (int i = 0; getline(inFile, line); i++){
             if (i == 0) {
-                if (line != "valA")
+                if (line != "valA") {
+                    inFile.close();
                     throw "Incompatible file type: expected 'valA'";
+                }
             }
             else {
                 correctAnswer += line;
             }
         }
         inFile.close();
-    }
+    } else
+        throw "Couldn't find or open file of type 'valA'";
 }
 
 string ValueAnswer::print(bool printCorrectAnswer) {
@@ -384,19 +390,23 @@ SingleChoiceAnswer::SingleChoiceAnswer(const string& answerId) {
     if (inFile.is_open()){
         for (int i = 0; getline(inFile, line); i++){
             if (i == 0) {
-                if (line != "schA")
+                if (line != "schA") {
+                    inFile.close();
                     throw "Incompatible file type: expected 'schA'";
+                }
             }
             else if (i == 1){
                 try {
                     correctAnswer = stoi(line);
                 } catch (invalid_argument & e){
+                    inFile.close();
                     throw "Incompatible file type: expected 'schA'";
                 }
             }
         }
         inFile.close();
-    }
+    } else
+        throw "Couldn't find or open file of type 'schA'";
 }
 
 string SingleChoiceAnswer::print(bool printCorrectAnswer) {
@@ -514,8 +524,10 @@ MultipleChoiceAnswer::MultipleChoiceAnswer(const string& answerId) {
     if (inFile.is_open()){
         for (int i = 0; getline(inFile, line); i++){
             if (i == 0) {
-                if (line != "mchA")
+                if (line != "mchA") {
+                    inFile.close();
                     throw "Incompatible file type: expected 'mchA'";
+                }
             }
             else if (i == 1){
                 istringstream iss(line);
@@ -523,13 +535,15 @@ MultipleChoiceAnswer::MultipleChoiceAnswer(const string& answerId) {
                     try {
                         correctAnswer.insert(stoi(s));
                     } catch (invalid_argument & e){
-                        throw "Incompatible file type: expected 'mchA'";
+                        inFile.close();
+                        throw "Incompatible file type: expected 'mchA': cannot parse value";
                     }
                 }
             }
         }
         inFile.close();
-    }
+    } else
+        throw "Couldn't find or open file of type 'mchA'";
 }
 
 string MultipleChoiceAnswer::print(bool printCorrectAnswer) {
@@ -671,8 +685,10 @@ PairChoiceAnswer::PairChoiceAnswer(const string& answerId) {
     if (inFile.is_open()){
         for (int i = 0; getline(inFile, line); i++){
             if (i == 0) {
-                if (line != "pchA")
+                if (line != "pchA") {
+                    inFile.close();
                     throw "Incompatible file type: expected 'pchA'";
+                }
             }
             else if (i == 1){
                 istringstream iss(line);
@@ -681,6 +697,7 @@ PairChoiceAnswer::PairChoiceAnswer(const string& answerId) {
                     try {
                         pair.insert(stoi(s));
                     } catch (invalid_argument & e){
+                        inFile.close();
                         throw "Incompatible file type: expected 'pchA'";
                     }
                     if (pair.size() == 2){
@@ -691,7 +708,8 @@ PairChoiceAnswer::PairChoiceAnswer(const string& answerId) {
             }
         }
         inFile.close();
-    }
+    } else
+        throw "Couldn't find or open file of type 'pchA'";
 }
 
 string PairChoiceAnswer::print(bool printCorrectAnswer) {
