@@ -215,7 +215,7 @@ void ChoiceQuestion::construct() {
         echo();
         wgetnstr(inputWin, input2, 499);
         noecho();
-        res += string(input2);
+        res2 += string(input2);
         choices.push_back(res2);
 
         int y,x;
@@ -312,7 +312,7 @@ string ChoiceQuestion::print() {
         res += "\n\t\t" + to_string(i) + ".\t" + choice;
         i ++;
     }
-    return question + "\n\tChoose from following:" + res + "\n";
+    return question + "\n\tChoose from following(" + to_string(i - 1) + "):" + res + "\n";
 }
 
 ChoiceQuestion::~ChoiceQuestion() = default;
@@ -391,7 +391,7 @@ void SortingQuestion::construct() {
         echo();
         wgetnstr(inputWin, input2, 499);
         noecho();
-        res += string(input2);
+        res2 += string(input2);
         choices.push_back(res2);
 
         int y,x;

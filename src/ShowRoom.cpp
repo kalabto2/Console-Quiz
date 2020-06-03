@@ -243,6 +243,7 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
         mvwprintw(showWin, 2, 10, (findQuiz ? "NO QUIZ FOUND" : ("NO ANSWERSHEET TO " + quizId + " FOUND").c_str()));
         mvwprintw(showWin, 3, 10, "Press any key ...");
         wrefresh(showWin);
+        delwin(showWin);
         getch();
         return "";
     }
