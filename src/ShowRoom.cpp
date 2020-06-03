@@ -128,7 +128,7 @@ void ShowRoom::StartQuiz(bool fillMode) {
                     previous = true;
                     break;
                 }
-            } else if (c == 'd' || c == KEY_RIGHT){
+            } else if (c == 'd' || c == KEY_RIGHT || c == '\n'){
                 if (selection == numberOfOptions)
                     break;
                 if (selection == numberOfOptions - 1){
@@ -144,8 +144,7 @@ void ShowRoom::StartQuiz(bool fillMode) {
 
                 scrollWin(showWin, output, 0);
                 wrefresh(showWin);
-            } else if (c == ' ')
-                scrollWin(showWin, output, 1);
+            }
         }
 
         if (previous){
@@ -157,8 +156,6 @@ void ShowRoom::StartQuiz(bool fillMode) {
     if (!fillMode)
         answerSheet.setEvaluated(true);
     answerSheet.save();
-
-    /* TODO tady udelat oznameni po kvizu  + vyhodnoceni/ veci pro evaluation */
 }
 
 void ShowRoom::scrollWin(WINDOW *window, const string& content, int scrolledLines) {

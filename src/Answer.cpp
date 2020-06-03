@@ -42,17 +42,6 @@ Answer::Answer() {
 }
 
 void Answer::save() {
-    /*if (std::filesystem::exists(ANSWER_FILE_PATH + id) && id.size() == 17)
-        id += "-1";
-    else if(std::filesystem::exists(ANSWER_FILE_PATH + id) && id.size() > 17){
-        string base = id.substr(0, 17);
-        string postfix = id.substr(18, id.size() - base.size() - 1);
-        int x = stoi(postfix) + 1;
-        postfix = to_string(x);
-        id = base + "-" + postfix;
-    }
-    else return;
-    Answer::save();*/
     if (exists_test1(Answer::ANSWER_FILE_PATH + id) && id.size() == 17)
         id += "-1";
     else if(exists_test1(Answer::ANSWER_FILE_PATH + id) && id.size() > 17){

@@ -35,9 +35,9 @@ void App::run(bool studentMode) {
             /// Makes certain action
             switch (menuAction) {
                 case MainMenu::START_QUIZ: {        // FIXME ?
-                    string quizId = ShowRoom::selectQuiz();
+                    string quizId = ShowRoom::selectQuiz();  // May throw exceptions
                     if (quizId.empty()) break;
-                    ShowRoom showRoom(quizId);
+                    ShowRoom showRoom(quizId);   // May throw exceptions
                     showRoom.setAuthor(username);
                     showRoom.StartQuiz();
                     break;
@@ -49,11 +49,11 @@ void App::run(bool studentMode) {
                     break;
                 }
                 case MainMenu::EVALUATE_QUIZ: {     // FIXME ?
-                    string quizId = ShowRoom::selectQuiz();
+                    string quizId = ShowRoom::selectQuiz(); // May throw exceptions
                     if (quizId.empty()) break;
-                    string answerSheetId = ShowRoom::selectAnswersheet(quizId);
+                    string answerSheetId = ShowRoom::selectAnswersheet(quizId); // May throw exceptions
                     if (answerSheetId.empty()) break;
-                    ShowRoom showRoom(quizId, answerSheetId);
+                    ShowRoom showRoom(quizId, answerSheetId);   // May throw exceptions
                     showRoom.StartQuiz(false);
                     break;
                 }
@@ -64,19 +64,19 @@ void App::run(bool studentMode) {
                 case MainMenu::EXPORT_TO_TXT_QS: {  // May throw exceptions
                     string quizId = ShowRoom::selectQuiz();     // May throw exceptions
                     if (quizId.empty()) break;
-                    ShowRoom exports(quizId);
-                    exports.Export(menuAction);
+                    ShowRoom exports(quizId);   // May throw exceptions
+                    exports.Export(menuAction); // May throw exception
                     break;
                 }
-                case MainMenu::EXPORT_TO_TXT_QAS: { // FIXME ?
+                case MainMenu::EXPORT_TO_TXT_QAS: {
                 }
-                case MainMenu::EXPORT_TO_TXT_AS: {  // FIXME ?
-                    string quizId = ShowRoom::selectQuiz();
+                case MainMenu::EXPORT_TO_TXT_AS: {  // May throw exceptions
+                    string quizId = ShowRoom::selectQuiz();     // May throw exceptions
                     if (quizId.empty()) break;
-                    string answerSheetId = ShowRoom::selectAnswersheet(quizId);
+                    string answerSheetId = ShowRoom::selectAnswersheet(quizId); // May throw exceptions
                     if (answerSheetId.empty()) break;
-                    ShowRoom exports(quizId, answerSheetId);
-                    exports.Export(menuAction);
+                    ShowRoom exports(quizId, answerSheetId);        // May throw exceptions
+                    exports.Export(menuAction);     // May throw exception
                     break;
                 }
                 case MainMenu::NONE: {
