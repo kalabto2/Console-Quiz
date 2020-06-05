@@ -58,9 +58,14 @@ public:
      * @param name to be setted */
     void setName (const string & name);
 
-    /*void renderInput (int sheetIndex, int answerIndex);
-    vector< vector<string> > getPrintSheets (bool printQuestion = true, bool printAnswer = false, bool PrintSpaceAnswer = false);
-    vector<int> getNumberOfQuestions ();*/
+    /** Gets Control questions from all sheets
+     * @return all controll questions including empty strings. */
+    vector<string> getControlQuestions ();
+
+    /** Gets Answers to controla questions from all sheets
+     * @return all controll answers including empty strings. */
+    vector<string> getControlAnswers ();
+
 protected:
     /** Holds sheets of quiz */
     vector<Sheet> sheets;

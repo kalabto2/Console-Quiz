@@ -107,9 +107,11 @@ string Quiz::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer) 
 
     int i = 1;
     for (auto & sheet : sheets) {
+        string controlQ = sheet.getControlQuestion();
+        string controlA = sheet.getControlAnswer();
         result +=
         "------------------------------------------------------------------------------------------------------------------------"
-        "\nSheet no. " + to_string(i) + "\n"
+        "\nSheet no. " + to_string(i) + (controlQ.empty() ? "" : "\t\tSHEET CONTROL: " + controlQ) + (controlQ.empty() || !printAnswer ? "" : "\t\tENTRY ANSWER: " + controlA) + "\n"
         "------------------------------------------------------------------------------------------------------------------------"
         "\n" + sheet.print(printQuestion, printAnswer, printSpaceAnswer);
         i++;
@@ -147,4 +149,20 @@ tuple < vector<string>, vector< vector<int> > > Quiz::getPrintedSheets(bool prin
     }
 
     return make_tuple(printedResult, questionPointer);
+}
+
+vector<string> Quiz::getControlQuestions() {
+    vector<string> res;
+    for (auto & q : sheets){
+        res.push_back(q.getControlQuestion());
+    }
+    return res;
+}
+
+vector<string> Quiz::getControlAnswers() {
+    vector<string> res;
+    for (auto & q : sheets){
+        res.push_back(q.getControlAnswer());
+    }
+    return res;
 }

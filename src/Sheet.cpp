@@ -28,6 +28,8 @@ Sheet::Sheet(const string& id) {
     ifstream inFile (SHEET_FILE_PATH + id);
     string line;
     if (inFile.is_open()){
+        bool control = false;
+        int controlLine = 0;
         for (int i = 0; getline(inFile, line); i++){
             if (i == 0) {
                 if (line != "sheet") {
@@ -36,6 +38,17 @@ Sheet::Sheet(const string& id) {
                 }
             }
             else{
+                if (line.empty()){
+                    control = true;
+                    continue;
+                } else if (control){
+                    if (controlLine == 0)
+                        controlQuestion = line;
+                    else if (controlLine == 1)
+                        controlAnswer = line;
+                    controlLine ++;
+                    continue;
+                }
                 string questionId, answerId;
                 try {
                     questionId = line.substr(0, 17);
@@ -59,6 +72,8 @@ Sheet::Sheet(const string& id) {
             }
         }
         inFile.close();
+        if (!controlQuestion.empty() && controlAnswer.empty())
+            throw "Missing control Answer to control Question";
     } else
         throw "Couldn't open sheet file.";
 }
@@ -211,6 +226,8 @@ void Sheet::save() {
         for (size_t i = 0; i < questions.size(); i++){
             outFile << questions[i].get()->getId() << " " << answers[i].get()->getId() << endl;
         }
+        outFile << endl << controlQuestion << endl;
+        outFile << controlAnswer << endl;
         outFile.close();
     }
 }
@@ -233,7 +250,7 @@ vector<string> Sheet::getPrintedQA(bool printQuestion, bool printAnswer, bool pr
     vector <string> result;
 
     for (size_t i = 0; i < questions.size(); i++){
-        result.push_back("----------------------------------------------------\n");
+        result.emplace_back("----------------------------------------------------\n");
         if (printQuestion){
             result[i] += "\tQ no. " + to_string(i + 1) + ".\n\t\t" + questions[i].get()->print();
         }
@@ -262,4 +279,20 @@ vector<int> Sheet::getLines(bool printQuestion, bool printAnswer, bool printSpac
     }
 
     return result;
+}
+
+void Sheet::setControlQuestion(const string &controlQuestion) {
+    Sheet::controlQuestion = controlQuestion;
+}
+
+void Sheet::setControlAnswer(const string &controlAnswer) {
+    Sheet::controlAnswer = controlAnswer;
+}
+
+const string &Sheet::getControlQuestion() const {
+    return controlQuestion;
+}
+
+const string &Sheet::getControlAnswer() const {
+    return controlAnswer;
 }

@@ -85,6 +85,28 @@ protected:
      * @return FINISH_SHEET, if user wants finish sheet. Else user wants add another question. */
     SHEET_OPTION choosePanel ();
 
+    /** Holds Control question. If no Control question is set, variable is empty. Therefor Control question cannot be empty. */
+    string controlQuestion;
+    /** Holds answer to Control question. If no Control question is set, variable is empty. Therefor Control answer cannot be empty. */
+    string controlAnswer;
+
+public:
+    /** Sets Control question to sheet.
+     * @param controlQuestion Holds content of Control question. */
+    void setControlQuestion(const string &controlQuestion);
+
+    /** Sets Answer to Control question to sheet.
+     * @param controlAnswer Holds content of Control answer. */
+    void setControlAnswer(const string &controlAnswer);
+
+    /** @return variable 'controlQuestion' */
+    const string &getControlQuestion() const;
+
+    /** @return variable 'controlAnswer' */
+    const string &getControlAnswer() const;
+
+protected:
+
     friend class Quiz;
     friend class AnswerSheet;
 };

@@ -97,6 +97,14 @@ void App::run(bool studentMode) {
             mvprintw(4, screenWidth/2 - 12, "Press any key to continue");
             refresh();
             getch();
+        } catch (exception &err) {
+            clear();
+            refresh();
+            mvprintw(2, screenWidth/2 - 7, "Error occured:");
+            mvprintw(3, screenWidth/2 - 7, err.what());
+            mvprintw(4, screenWidth/2 - 12, "Press any key to continue");
+            refresh();
+            getch();
         }
     }
 }

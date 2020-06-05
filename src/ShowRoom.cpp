@@ -85,6 +85,8 @@ void ShowRoom::StartQuiz(bool fillMode) {
     wrefresh(upperWin);
     delwin(upperWin);
 
+    vector<string> controlQuestions = quiz.getControlQuestions();
+    vector<string> controlAnswers = quiz.getControlAnswers();
     vector <vector <int> > sheetCursorHeight;
     vector <string> sheets;
     tie(sheets, sheetCursorHeight) = quiz.getPrintedSheets(true, false);
@@ -95,6 +97,46 @@ void ShowRoom::StartQuiz(bool fillMode) {
     }
 
     for (size_t j = 0; j < sheets.size(); j++) {
+        // handles entry to Sheet 'w question
+        if (!controlQuestions[j].empty() && fillMode){
+            const int CONTROL_DIALOG_HEIGHT = 10;
+            const int CONTROL_DIALOG_WIDTH = 100;
+            WINDOW * dialog = newwin(CONTROL_DIALOG_HEIGHT, CONTROL_DIALOG_WIDTH, screenHeight / 2 - CONTROL_DIALOG_HEIGHT / 2, screenWidth / 2 - CONTROL_DIALOG_WIDTH / 2);
+            box(dialog, 0,0);
+            mvwprintw(dialog, 2, 2, controlQuestions[j].c_str());
+            mvwprintw(dialog, 3, 2, "> ");
+            curs_set(1);
+            wmove(dialog, 3, 4);
+            wrefresh(dialog);
+
+            char name[100];
+            while (true) {
+                curs_set(1);
+                echo();
+                wgetnstr(dialog, name, 99);
+                noecho();
+                curs_set(0);
+                if (!string(name).empty())
+                    break;
+                mvwprintw(dialog, 4, 2, "You entered no answer - at least 1 character.");
+                wmove(dialog, 3, 4);
+                wrefresh(dialog);
+            }
+
+            if (string(name) != controlAnswers[j]){
+                mvwprintw(dialog, 4, 2, "Control Answer was bad. Press any key to continue.");
+                wrefresh(dialog);
+                getch();
+                wclear(dialog);
+                wrefresh(dialog);
+                delwin(dialog);
+                continue;
+            }
+            wclear(dialog);
+            wrefresh(dialog);
+            delwin(dialog);
+        }
+
         showWinScroll = 0;
         int winHeight = count(sheets[j].begin(), sheets[j].end(), '\n') + 8;
         WINDOW *showWin = newwin(winHeight, screenWidth, 6, 0);
@@ -149,8 +191,9 @@ void ShowRoom::StartQuiz(bool fillMode) {
 
         if (previous){
             j -= 2;
-            continue;
         }
+        wclear(showWin);
+        wrefresh(showWin);
         delwin(showWin);
     }
     if (!fillMode)

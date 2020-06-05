@@ -219,9 +219,10 @@ string AnswerSheet::print(bool printQuestions) {
             to_string(finalScore) + "\t" + (evaluated? "evaluated" : "not evaluated") + "\n";
 
     for (size_t shNum = 0; shNum < answers.size(); shNum ++){
+        string controlQ = quiz.sheets[shNum].getControlQuestion();
         result +=
         "------------------------------------------------------------------------------------------------------------------------"
-        "\nSheet no. " + to_string(shNum + 1) + "\n"
+        "\nSheet no. " + to_string(shNum + 1) + (controlQ.empty() ? "" : "\t\tSHEET CONTROL: " + controlQ) + "\n"
         "------------------------------------------------------------------------------------------------------------------------"
         "\n";
         for (size_t qaNum = 0; qaNum < answers[shNum].size(); qaNum ++){
