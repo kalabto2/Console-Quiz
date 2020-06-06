@@ -5,6 +5,8 @@
 #include "Quiz.h"
 #include <fstream>
 
+const string Quiz::QUIZ_FILE_PATH = "files/quizzes/";
+
 Quiz::Quiz() {
     time_t rawtime;
     struct tm * timeinfo;
@@ -90,7 +92,7 @@ vector<string> Quiz::preview(const string& filePath) {
 string Quiz::print(bool printQuestion, bool printAnswer, bool printSpaceAnswer) {
     string result;
 
-    ifstream bannerFile ("files/banner");
+    ifstream bannerFile (BANNER_FILE);
     if (bannerFile.is_open())
     {
         string line;

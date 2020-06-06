@@ -6,6 +6,8 @@
 #include <ncurses.h>
 #include <fstream>
 
+const string Sheet::SHEET_FILE_PATH  = "files/sheets/";
+
 Sheet::Sheet() {
     getmaxyx(stdscr,screenHeight,screenWidth);
 
@@ -87,13 +89,6 @@ void Sheet::addAnswer(const shared_ptr<Answer>& answer) {
 }
 
 void Sheet::createSheet() {
-    wclear(stdscr);
-    refresh();
-    WINDOW * upperWin = newwin(5, screenWidth, 0, 0);
-    box(upperWin, 0,0);
-    mvwprintw(upperWin, 2, screenWidth/2 - 6, "SHEET FACTORY");
-    wrefresh(upperWin);
-    delwin(upperWin);
     while (true){
         if (choosePanel() == FINISH_SHEET)
             break;
@@ -104,6 +99,12 @@ void Sheet::createSheet() {
 Sheet::SHEET_OPTION Sheet::choosePanel() {
     clear();
     refresh();
+    WINDOW * upperWin = newwin(5, screenWidth, 0, 0);
+    box(upperWin, 0,0);
+    mvwprintw(upperWin, 2, screenWidth/2 - 6, "SHEET FACTORY");
+    wrefresh(upperWin);
+    delwin(upperWin);
+
     const int SIDE_WIN_WIDTH = 60;
     WINDOW * sideWin = newwin(screenHeight - 5, SIDE_WIN_WIDTH, 5, 0);
     box(sideWin, 0, 0);

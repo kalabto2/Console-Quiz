@@ -59,17 +59,18 @@ public:
      * @throw string exception, if file type is incompatible. */
     static shared_ptr<Question> getQuestion (const string& questionId);
 
+    /** Path to files with Questions files. */
+    static const string QUESTION_FILE_PATH;
+
 protected:
     /** Variables holds height dimension of screen. */
     int screenHeight;
+
     /** Variables holds width dimension of screen. */
     int screenWidth;
 
     /** Unique id of Question. Set by current date/time. */
     string id;
-
-    /** Path to files with Questions files. */
-    static const string QUESTION_FILE_PATH;
 };
 
 

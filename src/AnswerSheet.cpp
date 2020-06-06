@@ -8,6 +8,8 @@
 #include <numeric>
 #include "AnswerSheet.h"
 
+const string AnswerSheet::ANSWERSHEET_FILE_PATH = "files/answerSheets/";
+
 AnswerSheet::AnswerSheet(Quiz quiz1) {
     time_t rawtime;
     struct tm * timeinfo;
@@ -197,7 +199,7 @@ void AnswerSheet::setAuthor(const string &author) {
 string AnswerSheet::print(bool printQuestions) {
     string result;
 
-    ifstream bannerFile ("files/banner");
+    ifstream bannerFile (BANNER_FILE);
     if (bannerFile.is_open())
     {
         string line;

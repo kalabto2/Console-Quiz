@@ -10,6 +10,8 @@
 
 using namespace std;
 
+const string BANNER_FILE = "files/banner";
+
 /** Represents quiz. Manages data about quiz. */
 class Quiz {
 public:
@@ -66,6 +68,9 @@ public:
      * @return all controll answers including empty strings. */
     vector<string> getControlAnswers ();
 
+    /** file path to storage of quizzes files. */
+    static const string QUIZ_FILE_PATH;
+
 protected:
     /** Holds sheets of quiz */
     vector<Sheet> sheets;
@@ -73,8 +78,6 @@ protected:
     string id;
     /** Holds name of quiz. */
     string name;
-    /** file path to storage of quizzes files. */
-    string QUIZ_FILE_PATH = "files/quizzes/";
 
     friend class AnswerSheet;
 };

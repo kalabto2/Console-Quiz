@@ -63,7 +63,7 @@ public:
     void setAuthor(const string &author);
 
     /** holds path to directory with answerSheets files. */
-    string ANSWERSHEET_FILE_PATH = "files/answerSheets/";
+    static const string ANSWERSHEET_FILE_PATH;
 
     /** Gets info about answerSheet.
      * @param filePath path to answerSheet file.

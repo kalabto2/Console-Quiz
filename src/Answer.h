@@ -43,16 +43,17 @@ public:
     /** @return Id of answer*/
     string getId ();
 
+    /** relative path to answer-files */
+    static const string ANSWER_FILE_PATH;
+
 protected:
     /** holds id of answer */
     string id;
     /** holds height dimension of screen */
     int screenHeight;
+
     /** holds width dimension of screen */
     int screenWidth;
-
-    /** relative path to answer-files */
-    static const string ANSWER_FILE_PATH;
 
     /** Renders and handles auto-evaluation question to window.
      * @param win Window, where question should be printed.

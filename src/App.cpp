@@ -158,17 +158,15 @@ void App::import(int argv, char **args) {
         if (inFile.is_open()) {
             getline(inFile, line);
             if (line == "quiz")
-                importPath = "files/quizzes/";
+                importPath = Quiz::QUIZ_FILE_PATH;
             else if (line == "sheet")
-                importPath = "files/sheets/";
+                importPath = Sheet::SHEET_FILE_PATH;
             else if (line == "answerSheet")
-                importPath = "files/answerSheets/";
-            else if (line == "sheet")
-                importPath = "files/sheets/";
+                importPath = AnswerSheet::ANSWERSHEET_FILE_PATH;
             else if (line == "txtQ" || line == "chcQ" || line == "srtQ")
-                importPath = "files/questions/";
+                importPath = Question::QUESTION_FILE_PATH;
             else if (line == "txtA" || line == "valA" || line == "schA" || line == "mchA" || line == "pchA")
-                importPath = "files/answers/";
+                importPath = Answer::ANSWER_FILE_PATH;
         }
 
         ofstream dst(importPath + args[i]);

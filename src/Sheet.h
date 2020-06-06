@@ -64,11 +64,12 @@ public:
      * @return decorated sheet divided by sheets, co it can be handled separately. */
     vector<int> getLines (bool printQuestion = true, bool printAnswer = true, bool printSpaceAnswer = true);
 
+    /** Relative path to directory, where sheets are saved. */
+    static const string SHEET_FILE_PATH;
+
 protected:
     /** Represents user input when creating sheet. */
     enum SHEET_OPTION {FINISH_SHEET, ADD_QUESTION};
-    /** Relative path to directory, where sheets are saved. */
-    string SHEET_FILE_PATH = "files/sheets/";
 
     /** unique id of sheet. */
     string id;
@@ -104,8 +105,6 @@ public:
 
     /** @return variable 'controlAnswer' */
     const string &getControlAnswer() const;
-
-protected:
 
     friend class Quiz;
     friend class AnswerSheet;

@@ -254,11 +254,11 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
 
     DIR *dir;
     struct dirent *ent;
-    if ((dir = opendir ((findQuiz ? "./files/quizzes/" : "./files/answerSheets/"))) != nullptr) {
+    if ((dir = opendir ((findQuiz ? string("./" + Quiz::QUIZ_FILE_PATH).c_str() : string("./" + AnswerSheet::ANSWERSHEET_FILE_PATH).c_str() ))) != nullptr) {
         while ((ent = readdir (dir)) != nullptr) {
             if (string(ent->d_name).size() < 17)
                 continue;
-            string filePath = (findQuiz ? "./files/quizzes/" : "./files/answerSheets/") + string(ent->d_name);
+            string filePath = (findQuiz ? string("./" + Quiz::QUIZ_FILE_PATH).c_str() : string("./" + AnswerSheet::ANSWERSHEET_FILE_PATH).c_str()) + string(ent->d_name);
             vector<string> a;
             try {
                 a = (findQuiz ? Quiz::preview(filePath) : AnswerSheet::preview(filePath));  // May throw exception
@@ -266,7 +266,7 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
                 closedir(dir);
                 throw err;
             }
-            if (findQuiz || a[3] == quizId.substr(string("./files/quizzes/").size())) {
+            if (findQuiz || a[3] == quizId.substr(string("./" + Quiz::QUIZ_FILE_PATH).size())) {
                 fileData.push_back(a);
                 fileNames.push_back(filePath);
             }
@@ -274,9 +274,9 @@ string ShowRoom::selectFile(bool findQuiz, const string& quizId) {
         closedir (dir);
     } else {
         if (findQuiz)
-            throw "Couldn't find, or open directory 'files/quizzes/'";
+            throw "Couldn't find, or open directory to quiz files";
         else
-            throw "Couldn't find, or open directory 'files/answerSheets/'";
+            throw "Couldn't find, or open directory to answerSheets files";
     }
 
     WINDOW * showWin = newwin(screenHeight - 5, screenWidth, 6, 0);
