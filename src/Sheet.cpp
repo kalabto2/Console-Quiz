@@ -73,6 +73,8 @@ Sheet::Sheet(const string& id) {
                 answers.push_back(answer);
             }
         }
+        if (questions.empty())
+            throw "No questions on sheet";
         inFile.close();
         if (!controlQuestion.empty() && controlAnswer.empty())
             throw "Missing control Answer to control Question";

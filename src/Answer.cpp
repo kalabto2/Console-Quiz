@@ -10,7 +10,6 @@
 #include <fstream>
 #include <algorithm>
 #include <sstream>
-#include <sys/stat.h>
 
 
 using namespace std;
@@ -42,11 +41,12 @@ Answer::Answer() {
 }
 
 void Answer::save() {
-    if (exists_test1(Answer::ANSWER_FILE_PATH + id) && id.size() == 17)
+    const int ID_LENGTH = 17;
+    if (exists_test1(Answer::ANSWER_FILE_PATH + id) && id.size() == ID_LENGTH)
         id += "-1";
-    else if(exists_test1(Answer::ANSWER_FILE_PATH + id) && id.size() > 17){
-        string base = id.substr(0, 17);
-        string postfix = id.substr(18, id.size() - base.size() - 1);
+    else if(exists_test1(Answer::ANSWER_FILE_PATH + id) && id.size() > ID_LENGTH){
+        string base = id.substr(0, ID_LENGTH);
+        string postfix = id.substr(ID_LENGTH + 1 , id.size() - base.size() - 1);
         int x = stoi(postfix) + 1;
         postfix = to_string(x);
         id = base + "-" + postfix;
@@ -58,9 +58,9 @@ void Answer::save() {
 void Answer::construct(bool creatingMode) {}
 
 bool Answer::autoEval(WINDOW *win, string info) {
-    box(win, 0, 0); // vytvori hranice okolo okna
+    box(win, 0, 0);
     mvwprintw(win, 2, 2, "Do you want auto-evaluation? (y/n)");
-    wmove(win, 3, 2);    // presune kurzor do okna na x, y pozici
+    wmove(win, 3, 2);
     wrefresh(win);
 
     bool autoEv = false;

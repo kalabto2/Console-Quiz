@@ -30,11 +30,10 @@ void App::run(bool studentMode) {
         MainMenu mainMenu (studentMode);
         MainMenu::MENU_ACTION menuAction;
         menuAction = mainMenu.run(studentMode);
-
         try {
             /// Makes certain action
             switch (menuAction) {
-                case MainMenu::START_QUIZ: {        // FIXME ?
+                case MainMenu::START_QUIZ: {
                     string quizId = ShowRoom::selectQuiz();  // May throw exceptions
                     if (quizId.empty()) break;
                     ShowRoom showRoom(quizId);   // May throw exceptions
@@ -48,7 +47,7 @@ void App::run(bool studentMode) {
                     quizFactory.createQuiz();
                     break;
                 }
-                case MainMenu::EVALUATE_QUIZ: {     // FIXME ?
+                case MainMenu::EVALUATE_QUIZ: {
                     string quizId = ShowRoom::selectQuiz(); // May throw exceptions
                     if (quizId.empty()) break;
                     string answerSheetId = ShowRoom::selectAnswersheet(quizId); // May throw exceptions

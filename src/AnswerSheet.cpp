@@ -89,7 +89,8 @@ AnswerSheet::AnswerSheet(Quiz quiz1, const string& filePath) {
                 }
             }
         }
-
+        if (answers.empty())
+            throw "Answersheet has no answers";
         inFile.close();
     }
 }
@@ -123,7 +124,7 @@ vector<string> AnswerSheet::preview(const string& filePath) {
         while ( getline (inFile,line) )
         {
             if (i == 2) {
-                res.push_back((line == "1" ? "evaluated" : "not evaluated"));
+                res.emplace_back((line == "1" ? "evaluated" : "not evaluated"));
             } else if (i == 3){
                 res.push_back(line);
                 break;
@@ -132,7 +133,7 @@ vector<string> AnswerSheet::preview(const string& filePath) {
                 res.push_back(line);
             i++;
         }
-        if (i < 3)
+        if (i <= 3)
             throw "Incompatible file type, expected 'answerSheet'";
         inFile.close();
     } else

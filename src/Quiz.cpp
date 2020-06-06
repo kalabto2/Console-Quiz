@@ -38,13 +38,15 @@ Quiz::Quiz(const string& filePath) {
                 name = line;
             else {
                 try {
-                    sheets.push_back(Sheet(line));
+                    sheets.emplace_back(line);
                 } catch (const char * err){
                     inFile.close();
                     throw err;
                 }
             }
         }
+        if (sheets.empty())
+            throw "No sheets in quiz";
         inFile.close();
     } else
         throw "Couldn't open, or find quiz file";
