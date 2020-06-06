@@ -10,7 +10,7 @@
 
 const string AnswerSheet::ANSWERSHEET_FILE_PATH = "files/answerSheets/";
 
-AnswerSheet::AnswerSheet(Quiz quiz1) {
+AnswerSheet::AnswerSheet(const Quiz & quiz1) {
     time_t rawtime;
     struct tm * timeinfo;
     char buffer[80];
@@ -47,7 +47,7 @@ AnswerSheet::AnswerSheet(Quiz quiz1) {
     }
 }
 
-AnswerSheet::AnswerSheet(Quiz quiz1, const string& filePath) {
+AnswerSheet::AnswerSheet(const Quiz & quiz1, const string& filePath) {
     quiz = quiz1;
     ifstream inFile(filePath);
     this->id = filePath.substr(ANSWERSHEET_FILE_PATH.size() + 2);
@@ -92,7 +92,8 @@ AnswerSheet::AnswerSheet(Quiz quiz1, const string& filePath) {
         if (answers.empty())
             throw "Answersheet has no answers";
         inFile.close();
-    }
+    } else
+        throw "Could not find or open file of type answerSheet";
 }
 
 void AnswerSheet::save() {
@@ -189,8 +190,8 @@ void AnswerSheet::renderEvaluation(int sheetIndex, int answerIndex) {
     delwin(evalWin);
 }
 
-void AnswerSheet::setEvaluated(bool) {
-    evaluated = true;
+void AnswerSheet::setEvaluated(bool setting) {
+    evaluated = setting;
 }
 
 void AnswerSheet::setAuthor(const string &author) {
